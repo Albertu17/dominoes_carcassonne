@@ -8,4 +8,10 @@ public class Face {
             numero[i] = entier[i] ;
         }
     }
+
+    public int[] getNumero() {
+        return numero;
+    }
+
+    
 }

@@ -12,4 +12,22 @@ public class Tuiles {
         gauche = new Face(allside[3]);
 
     }
+
+    public Face getHaut() {
+        return haut;
+    }
+
+    public Face getDroite() {
+        return droite;
+    }
+
+    public Face getBas() {
+        return bas;
+    }
+
+    public Face getGauche() {
+        return gauche;
+    }
+
+    
 }
