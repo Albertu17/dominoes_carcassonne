@@ -6,10 +6,10 @@ public class Tuiles {
 
     Tuiles(int[][] allside) {
 
-        haut[i] = new Face(allside[0]);
-        droite[i] = new Face(allside[0]);
-        bas[i] = new Face(allside[0]);
-        gauche[i] = new Face(allside[0]);
+        haut = new Face(allside[0]);
+        droite = new Face(allside[1]);
+        bas= new Face(allside[2]);
+        gauche = new Face(allside[3]);
 
     }
 }

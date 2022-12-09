@@ -4,8 +4,8 @@ public class Face {
     Face(int[] entier){
         numero  = new int[3] ;
 
-        for (int i = 0 ; i < nunumero.lenght ; i++){
-            nemuro[i] = entier[i] ;
+        for (int i = 0 ; i < numero.length ; i++){
+            numero[i] = entier[i] ;
         }
     }
 }
