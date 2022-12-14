@@ -11,7 +11,7 @@ public class Pioche {
         while (nombreTuiles != 0){
             int[][] tab = new int[4][] ;
             for (int i = 0; i < tab.length; i++){
-                tab[i] = tab_random(4, 4) ;
+                tab[i] = tab_random(3, 3) ;
             }
             pioche.add(new Tuiles(tab)) ;
 
@@ -23,7 +23,7 @@ public class Pioche {
     public int[] tab_random(int longeurTab, int maxRandomInclut){
         int[] tab = new int[longeurTab] ;
         for (int i = 0; i < tab.length; i++){
-            tab[i] = (int) Math.random() * (maxRandomInclut +1 ) ;
+            tab[i] = (int) (Math.random() * (maxRandomInclut +1 ) ) ;
         }
 
         return tab ;

@@ -2,7 +2,12 @@ public class Plateau {
     private Tuiles[][] plateau;
 
 
-    Plateau(int nombreTuiles){
+    public Tuiles[][] getPlateau() {
+        return plateau;
+    }
+
+
+    Plateau(){
 
         // plateau  = new Tuiles[nombreTuiles+2][nombreTuiles+2] ;
         // ou 
@@ -10,7 +15,7 @@ public class Plateau {
         
     }
 
-
+    
     public boolean add(Tuiles tuile, int x, int y) {
         // creation d'un tableau plus grand si besoin 
         if (x < 0){
