@@ -1,33 +1,62 @@
 public class Tuiles {
-    private Face haut;
-    private Face droite;
-    private Face bas;
-    private Face gauche;
+
+
+    private Face[] allface ;
+    
 
     Tuiles(int[][] allside) {
+        allface = new Face[allside.length] ;
 
-        haut = new Face(allside[0]);
-        droite = new Face(allside[1]);
-        bas= new Face(allside[2]);
-        gauche = new Face(allside[3]);
-
+        for (int i = 0  ; i < allface.length ; i++){
+            allface[i] = new Face(allside[i]) ;
+        }
     }
 
     public Face getHaut() {
-        return haut;
+        return allface[0];
     }
 
     public Face getDroite() {
-        return droite;
+        return allface[1];
     }
 
     public Face getBas() {
-        return bas;
+        return allface[2];
     }
 
     public Face getGauche() {
-        return gauche;
+        return allface[3];
     }
 
+    // positif --> tourner dans le sens Horaire
+    public void Rotate(int SensHoraire){
+
+        Face hold  = allface[0] ;
+        for (int i = 0  ; i < allface.length ; i++){
+            allface[i] = allface[(i+SensHoraire)%allface.length] ;
+        }
+
+        allface[(SensHoraire)%allface.length]  = hold ;
+
+    }
     
+ // anciennne 
+    // public void Rotate(int SensHoraire){
+    //     if (SensHoraire > 0){
+    //         Face hold = haut  ;
+    //         haut = droite ;
+    //         droite = bas ;
+    //         bas = gauche ; 
+    //         gauche = hold ;
+    //     }else{
+    //         Face hold = haut ; 
+    //         haut = gauche ;
+    //         gauche  = bas ;
+    //         bas =  droite ;
+    //         droite = hold  ;
+    //     }
+    //     if ( ! ( SensHoraire <=  0 ) ){
+    //         Rotate(SensHoraire - 1);
+    //     }
+    // }
 }
