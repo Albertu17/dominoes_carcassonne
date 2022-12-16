@@ -3,9 +3,9 @@ public class DominoTerminal {
     Plateau plat ;
 
 
-    // juste dans le but de tester  la fonction print 
     
     DominoTerminal(){
+        // juste dans le but de tester  la fonction print 
         plat  = new Plateau() ;
         Pioche sac = new Pioche((int)(Math.random()*10) +1 ) ;
         Tuiles t = sac.pickOne();
@@ -26,8 +26,6 @@ public class DominoTerminal {
         Tuiles[][] platTab = plat.getPlateau() ; 
         Tuiles act  ;
 
-
-        System.out.println(platTab[0].length);
         System.out.println(" " + "_".repeat((9+2) *(platTab[0].length ) +2 ) + " ");
         System.out.println("|"+  " ".repeat((9+2) *(platTab[0].length ) + 2)  +"|");
 

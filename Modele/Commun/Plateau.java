@@ -1,3 +1,4 @@
+package Modele.Commun;
 public class Plateau {
     private Tuiles[][] plateau;
 
@@ -36,7 +37,7 @@ public class Plateau {
                 }
             }
             plateau = tab.clone() ;
-            y =0;
+            y = 0;
         }
         else if (x >= plateau.length){
             Tuiles[][] tab = new Tuiles[plateau.length+1][plateau[0].length] ; 

@@ -1,3 +1,4 @@
+package Modele.Dominos;
 public class Face {
     private int[] numero ;
 

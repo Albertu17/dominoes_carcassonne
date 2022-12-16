@@ -1,0 +1,43 @@
+package Modele.Commun;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Modele implements Serializable{
+    List<Joueur> Players ; 
+    Plateau plateau ;
+    Pioche pioche ;
+
+
+
+    Modele(boolean Carcassonne){
+        Players = new ArrayList<Joueur>() ;
+        plateau = new Plateau() ; 
+
+        pioche = new Pioche(Carcassonne) ;
+        
+    }
+
+    public boolean addPlayer(Joueur playeur){
+        if (Players.size() <= 6 ){
+            Players.add(playeur) ;
+            return true ;
+        }
+        return false ;
+    }
+
+
+    public boolean add(Joueur player,  int NumeroDeTuiles, int x, int y ){
+        if ()
+    }
+
+
+
+
+
+
+
+
+    
+    
+}

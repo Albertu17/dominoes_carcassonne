@@ -1,3 +1,4 @@
+package Modele.Commun;
 public class Tuiles {
 
 
@@ -11,6 +12,8 @@ public class Tuiles {
             allface[i] = new Face(allside[i]) ;
         }
     }
+
+    Tuiles(){}
 
     public Face getHaut() {
         return allface[0];
