@@ -27,9 +27,9 @@ public class Modele implements Serializable{
     }
 
 
-    public boolean add(Joueur player,  int NumeroDeTuiles, int x, int y ){
-        if ()
-    }
+    // public boolean add(Joueur player,  int NumeroDeTuiles, int x, int y ){
+    //     if ()
+    // }
 
 
 

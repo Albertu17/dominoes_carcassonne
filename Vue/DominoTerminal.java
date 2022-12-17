@@ -1,4 +1,4 @@
-
+import Modele.Commun.*;
 public class DominoTerminal {
     Plateau plat ;
 

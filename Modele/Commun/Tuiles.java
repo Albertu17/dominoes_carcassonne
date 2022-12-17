@@ -1,65 +1,102 @@
 package Modele.Commun;
+
+import Modele.Domino.FaceDomino;
+
 public class Tuiles {
 
+    private Face haut ;
+    private Face droite ;
+    private Face bas ;
+    private Face gauche ;
 
-    private Face[] allface ;
+    private int id ;
+    private static int compteur = 0 ;
+    
     
 
-    Tuiles(int[][] allside) {
-        allface = new Face[allside.length] ;
+    Tuiles(boolean Carcassonne) {
+        id  = compteur++ ;
 
-        for (int i = 0  ; i < allface.length ; i++){
-            allface[i] = new Face(allside[i]) ;
+
+        if (Carcassonne){
+            // recherche dans les fichiers en fonction de l'id 
+        }else{
+            haut = new FaceDomino() ;
+            droite = new FaceDomino() ;
+            bas = new FaceDomino() ;
+            gauche = new FaceDomino() ;
+        }
+
+        
+    }
+
+   
+    
+
+    // // anciennne 
+    // public void Rotate(int SensHoraire){
+        
+    //     Face hold  = allface[0] ;
+    //     for (int i = 0  ; i < allface.length ; i++){
+    //         allface[i] = allface[(i+SensHoraire)%allface.length] ;
+    //     }
+        
+    //     allface[(SensHoraire)%allface.length]  = hold ;
+        
+    // }
+    
+    // positif --> tourner dans le sens Horaire
+    public void Rotate(boolean SensHoraire){
+        if (SensHoraire){
+            Face hold = haut ; 
+            haut = gauche ;
+            gauche  = bas ;
+            bas =  droite ;
+            droite = hold  ;
+        }else{
+            Face hold = haut  ;
+            haut = droite ;
+            droite = bas ;
+            bas = gauche ; 
+            gauche = hold ;
         }
     }
 
-    Tuiles(){}
+
+
 
     public Face getHaut() {
-        return allface[0];
+        return haut;
     }
+
+
+
 
     public Face getDroite() {
-        return allface[1];
+        return droite;
     }
+
+
+
 
     public Face getBas() {
-        return allface[2];
+        return bas;
     }
+
+
+
 
     public Face getGauche() {
-        return allface[3];
+        return gauche;
     }
 
-    // positif --> tourner dans le sens Horaire
-    public void Rotate(int SensHoraire){
 
-        Face hold  = allface[0] ;
-        for (int i = 0  ; i < allface.length ; i++){
-            allface[i] = allface[(i+SensHoraire)%allface.length] ;
-        }
 
-        allface[(SensHoraire)%allface.length]  = hold ;
 
+    public int getId() {
+        return id;
     }
-    
- // anciennne 
-    // public void Rotate(int SensHoraire){
-    //     if (SensHoraire > 0){
-    //         Face hold = haut  ;
-    //         haut = droite ;
-    //         droite = bas ;
-    //         bas = gauche ; 
-    //         gauche = hold ;
-    //     }else{
-    //         Face hold = haut ; 
-    //         haut = gauche ;
-    //         gauche  = bas ;
-    //         bas =  droite ;
-    //         droite = hold  ;
-    //     }
-    //     if ( ! ( SensHoraire <=  0 ) ){
-    //         Rotate(SensHoraire - 1);
-    //     }
-    // }
+
+
+
 }

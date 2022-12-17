@@ -8,7 +8,7 @@ public class Plateau {
     }
 
 
-    Plateau(){
+    public Plateau(){
 
         // plateau  = new Tuiles[nombreTuiles+2][nombreTuiles+2] ;
         // ou 
