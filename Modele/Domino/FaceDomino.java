@@ -22,10 +22,11 @@ public class FaceDomino extends Face {
     }
 
 
-    // sujet à la manière dont les cotés des tuiles sont affiché
+    // sujet à la manière dont les cotés (chiffre) (si l'affichage du  tableau commence par le bas ou le haut) des tuiles sont affiché
+    // mais devrait être correct 
     public boolean compatible(FaceDomino face2){
         for (int i = 0 ; i < this.numero.length ; i++){
-            if (this.numero != face2.numero) return false ;
+            if (this.numero[i] != face2.numero[i]) return false ;
         }
 
         return true ; 

@@ -7,7 +7,6 @@ public class Pioche {
     private List<Tuiles> pioche;
 
 
-
     Pioche(){
         pioche = new ArrayList<Tuiles>() ;
     }
@@ -23,6 +22,7 @@ public class Pioche {
 
             // permet de mélanger la pioche pour ne pas avoir toujours la même partie
             Collections.shuffle(pioche) ;
+            
         }else{
             int nombreTuiles = 72 ;
             
@@ -54,5 +54,10 @@ public class Pioche {
             return pioche.remove(0) ;
         }
         return null ;
+    }
+
+    public void add(Tuiles tuiles){
+        pioche.add(tuiles) ;
+        Collections.shuffle(pioche);
     }
 }

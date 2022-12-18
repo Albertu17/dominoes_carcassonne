@@ -9,7 +9,7 @@ public class Joueur {
     Joueur(String nom, boolean IA, boolean Pion){
         this.nom = nom ;
         score = 0 ;
-        NbrPion = Pion ? 5 :0  ; // à voir 
+        NbrPion = Pion ? 5 :0  ; // à voir le nombre de Pion
         this.IA = IA ;
     }
 
@@ -28,6 +28,8 @@ public class Joueur {
     public void setNbrPion(int nbrPion) {
         NbrPion = nbrPion;
     }
+
+    public boolean isIA(){return IA ;}
     
     
 

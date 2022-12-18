@@ -8,7 +8,7 @@ public class Modele implements Serializable{
     Plateau plateau ;
     Pioche pioche ;
 
-
+    
 
     Modele(boolean Carcassonne){
         Players = new ArrayList<Joueur>() ;
@@ -27,8 +27,9 @@ public class Modele implements Serializable{
     }
 
 
-    // public boolean add(Joueur player,  int NumeroDeTuiles, int x, int y ){
-    //     if ()
+    // test si la tuiles peut-être possé, la pose dans le cas échéans, et rajoute les points
+    // public boolean addTuiles(Joueur player,  int NumeroDeTuiles, int x, int y ){
+        
     // }
 
 
