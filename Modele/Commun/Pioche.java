@@ -16,7 +16,7 @@ public class Pioche {
 
         if (Carcassonne){
             for(int i = 0 ; i < 72 ; i++){
-                // ajout des caractéristique des Tuiles routes...
+                // ajout des caractéristique des Tuiles, routes...
                 // pioche.add() ;
             }
 

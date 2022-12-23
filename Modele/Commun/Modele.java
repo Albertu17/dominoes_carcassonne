@@ -28,9 +28,10 @@ public class Modele implements Serializable{
 
 
     // test si la tuiles peut-être possé, la pose dans le cas échéans, et rajoute les points
-    // public boolean addTuiles(Joueur player,  int NumeroDeTuiles, int x, int y ){
+    public boolean addTuiles(Joueur player,  int IdDeTuiles, int x, int y ){
         
-    // }
+        return false ;
+    }
 
 
 
