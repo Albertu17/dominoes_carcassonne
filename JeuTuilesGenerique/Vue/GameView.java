@@ -80,14 +80,19 @@ public class GameView extends JFrame{
         
         // JPanel conteneurMilieu
         conteneurMilieu = new JPanel();
-        conteneurMilieu.setLayout(new GridLayout());
+        conteneurMilieu.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.weightx = 3;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.BOTH;
         conteneur.add(conteneurMilieu, BorderLayout.CENTER);
 
             // JPanel conteneurMilieuGauche
             conteneurMilieuGauche = new JPanel();
             conteneurMilieuGauche.setLayout(new GridLayout(partie.plateau.hauteur, partie.plateau.largeur, -1, -1));
             conteneurMilieuGauche.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-            conteneurMilieu.add(conteneurMilieuGauche);
+            gbc.weightx = 3;
+            conteneurMilieu.add(conteneurMilieuGauche, gbc);
 
             for (int i = 0; i < (partie.plateau.hauteur * partie.plateau.largeur); i++) {
                 final JPanel panel = new JPanel();
@@ -97,16 +102,17 @@ public class GameView extends JFrame{
 
             // JPanel conteneurMilieuDroite
             conteneurMilieuDroite = new JPanel();
-            conteneurMilieuDroite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            conteneurMilieuDroite.setLayout(new GridLayout(partie.joueurs.nbJoueurs() + 1,1));
+            conteneurMilieuDroite.setLayout(new GridLayout(partie.joueurs.nbJoueurs() + 1,1,-1,-1));
             for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
                 conteneurMilieuDroite.add(new PanelJoueur(partie.joueurs.joueurs[i]));
             }
             conteneurPieceAJouer = new JPanel();
+            conteneurPieceAJouer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             conteneurPieceAJouer.setLayout(new FlowLayout(FlowLayout.CENTER));
             // conteneurPieceAJouer.add(partie.pioche.pickOne());
             conteneurMilieuDroite.add(conteneurPieceAJouer);
-            conteneurMilieu.add(conteneurMilieuDroite);
+            gbc.weightx = 1;
+            conteneurMilieu.add(conteneurMilieuDroite, gbc);
     }
 
     public class PanelJoueur extends JPanel {
