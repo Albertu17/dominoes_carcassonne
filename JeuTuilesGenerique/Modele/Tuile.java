@@ -14,6 +14,22 @@ public class Tuile extends JPanel implements MouseInputListener {
 
     boolean moving;
 
+    // true --> tourner dans le sens Horaire
+    public void Rotate(boolean sensHoraire){
+        Bord tmp = nord;
+        if (sensHoraire) {
+            nord = ouest;
+            ouest  = sud;
+            sud =  est;
+            est = tmp;
+        } else {
+            nord = est;
+            est = sud;
+            sud = ouest; 
+            ouest = tmp;
+        }
+    }
+
     // Mouse clicked = mouse pressed and released
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub

@@ -1,5 +1,3 @@
 package JeuTuilesGenerique.Modele;
 
-public class Bord {
-    
-}
+public class Bord {}

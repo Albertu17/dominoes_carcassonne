@@ -9,4 +9,5 @@ public class BordCarcassonne extends Bord {
     public BordCarcassonne(Structure structure) {
         this.structure = structure;
     }
+
 }

@@ -6,7 +6,7 @@ public class Partie implements Serializable {
 
     Joueur[] joueurs;
     Plateau plateau;
-    Pioche pioche;
+    protected Pioche pioche;
 
     public Partie(Joueur[] joueurs, Plateau plateau, Pioche pioche) {
         this.joueurs = joueurs;
