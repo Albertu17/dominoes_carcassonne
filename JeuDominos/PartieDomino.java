@@ -2,7 +2,7 @@ import JeuTuilesGenerique.Modele.*;
 
 public class PartieDomino extends Partie implements Jouable{
 
-    public PartieDomino(Joueur[] joueurs, Plateau plateau, Pioche pioche) {
+    public PartieDomino(Joueurs joueurs, Plateau plateau, Pioche pioche) {
         super(joueurs, plateau, pioche);
     }
 

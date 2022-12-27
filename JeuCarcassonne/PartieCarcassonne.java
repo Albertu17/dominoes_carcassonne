@@ -4,7 +4,7 @@ import JeuTuilesGenerique.Modele.*;
 
 public class PartieCarcassonne extends Partie implements Jouable {
 
-    public PartieCarcassonne(Joueur[] joueurs, Plateau plateau, Pioche pioche) {
+    public PartieCarcassonne(Joueurs joueurs, Plateau plateau, Pioche pioche) {
         super(joueurs, plateau, pioche);
     }
 

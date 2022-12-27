@@ -3,9 +3,13 @@ package JeuTuilesGenerique.Modele;
 public class Plateau {
 
     Tuile[][] plateau;
+    public int hauteur;
+    public int largeur;
     
     public Plateau (int lignes, int colonnes) {
-        plateau = new Tuile[lignes][colonnes];
+        this.hauteur =  lignes;
+        this.largeur =  colonnes;
+        plateau = new Tuile[hauteur][largeur];
     }
 
     public boolean add(Tuile tuile, int x, int y) {

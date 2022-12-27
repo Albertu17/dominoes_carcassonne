@@ -11,7 +11,7 @@ public class GameView extends JFrame{
     JPanel conteneur;
     JPanel conteneurHaut;
     JPanel conteneurTitre;
-    JLabel titre;
+    public JLabel titre;
     JPanel conteneurBoutons;
     JButton infos;
     JButton sauvegarder;
@@ -69,7 +69,7 @@ public class GameView extends JFrame{
         conteneurDroite = new JPanel();
         conteneur.add(conteneurDroite, BorderLayout.LINE_END);
 
-        // JPanel conteneurBas (sert de bordure)
+        // JPanel conteneurBas (sert de bordure + crédits)
         conteneurBas = new JPanel();
         conteneurBas.setLayout(new FlowLayout(FlowLayout.RIGHT));
         credit = new JLabel("Credit: A. Tomasi et T. Poux");
