@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import JeuTuilesGenerique.Modele.Partie;
+import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 
 public class GameView extends JFrame{
     
@@ -22,6 +23,7 @@ public class GameView extends JFrame{
     JPanel conteneurMilieu;
     JPanel conteneurMilieuGauche;
     JPanel conteneurMilieuDroite;
+    JPanel conteneurPieceAJouer;
 
     public GameView (Partie partie) {
         this.partie = partie;
@@ -95,6 +97,27 @@ public class GameView extends JFrame{
 
             // JPanel conteneurMilieuDroite
             conteneurMilieuDroite = new JPanel();
+            conteneurMilieuDroite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            conteneurMilieuDroite.setLayout(new GridLayout(partie.joueurs.nbJoueurs() + 1,1));
+            for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
+                conteneurMilieuDroite.add(new PanelJoueur(partie.joueurs.joueurs[i]));
+            }
+            conteneurPieceAJouer = new JPanel();
+            conteneurPieceAJouer.setLayout(new FlowLayout(FlowLayout.CENTER));
+            // conteneurPieceAJouer.add(partie.pioche.pickOne());
+            conteneurMilieuDroite.add(conteneurPieceAJouer);
             conteneurMilieu.add(conteneurMilieuDroite);
+    }
+
+    public class PanelJoueur extends JPanel {
+        
+        Joueur joueur;
+
+        public PanelJoueur(Joueur joueur) {
+            this.joueur = joueur;
+            this.add(new JLabel(joueur.nom + " : " + String.valueOf(joueur.nbPoints) + "pts"));
+            this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        }
+
     }
 }

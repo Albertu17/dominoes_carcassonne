@@ -2,7 +2,7 @@ package JeuTuilesGenerique.Modele;
 
 public class Joueurs {
     
-    Joueur[] joueurs;
+    public Joueur[] joueurs;
 
     public Joueurs (int nbJoueurs) {
         joueurs = new Joueur[nbJoueurs];
@@ -11,10 +11,14 @@ public class Joueurs {
         }
     }
 
+    public int nbJoueurs() {
+        return joueurs.length;
+    }
+
     public class Joueur {
 
-        int nbPoints;
-        String nom;
+        public int nbPoints;
+        public String nom;
     
         public Joueur (String nom) {
             nbPoints = 0;

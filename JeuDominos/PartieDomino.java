@@ -18,10 +18,8 @@ public class PartieDomino extends Partie implements Jouable{
         return false;
     }
 
-    @Override
     public boolean partieFinie() {
-        // TODO Auto-generated method stub
-        return false;
+        return pioche.isEmpty();
     }
     
 }
