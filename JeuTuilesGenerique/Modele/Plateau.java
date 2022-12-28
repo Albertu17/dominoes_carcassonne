@@ -2,7 +2,7 @@ package JeuTuilesGenerique.Modele;
 
 public class Plateau {
 
-    Tuile[][] plateau;
+    public Tuile[][] plateau;
     public int hauteur;
     public int largeur;
     
@@ -10,6 +10,12 @@ public class Plateau {
         this.hauteur =  lignes;
         this.largeur =  colonnes;
         plateau = new Tuile[hauteur][largeur];
+        // On remplit le plateau de tuiles vides à l'initialisation.
+        for (int i = 0; i < (hauteur); i++) {
+            for (int j = 0; j < largeur; j++) {
+                add(new Tuile(), i, j);
+            }
+        }
     }
 
     public boolean add(Tuile tuile, int x, int y) {

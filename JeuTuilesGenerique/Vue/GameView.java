@@ -4,26 +4,33 @@ import javax.swing.*;
 import java.awt.*;
 
 import JeuTuilesGenerique.Modele.Partie;
+import JeuTuilesGenerique.Modele.Tuile;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 
 public class GameView extends JFrame{
     
-    Partie partie;
-    JPanel conteneur;
-    JPanel conteneurHaut;
+    public Partie partie;
+    JPanel conteneurGlobal;
+    JPanel bandeauSup;
     JPanel conteneurTitre;
     public JLabel titre;
     JPanel conteneurBoutons;
     JButton infos;
     JButton sauvegarder;
-    JPanel conteneurGauche;
-    JPanel conteneurDroite;
-    JPanel conteneurBas;
+    JPanel bordureGauche;
+    JPanel bordureDroite;
+    JPanel bandeauInf;
     JLabel credit;
-    JPanel conteneurMilieu;
-    JPanel conteneurMilieuGauche;
-    JPanel conteneurMilieuDroite;
+    JPanel coeur;
+    JPanel grille;
+    JPanel conteneurInfos;
+    JPanel conteneurInfosCoup;
     JPanel conteneurPieceAJouer;
+    // JPanel conteneurPieceAjouerMilieu;
+    // JPanel conteneurPieceAjouerHaut;
+    // JPanel conteneurPieceAjouerGauche;
+    // JPanel conteneurPieceAjouerDroite;
+    // JPanel conteneurPieceAjouerBas;
 
     public GameView (Partie partie) {
         this.partie = partie;
@@ -35,84 +42,113 @@ public class GameView extends JFrame{
         setSize((int) size.getWidth(), (int) size.getHeight()); // Met la fenêtre en plein écran.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // JPanel conteneur global
-        conteneur = new JPanel();
-        conteneur.setLayout(new BorderLayout());
-        this.getContentPane().add(conteneur);
+        // JPanel conteneurGlobal
+        conteneurGlobal = new JPanel();
+        conteneurGlobal.setLayout(new BorderLayout());
+        this.getContentPane().add(conteneurGlobal);
 
-        // JPanel conteneur haut de la page (nom du jeu + 2 boutons)
-        conteneurHaut = new JPanel();
-        conteneurHaut.setLayout(new BoxLayout(conteneurHaut, BoxLayout.LINE_AXIS));
-        conteneurHaut.setBorder(BorderFactory.createEmptyBorder(20,0,10,0));
-        conteneur.add(conteneurHaut, BorderLayout.PAGE_START);
+        // JPanel BandeauSup (nom du jeu + 2 boutons)
+        bandeauSup = new JPanel();
+        bandeauSup.setLayout(new BoxLayout(bandeauSup, BoxLayout.LINE_AXIS));
+        bandeauSup.setBorder(BorderFactory.createEmptyBorder(20,0,10,0));
+        conteneurGlobal.add(bandeauSup, BorderLayout.PAGE_START);
 
             // JPanel conteneurTitre et JLabel titre
             conteneurTitre = new JPanel();
             titre = new JLabel("Jeu à Tuiles");
             titre.setFont(new Font("Arial", Font.BOLD, 36));
             conteneurTitre.add(titre);
-            conteneurHaut.add(conteneurTitre);
-            conteneurHaut.add(Box.createHorizontalGlue());
+            bandeauSup.add(conteneurTitre);
+            bandeauSup.add(Box.createHorizontalGlue());
 
             // JPanel conteneurBouttons, JButton infos et sauvegarder
             conteneurBoutons = new JPanel();
-            conteneurHaut.add(conteneurBoutons);
+            bandeauSup.add(conteneurBoutons);
             infos = new JButton("?");
             conteneurBoutons.add(infos);
             sauvegarder = new JButton("save");
             conteneurBoutons.add(sauvegarder);
         
+        // JPanel bordureGauche
+        bordureGauche = new JPanel();
+        conteneurGlobal.add(bordureGauche, BorderLayout.LINE_START);
 
-        // JPanel conteneurGauche (sert de bordure)
-        conteneurGauche = new JPanel();
-        conteneur.add(conteneurGauche, BorderLayout.LINE_START);
+        // JPanel bordureDroite
+        bordureDroite = new JPanel();
+        conteneurGlobal.add(bordureDroite, BorderLayout.LINE_END);
 
-        // JPanel conteneurDroite (sert de bordure)
-        conteneurDroite = new JPanel();
-        conteneur.add(conteneurDroite, BorderLayout.LINE_END);
-
-        // JPanel conteneurBas (sert de bordure + crédits)
-        conteneurBas = new JPanel();
-        conteneurBas.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        // JPanel bandeauInf (sert de bordure en bas + crédits)
+        bandeauInf = new JPanel();
+        bandeauInf.setLayout(new FlowLayout(FlowLayout.RIGHT));
         credit = new JLabel("Credit: A. Tomasi et T. Poux");
-        conteneurBas.add(credit);
-        conteneur.add(conteneurBas, BorderLayout.PAGE_END);
+        bandeauInf.add(credit);
+        conteneurGlobal.add(bandeauInf, BorderLayout.PAGE_END);
         
-        // JPanel conteneurMilieu
-        conteneurMilieu = new JPanel();
-        conteneurMilieu.setLayout(new GridBagLayout());
+        // JPanel coeur
+        coeur = new JPanel();
+        coeur.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.weightx = 3;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.BOTH;
-        conteneur.add(conteneurMilieu, BorderLayout.CENTER);
+        conteneurGlobal.add(coeur, BorderLayout.CENTER);
 
-            // JPanel conteneurMilieuGauche
-            conteneurMilieuGauche = new JPanel();
-            conteneurMilieuGauche.setLayout(new GridLayout(partie.plateau.hauteur, partie.plateau.largeur, -1, -1));
-            conteneurMilieuGauche.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-            gbc.weightx = 3;
-            conteneurMilieu.add(conteneurMilieuGauche, gbc);
+            // JPanel grille
+            grille = new JPanel();
+            grille.setLayout(new GridLayout(partie.plateau.hauteur, partie.plateau.largeur, -1, -1));
+            grille.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+            gbc.weightx = 3; // Grandit 3 fois plus vite qu'un weigthx = 1.
+            coeur.add(grille, gbc);
 
-            for (int i = 0; i < (partie.plateau.hauteur * partie.plateau.largeur); i++) {
-                final JPanel panel = new JPanel();
-                panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                conteneurMilieuGauche.add(panel);
+            // Remplissage de la grille avec tuiles du plateau.
+            for (int i = 0; i < (partie.plateau.hauteur); i++) {
+                for (int j = 0; j < partie.plateau.largeur; j++) {
+                    grille.add(partie.plateau.plateau[i][j]);
+                    // Dès qu'une tuile est ajoutée au GUI, on lui définit son environnement (GameView)
+                    // et ses coordonnées si c'est une tuile de la grille.
+                    partie.plateau.plateau[i][j].setEnvironnement(this);
+                    partie.plateau.plateau[i][j].setCoordonnées(i, j);
+                }
             }
 
-            // JPanel conteneurMilieuDroite
-            conteneurMilieuDroite = new JPanel();
-            conteneurMilieuDroite.setLayout(new GridLayout(partie.joueurs.nbJoueurs() + 1,1,-1,-1));
-            for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
-                conteneurMilieuDroite.add(new PanelJoueur(partie.joueurs.joueurs[i]));
-            }
-            conteneurPieceAJouer = new JPanel();
-            conteneurPieceAJouer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            conteneurPieceAJouer.setLayout(new FlowLayout(FlowLayout.CENTER));
-            // conteneurPieceAJouer.add(partie.pioche.pickOne());
-            conteneurMilieuDroite.add(conteneurPieceAJouer);
+            // JPanel conteneurInfos
+            conteneurInfos = new JPanel();
+            conteneurInfos.setLayout(new GridLayout(partie.joueurs.nbJoueurs() + 1,1,-1,-1));
+                // Les différents PanelJoueur
+                for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
+                    conteneurInfos.add(new PanelJoueur(partie.joueurs.joueurs[i]));
+                }
+
+                // TODO bon visuel de conteneurInfosCoup
+                // JPanel conteneurInfosCoup
+                conteneurInfosCoup = new JPanel();
+                conteneurInfosCoup.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                conteneurInfosCoup.setLayout(new BoxLayout(conteneurInfosCoup, BoxLayout.PAGE_AXIS));
+                conteneurInfosCoup.add(new JButton("Turn"));
+                Tuile t = partie.aJouer;
+                // t.setPreferredSize(new Dimension(20,20));
+                t.setBackground(Color.green);
+                conteneurInfosCoup.add(t);
+                t.setEnvironnement(this);
+                // conteneurPieceAJouer.add(new JPanel(), BorderLayout.LINE_START);
+                conteneurInfos.add(conteneurInfosCoup);
+
             gbc.weightx = 1;
-            conteneurMilieu.add(conteneurMilieuDroite, gbc);
+            coeur.add(conteneurInfos, gbc);
+    }
+
+    // Affiche visuellement la tuile qui est à jouer aux coordonnées indiquées.
+    public void updateGrille(Tuile t, int x, int y) {
+        grille.remove(x*partie.plateau.largeur+y); // Enlève tuile vide.
+        grille.add(t, x*partie.plateau.largeur+y); // Remplace par la tuile jouée.
+        grille.repaint(); // Repeint GUI.
+        grille.revalidate(); // Revalide GUI.
+    }
+
+    public void updateTuileAJouer() {
+        partie.nouvelleTuileAjouer();
+        Tuile t = partie.aJouer;
+        conteneurInfosCoup.add(t);
+        t.setEnvironnement(this);
     }
 
     public class PanelJoueur extends JPanel {
@@ -126,4 +162,6 @@ public class GameView extends JFrame{
         }
 
     }
+
+    
 }
