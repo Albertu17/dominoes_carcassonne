@@ -4,23 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Modele implements Serializable{
-    List<Joueur> Players ; 
+    List<Joueur> players ; 
     Plateau plateau ;
     Pioche pioche ;
 
     
 
-    Modele(boolean Carcassonne){
-        Players = new ArrayList<Joueur>() ;
+    public Modele(boolean Carcassonne){
+        players = new ArrayList<Joueur>() ;
         plateau = new Plateau() ; 
 
         pioche = new Pioche(Carcassonne) ;
+        plateau.add(pioche.pickOne(), 0, 0) ;
         
     }
 
     public boolean addPlayer(Joueur playeur){
-        if (Players.size() <= 6 ){
-            Players.add(playeur) ;
+        if (players.size() <= 6 ){
+            players.add(playeur) ;
             return true ;
         }
         return false ;
@@ -32,6 +33,9 @@ public class Modele implements Serializable{
         
         return false ;
     }
+
+    public Joueur getPlayers(int index){return players.get(index) ;}
+    public List<Joueur> getPlayers(){return players ;}
 
 
 

@@ -14,9 +14,10 @@ public class FaceCarcassonne extends Face{
     // a implémenter
     public boolean compatible(FaceCarcassonne face2){
 
-
         return false ;
     }
+
+    
 
     
 }

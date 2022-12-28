@@ -9,6 +9,7 @@ public class FaceDomino extends Face {
     public FaceDomino() {
         int taille_face = 3 ;
         int MaxNombre = 4 ; 
+        
 
         numero = new int[taille_face];
 

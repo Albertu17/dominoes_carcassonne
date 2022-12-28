@@ -30,6 +30,7 @@ public class Joueur {
     }
 
     public boolean isIA(){return IA ;}
+    public void setIA(boolean IA){this.IA = IA ;}
     
     
 
