@@ -6,7 +6,7 @@ public class Joueur {
     private boolean IA ;  
 
 
-    Joueur(String nom, boolean IA, boolean Pion){
+    public Joueur(String nom, boolean IA, boolean Pion){
         this.nom = nom ;
         score = 0 ;
         NbrPion = Pion ? 5 :0  ; // à voir le nombre de Pion

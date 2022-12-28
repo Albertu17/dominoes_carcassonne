@@ -6,6 +6,7 @@ import java.util.concurrent.Flow;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import javax.swing.text.FlowView;
 import javax.swing.text.AttributeSet.ColorAttribute;
 
@@ -13,6 +14,7 @@ import Modele.Commun.Joueur;
 import Modele.Commun.Modele;
 
 import  java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class Menu {
@@ -35,15 +37,11 @@ public class Menu {
 
         widthFrame = pane.getWidth() ;
         heightFrame = pane.getHeight() ;
-        // System.out.println(widthFrame +" "+ heightFrame);
 
         container = new JPanel() ;
         container.setVisible(true);
-        // container.setLayout(new BorderLayout());
         container.setLayout(null);
         pane.getContentPane().add(container);
-        // container.setBackground(Color.RED);
-
 
         if (selectGame == null)  selectGame = new SelectGame() ;
     }
@@ -51,6 +49,27 @@ public class Menu {
 
     public void play(){
         // lancer la partie
+    }
+
+    private class ButtonImageRetour extends JButton{
+
+
+        ButtonImageRetour(String NameImage){
+
+            try {
+                Image img;
+                img = ImageIO.read(getClass().getResource("Image/" + NameImage));
+                this.setIcon(new ImageIcon(img));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            this.setBounds(15,15, 50 , 50);
+            this.setOpaque(false);
+            this.setContentAreaFilled(false);
+            this.setBorderPainted(false);
+            this.setVisible(true);
+            container.add(this) ; 
+        }
     }
 
     
@@ -61,13 +80,25 @@ public class Menu {
         JButton carcassonne ;
         JButton domino ;
 
+        // fermer le jeu
+        ButtonImageRetour fermer ;
+
 
         SelectGame(){
+
+            // fermer le jeu
+            fermer = new ButtonImageRetour("croix.png") ;
             
+            fermer.addActionListener(event -> {
+                System.exit(0);
+            });
+
             
-            // indication = new JLabel() ;
+            // initialisation Button
+
             carcassonne = new JButton() ;
             domino = new JButton() ;
+
 
             // texte
             carcassonne.setText("Carcassonne");
@@ -99,24 +130,26 @@ public class Menu {
         }
 
         private void setLocationObjet(){
-            // carcassonne.setAlignmentX(widthFrame/2 -carcassonne.getWidth()/2);
-            // carcassonne.setAlignmentY(heightFrame/2 - 50);
             carcassonne.setLocation(widthFrame/2 -carcassonne.getWidth()/2, heightFrame/2 - 50);
             domino.setLocation(widthFrame/2 -domino.getWidth()/2, heightFrame/2 + 50);
             
-            // domino.setAlignmentX(widthFrame/2 -domino.getWidth()/2);
-            // domino.setAlignmentY(heightFrame/2 +50);
         }
 
         public void changevisibility(boolean visibility){
             carcassonne.setVisible(visibility);
             domino.setVisible(visibility);
+            fermer.setVisible(visibility);
         }
 
         public void nextInterfaceMenu(){
             changevisibility(false);
             if (selectSave == null) selectSave = new SelectSave() ;
             else selectSave.changevisibility(true);
+
+
+            // set the backgound image 
+                // Image background = Toolkit.getDefaultToolkit().createImage("Image/background_" + (carcassonneBoolean? "carcassonne.jpg": "domino.jpg"));
+                // ((JFrame)pane).drawImage(background, 0, 0, container);
         }
 
     }
@@ -128,29 +161,14 @@ public class Menu {
         JButton lancerlaPartie ;
         JList<String> listsave  ;
 
-        JButton retour ;
+        ButtonImageRetour retour ;
         
         SelectSave(){
 
             // set button retour
-            retour = new JButton();
-            try {
-                Image img;
-                img = ImageIO.read(getClass().getResource("retour50p.png"));
-                retour.setIcon(new ImageIcon(img));
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            retour.setBounds(5,5, 50 , 50);
-            retour.setOpaque(false);
-            retour.setContentAreaFilled(false);
-            retour.setBorderPainted(false);
-            retour.setVisible(true);
-            container.add(retour) ; 
-    
+            retour = new ButtonImageRetour("retour50p.png") ;
+            
             retour.addActionListener(event -> {
-                carcassonneBoolean = true ;
                 previousInterfaceMenu() ;
             });
 
@@ -163,9 +181,11 @@ public class Menu {
             newGame.setText("Rentrer le nom de votre nouvelle partie");
             lancerlaPartie.setText("Lancer la partie");
 
+
+            // System.out.println(newGAme.getW);
             conteneurSelectionPartie = new JPanel() ;
 
-            newGame.setBounds(0,0, 200, 40);
+            newGame.setBounds(0,0, 400, 100);
 
 
             container.add(newGame) ;
@@ -175,7 +195,7 @@ public class Menu {
             // action 
             newGame.addActionListener(event -> {
                 pane.setModele(new Modele(carcassonneBoolean));
-                play();
+                nextInterfaceMenu();
             });
             
             lancerlaPartie.addActionListener(event -> {
@@ -225,8 +245,8 @@ public class Menu {
             newGame.setVisible(visibility);
             conteneurSelectionPartie.setVisible(visibility);
             retour.setVisible(visibility);
-
-            displayAllSave();
+            if (visibility) displayAllSave();
+            // else list.setVisible(visibility );
             
 
         }
@@ -245,10 +265,14 @@ public class Menu {
         }
         
     }
+
+
+
+
+    
     
     class ManagePlayer{
-        ConteneurAddPlayer conteneurAddPlayer ;
-        
+
         private class ConteneurAddPlayer extends JPanel{
             JButton add;
             JTextField nom ;
@@ -257,59 +281,129 @@ public class Menu {
 
             ConteneurAddPlayer(){
 
-            // définir les J
-            IA  = new JButton("IA") ;
-            isIA = false ;
-            setColor();
-            
-
-            nom = new JTextField("Entrer le nom du joueur") ;
-
-            add = new JButton("+") ;
-
-            // action des boutons
-
-            IA.addActionListener(event -> {
-                isIA = !isIA ;
+                // définir les J
+                IA  = new JButton("IA") ;
+                isIA = false ;
                 setColor();
-            });
+                
 
-            add.addActionListener(event -> {
-                pane.getModele().getPlayers().remove(joueur) ;
-                dispPlayer.remove(this);
-            });
+                nom = new JTextField("Entrer le nom du joueur") ;
 
-            // placer
-            setLayout(new FlowLayout()) ;
+                add = new JButton("+") ;
 
-            add(IA) ;
-            add(nom) ;
-            add(add) ;
-            
+                // action des boutons
 
-            // rendre visible 
-            IA.setVisible(true);
-            nom.setVisible(true);
-            add.setVisible(true);
-            setVisible(true );
+                IA.addActionListener(event -> {
+                    isIA = !isIA ;
+                    setColor();
+                });
+
+                add.addActionListener(event -> {
+                    if (NameFree()){
+                        Joueur j = new Joueur(nom.getText(), isIA, false) ;
+                        if (pane.getModele().getPlayers().add(j)){
+                            dispPlayer.add( new ConteneurPlayer(j)) ;
+                            dispPlayer.revalidate();
+                            dispPlayer.repaint();
+                        }else{
+                            nom.setText("Le nombre maximun de joueur est atteint !");
+                        }
+                    }else{
+                        nom.setText("Nom déjà utilisé");
+                    }
+                });
+
+                // permet l'effacement du texte pré-écrit lorsque on passe sur le texte
+                nom.addMouseListener(
+                    new MouseInputListener() {
+
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            if ( (nom.getText().equals("Le nombre maximun de joueur est atteint !") || nom.getText().equals("Nom déjà utilisé") || nom.getText().equals("Entrer le nom du joueur"))){
+                                nom.setText("");
+                            }
+                            
+                        }
+
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+
+                        @Override
+                        public void mouseDragged(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+
+                        @Override
+                        public void mouseMoved(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+
+                        
+                        
+                    }
+                   
+                );
+
+                // placer
+                setLayout(new FlowLayout()) ;
+
+                add(IA) ;
+                add(nom) ;
+                add(add) ;
+                
+
+                // rendre visible 
+                IA.setVisible(true);
+                nom.setVisible(true);
+                add.setVisible(true);
+                setVisible(true );
         }
 
-        public void setColor(){
+        private void setColor(){
             Color color =  isIA ? Color.GREEN : Color.RED ;
             IA.setBackground(color) ;
         }
 
+        private boolean NameFree(){
+            String name = nom.getText() ;
+            for (Joueur j : pane.getModele().getPlayers()) {
+                if (name.equals(j.getName())) return false ;
+            }
+            return true ;
         }
-        
-        JPanel dispPlayer;
+
+    }
         
         private class ConteneurPlayer extends JPanel{
             JButton remove;
             JLabel nom ;
             JButton IA ;
 
-            ConteneurPlayer(int indexPlayer){
-                Joueur joueur = pane.getModele().getPlayers(indexPlayer) ;
+            ConteneurPlayer(Joueur joueur){
+                // Joueur joueur = pane.getModele().getPlayers(indexPlayer) ;
 
 
                 // définir les J
@@ -330,6 +424,8 @@ public class Menu {
                 remove.addActionListener(event -> {
                     pane.getModele().getPlayers().remove(joueur) ;
                     dispPlayer.remove(this);
+                    dispPlayer.revalidate();
+                    dispPlayer.repaint();
                 });
 
                 // placer
@@ -354,47 +450,54 @@ public class Menu {
         }
 
         
-        JButton retour ;
+        ButtonImageRetour retour ;
+        ConteneurAddPlayer conteneurAddPlayer ;
+        JPanel dispPlayer;
 
         ManagePlayer(){
 
+            // ajout d'élemtn test dans model
+            pane.getModele().addPlayer(new Joueur("damiens", true, false)) ;
+            // pane.getModele().addPlayer(new Joueur("piere", false, false));
+            // pane.getModele().addPlayer(new Joueur("etienne", true, false));
+            System.out.println(pane.getModele().getPlayers().size());
 
-            // les jouers deja present
-            dispPlayer = new JPanel() ;
-            dispPlayer.setLayout(new BoxLayout(dispPlayer, PAGE_AXIS));
+            // bouton retour
+                retour = new ButtonImageRetour("retour50p.png") ;
+                    
+                retour.addActionListener(event -> {
+                    previousInterfaceMenu() ;
+                });
 
-            for (int i = 0 ; i < pane.getModele().getPlayers().size() ; i++){
-                new ConteneurPlayer(i) ;
-            }
-
-
-        // bouton retour
-            retour = new JButton();
-            try {
-                Image img;
-                img = ImageIO.read(getClass().getResource("retour50p.png"));
-                retour.setIcon(new ImageIcon(img));
-            } catch (IOException e) {
+            
+            // Barre ajout de joueur :
+                conteneurAddPlayer= new ConteneurAddPlayer() ;
+                conteneurAddPlayer.setVisible(true);
+                container.add(conteneurAddPlayer) ;
+                conteneurAddPlayer.setSize(300, 100);
+                conteneurAddPlayer.setLocation(200, 300);
                 
-                e.printStackTrace();
-            }
-            retour.setBounds(5,5, 50 , 50);
-            retour.setOpaque(false);
-            retour.setContentAreaFilled(false);
-            retour.setBorderPainted(false);
-            retour.setVisible(true);
-            container.add(retour) ; 
+                
+            // les jouers deja present :
+                dispPlayer = new JPanel() ;
+                dispPlayer.setLayout(new BoxLayout(dispPlayer, BoxLayout.PAGE_AXIS));
+                
+                for (Joueur joueur : pane.getModele().getPlayers()){
+                    dispPlayer.add( new ConteneurPlayer(joueur)) ;
+                }
 
-            retour.addActionListener(event -> {
-                carcassonneBoolean = true ;
-                previousInterfaceMenu() ;
-            });
+                dispPlayer.setSize(300, 400);
+                dispPlayer.setLocation(200, 400);
+                dispPlayer.setVisible(true);
+                container.add(dispPlayer) ;
+                
+
 
         }
         
+        
         public void previousInterfaceMenu(){
             changevisibility(false);
-            
             selectSave.changevisibility(true);
             
         }
