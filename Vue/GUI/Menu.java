@@ -15,6 +15,7 @@ import Modele.Commun.Modele;
 
 import  java.awt.*;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 
 public class Menu {
@@ -217,8 +218,11 @@ public class Menu {
         }
 
         private void displayAllSave(){
-            // faire en focntion du mode de jeu 
+            // faire en fonction du mode de jeu 
             List<String> list = new ArrayList<String>() ;
+
+            // File dir  = new File("C:\\Users\\PC\\Desktop\\Dossier");
+		    // File[] liste = dir.listFiles();
 
             if (carcassonneBoolean){
                 // cherche dans caracasson 
@@ -474,6 +478,7 @@ public class Menu {
                 conteneurAddPlayer= new ConteneurAddPlayer() ;
                 conteneurAddPlayer.setVisible(true);
                 container.add(conteneurAddPlayer) ;
+               
                 conteneurAddPlayer.setSize(300, 100);
                 conteneurAddPlayer.setLocation(200, 300);
                 
