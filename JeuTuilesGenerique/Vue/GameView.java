@@ -115,7 +115,7 @@ public class GameView extends JFrame{
             conteneurInfos.setLayout(new GridLayout(partie.joueurs.nbJoueurs() + 1,1,-1,-1));
                 // Les différents PanelJoueur
                 for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
-                    conteneurInfos.add(new PanelJoueur(partie.joueurs.joueurs[i]));
+                    conteneurInfos.add(new PanelJoueur(partie.joueurs.players.get(i)));
                 }
 
                 // TODO bon visuel de conteneurInfosCoup
@@ -157,7 +157,7 @@ public class GameView extends JFrame{
 
         public PanelJoueur(Joueur joueur) {
             this.joueur = joueur;
-            this.add(new JLabel(joueur.nom + " : " + String.valueOf(joueur.nbPoints) + "pts"));
+            this.add(new JLabel(joueur.nom + " : " + String.valueOf(joueur.score) + "pts"));
             this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         }
 

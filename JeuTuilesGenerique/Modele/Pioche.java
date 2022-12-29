@@ -34,13 +34,10 @@ public class Pioche {
     }
 
 
-     // creer (nombreTuiles) de façon aléatoire 
+     // Ajouter à la pioche des tuiles vides.
     public Pioche(int nombreTuiles){
-        this() ;
-        while (nombreTuiles != 0){
-            pioche.add(new Tuile()) ;
-
-            nombreTuiles-- ;
+        for (int i = 0; i < nombreTuiles; i++) {
+            pioche.add(new Tuile());
         }
     }
 
@@ -56,5 +53,11 @@ public class Pioche {
     public void add(Tuile tuile){
         pioche.add(tuile) ;
         Collections.shuffle(pioche);
+    }
+
+    public void addSeveralTimes(Tuile tuile, int n) {
+        for (int i = 0; i < n; i++) {
+            add(tuile);
+        }
     }
 }

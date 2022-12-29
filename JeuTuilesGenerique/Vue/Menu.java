@@ -1,4 +1,4 @@
-package GUI;
+package JeuTuilesGenerique.Vue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,8 @@ import javax.swing.event.MouseInputListener;
 import javax.swing.text.FlowView;
 import javax.swing.text.AttributeSet.ColorAttribute;
 
-import Modele.Commun.Joueur;
-import Modele.Commun.Modele;
+import JeuCarcassonne.PartieCarcassonne;
+import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 
 import  java.awt.*;
 import java.awt.event.MouseEvent;
@@ -20,7 +20,7 @@ import java.io.IOException;
 
 public class Menu {
     
-    Gameview pane ;
+    GameView pane ;
     JPanel container ;
     private int widthFrame ; 
     private int heightFrame ; 
@@ -32,7 +32,7 @@ public class Menu {
     ManagePlayer managePlayer ;
 
 
-    Menu(Gameview pane){
+    Menu(GameView pane){
         this.pane = pane ;
         pane.setBackground(Color.GREEN);
 
@@ -195,7 +195,7 @@ public class Menu {
             
             // action 
             newGame.addActionListener(event -> {
-                pane.setModele(new Modele(carcassonneBoolean));
+                pane.setModele(new PartieCarcassonne(null, null, null));
                 nextInterfaceMenu();
             });
             

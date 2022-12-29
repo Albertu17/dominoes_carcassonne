@@ -3,6 +3,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class TuileDomino extends Tuile {
     
+    // Création d'une tuile dont les numéros des 4 bords sont pris au hasard.
     public TuileDomino() {
         nord = new BordDomino(ThreadLocalRandom.current().nextInt(0, 3), ThreadLocalRandom.current().nextInt(0,3), ThreadLocalRandom.current().nextInt(0,3));
         est = new BordDomino(ThreadLocalRandom.current().nextInt(0, 3), ThreadLocalRandom.current().nextInt(0,3), ThreadLocalRandom.current().nextInt(0,3));
