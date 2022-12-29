@@ -2,6 +2,8 @@ package JeuTuilesGenerique.Modele;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
+
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;

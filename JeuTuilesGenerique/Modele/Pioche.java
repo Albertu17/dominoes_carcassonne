@@ -1,8 +1,9 @@
 package JeuTuilesGenerique.Modele;
+import java.io.Serializable;
 import java.util.*;
 
 
-public class Pioche {
+public class Pioche implements Serializable{
     public List<Tuile> pioche;
 
     public Pioche(){

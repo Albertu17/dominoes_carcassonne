@@ -1,8 +1,10 @@
 package JeuCarcassonne;
 
+import java.io.Serializable;
+
 import JeuTuilesGenerique.Modele.Bord;
 
-public class BordCarcassonne extends Bord {
+public class BordCarcassonne extends Bord{
     
     Structure structure;
 

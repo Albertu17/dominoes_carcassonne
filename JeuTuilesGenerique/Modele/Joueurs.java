@@ -1,9 +1,10 @@
 package JeuTuilesGenerique.Modele;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Joueurs {
+public class Joueurs implements Serializable{
     
     public List<Joueur> players ; 
     private static int nombreMaximalDeJoueur = 5 ;

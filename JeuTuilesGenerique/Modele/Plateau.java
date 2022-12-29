@@ -1,6 +1,8 @@
 package JeuTuilesGenerique.Modele;
 
-public class Plateau {
+import java.io.Serializable;
+
+public class Plateau implements Serializable{
 
     public Tuile[][] plateau;
     public int hauteur;

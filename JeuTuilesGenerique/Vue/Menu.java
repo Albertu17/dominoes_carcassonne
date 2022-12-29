@@ -4,8 +4,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
-import JeuDominos.PartieDominos;
 import JeuCarcassonne.PartieCarcassonne;
+import JeuDominos.PartieDominos;
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 import JeuTuilesGenerique.Modele.*;
@@ -180,8 +180,10 @@ public class Menu {
 
         public void nextInterfaceMenu(){
             changevisibility(false);
-            if (selectSave == null) selectSave = new SelectSave() ;
-            else selectSave.changevisibility(true);
+            // if (selectSave == null) selectSave = new SelectSave() ;
+            // else selectSave.changevisibility(true);
+
+            selectSave = new SelectSave() ;
 
 
             // set the backgound image 
@@ -299,7 +301,7 @@ public class Menu {
                     if (carcassonneBoolean){
                         pane.setPartie((Partie) new PartieCarcassonne(newGame.getText()))  ;
                     }else{
-                        pane.setPartie((Partie) new Partie(newGame.getText()))  ;
+                        pane.setPartie((Partie) new PartieDominos(newGame.getText()))  ;
 
                     }
                     nextInterfaceMenu() ;
@@ -317,11 +319,8 @@ public class Menu {
                 if (listsaveComboBox.getSelectedItem() != null ){
                     try {
                         final FileInputStream fichier = new FileInputStream("Sauvegarde/"+ (carcassonneBoolean? "Carcassonne/" : "Domino/" ) + listsaveComboBox.getSelectedItem());
-                        System.out.println("hre2");
                         ObjectInputStream obj = new ObjectInputStream(fichier) ;
-                        System.out.println("hre3");
                         pane.setPartie( (Partie) obj.readObject() );
-                        System.out.println("hre4");
                         obj.close();
                         nextInterfaceMenu();
                     } catch (Exception e) {

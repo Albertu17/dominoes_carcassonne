@@ -1,10 +1,6 @@
 package JeuTuilesGenerique.Modele;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import JeuDominos.PartieDomino;
-import JeuCarcassonne.PartieCarcassonne;
 
 public class Partie implements Serializable {
 
@@ -24,7 +20,10 @@ public class Partie implements Serializable {
     }
 
     public Partie(String nomPartie){
+        joueurs = new Joueurs() ;
         this.nomPartie = nomPartie ;
+        plateau = new Plateau(5,5);
+
     }
 
     public void nouvelleTuileAjouer() {
