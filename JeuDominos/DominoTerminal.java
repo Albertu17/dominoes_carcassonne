@@ -1,15 +1,15 @@
-import Modele.Commun.*;
+import JeuTuilesGenerique.Modele.Pioche;
+import JeuTuilesGenerique.Modele.Plateau;
+import JeuTuilesGenerique.Modele.Tuile;
 
 public class DominoTerminal {
     Plateau plat ;
 
-
-    
     DominoTerminal(){
         // juste dans le but de tester  la fonction print 
-        plat  = new Plateau() ;
-        Pioche sac = new Pioche((int)(Math.random()*10) +1 ) ;
-        Tuiles t = sac.pickOne();
+        plat  = new Plateau(9, 8) ;
+        Pioche sac = new PiocheDominos();
+        Tuile t = sac.pickOne();
         plat.add(t, 0, 0) ;
         while ((t = sac.pickOne()) != null){
             if (Math.random() > .5){
@@ -24,8 +24,8 @@ public class DominoTerminal {
 
 
     public void printPlateau(){
-        Tuiles[][] platTab = plat.getPlateau() ; 
-        Tuiles act  ;
+        Tuile[][] platTab = plat.plateau ; 
+        Tuile act  ;
 
         System.out.println(" " + "_".repeat((9+2) *(platTab[0].length ) +2 ) + " ");
         System.out.println("|"+  " ".repeat((9+2) *(platTab[0].length ) + 2)  +"|");
@@ -44,22 +44,22 @@ public class DominoTerminal {
                 if (act != null){
                     // affichage haut 1 :
                         AffichesTuiles[0] += "* " ;
-                        for (int nombre : act.getHaut().getNumero()) {
+                        for (int nombre : act.nord.getNumeros()) {
                             AffichesTuiles[0] += nombre + " " ;
                         }
                         AffichesTuiles[0] += "*" ;
                     // affichage bas 5 :
                         AffichesTuiles[4] += "* " ;
-                        for (int nombre : act.getBas().getNumero()) {
+                        for (int nombre : act.sud.getNumeros()) {
                             AffichesTuiles[4] += nombre + " " ;
                         }
                         AffichesTuiles[4] += "*" ;
 
 
                     // affichage ligne 2,3,4 :
-                    AffichesTuiles[1] += act.getGauche().getNumero()[0] + " ".repeat(7) + act.getDroite().getNumero()[0] ;
-                    AffichesTuiles[2] += act.getGauche().getNumero()[1] + " ".repeat(3) + "#" + " ".repeat(3) + act.getDroite().getNumero()[1] ;
-                    AffichesTuiles[3] += act.getGauche().getNumero()[2] + " ".repeat(7) + act.getDroite().getNumero()[2] ;
+                    AffichesTuiles[1] += act.est.getNumeros()[0] + " ".repeat(7) + act.ouest.getNumeros()[0] ;
+                    AffichesTuiles[2] += act.est.getNumeros()[1] + " ".repeat(3) + "#" + " ".repeat(3) + act.ouest.getNumeros()[1] ;
+                    AffichesTuiles[3] += act.est.getNumeros()[2] + " ".repeat(7) + act.ouest.getNumeros()[2] ;
 
 
                 }else{

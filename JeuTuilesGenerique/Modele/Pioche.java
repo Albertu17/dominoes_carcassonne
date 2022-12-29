@@ -5,8 +5,7 @@ import java.util.*;
 public class Pioche {
     public List<Tuile> pioche;
 
-
-    Pioche(){
+    public Pioche(){
         pioche = new ArrayList<Tuile>() ;
     }
 

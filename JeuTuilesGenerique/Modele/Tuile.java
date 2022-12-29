@@ -25,6 +25,14 @@ public class Tuile extends JPanel implements MouseInputListener {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
+    public Tuile(Bord nord, Bord est, Bord sud, Bord ouest) {
+        this();
+        this.nord = nord;
+        this.est = est;
+        this.sud = sud;
+        this.ouest = ouest;
+    }
+
     // true --> tourner dans le sens Horaire
     public void Rotate(boolean sensHoraire){
         Bord tmp = nord;
