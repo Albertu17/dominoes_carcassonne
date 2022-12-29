@@ -32,15 +32,21 @@ public class GameView extends JFrame{
     // JPanel conteneurPieceAjouerDroite;
     // JPanel conteneurPieceAjouerBas;
 
-    public GameView (Partie partie) {
-        this.partie = partie;
-
+    public GameView(){
         // Fenêtre
         setVisible(true);
         setTitle("JEU");
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); // Récupère taille de l'écran utilisateur.
         setSize((int) size.getWidth(), (int) size.getHeight()); // Met la fenêtre en plein écran.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+    }
+
+    public void setPartie(Partie partie2){ this.partie = partie2 ; }
+    public Partie getPartie(){ return partie ; }
+
+    public void setGameView () {
+
 
         // JPanel conteneurGlobal
         conteneurGlobal = new JPanel();
@@ -157,7 +163,7 @@ public class GameView extends JFrame{
 
         public PanelJoueur(Joueur joueur) {
             this.joueur = joueur;
-            this.add(new JLabel(joueur.nom + " : " + String.valueOf(joueur.nbPoints) + "pts"));
+            this.add(new JLabel(joueur.getName() + " : " + String.valueOf(joueur.getScore()) + "pts"));
             this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         }
 

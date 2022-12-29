@@ -1,26 +1,26 @@
-package GUI;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Flow;
+package JeuTuilesGenerique.Vue;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.MouseInputListener;
-import javax.swing.text.FlowView;
-import javax.swing.text.AttributeSet.ColorAttribute;
 
-import Modele.Commun.Joueur;
-import Modele.Commun.Modele;
+
+import JeuDominos.PartieDominos;
+import JeuCarcassonne.PartieCarcassonne;
+import JeuTuilesGenerique.Modele.Partie;
+import JeuTuilesGenerique.Modele.Joueurs.Joueur;
+import JeuTuilesGenerique.Modele.*;
 
 import  java.awt.*;
-import java.awt.event.MouseEvent;
+import  java.awt.event.FocusListener;
+import  java.awt.event.FocusEvent ;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class Menu {
     
-    Gameview pane ;
+    GameView pane ;
     JPanel container ;
     private int widthFrame ; 
     private int heightFrame ; 
@@ -32,7 +32,7 @@ public class Menu {
     ManagePlayer managePlayer ;
 
 
-    Menu(Gameview pane){
+    public Menu(GameView pane){
         this.pane = pane ;
         pane.setBackground(Color.GREEN);
 
@@ -49,13 +49,19 @@ public class Menu {
 
 
     public void play(){
-        // lancer la partie
+        pane.setGameView();
     }
+
+
+    // Objet avec des défintion spécial
 
     private class ButtonImageRetour extends JButton{
 
-
         ButtonImageRetour(String NameImage){
+            this(NameImage, new Rectangle(15,15, 50 , 50)) ;
+        }
+
+        ButtonImageRetour(String NameImage, Rectangle d){
 
             try {
                 Image img;
@@ -64,7 +70,7 @@ public class Menu {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            this.setBounds(15,15, 50 , 50);
+            this.setBounds(d);
             this.setOpaque(false);
             this.setContentAreaFilled(false);
             this.setBorderPainted(false);
@@ -73,7 +79,37 @@ public class Menu {
         }
     }
 
-    
+    private class FocusPlaceholder implements FocusListener{
+        JTextField field ; 
+        String[] motplacerholder ;
+        String hold ;
+
+        FocusPlaceholder(JTextField field, String[] motplacerholder){
+            this.field = field ;
+            this.motplacerholder = motplacerholder.clone() ;
+            field.setForeground(Color.GRAY);
+            
+        }
+
+        public void focusGained(FocusEvent e) {
+            for (String string : motplacerholder) {
+                if (field.getText().equals(string)) {
+                    hold = field.getText() ;
+                    field.setText("");
+                    field.setForeground(Color.BLACK);
+                }
+                
+            }
+        }
+        @Override
+        public void focusLost(FocusEvent e) {
+            if (field.getText().isEmpty()) {
+                field.setForeground(Color.GRAY);
+                field.setText(hold);
+            }
+        }
+    }
+
 
     class SelectGame{
         
@@ -156,14 +192,21 @@ public class Menu {
     }
 
     class SelectSave{
-        JButton newGame ;
+        JTextField newGame ;
 
         JPanel conteneurSelectionPartie ;
-        JButton lancerlaPartie ;
-        JList<String> listsave  ;
-
-        ButtonImageRetour retour ;
+        JButton lancerlaPartie1 ;
+        JButton lancerlaPartie2 ;
+        JComboBox<String> listsaveComboBox  ;
         
+        String[] listtouteSauvegarde  ;
+        
+        ButtonImageRetour retour ;
+        JLabel indication ;
+        
+
+        String[] aide = new String[]{"Rentrer le nom de votre nouvelle partie", "Nom déjà utilisé"};
+
         SelectSave(){
 
             // set button retour
@@ -176,81 +219,163 @@ public class Menu {
 
 
             // autre fonction
-            newGame = new JButton() ;
-            lancerlaPartie = new JButton();
+            newGame = new JTextField() ;
+            lancerlaPartie1 = new JButton();
+            lancerlaPartie2 = new JButton();
 
             newGame.setText("Rentrer le nom de votre nouvelle partie");
-            lancerlaPartie.setText("Lancer la partie");
+            newGame.setForeground(Color.GRAY) ;
+
+            lancerlaPartie1.setText("Charger la partie");
+            lancerlaPartie2.setText("Charger la partie");
 
 
-            // System.out.println(newGAme.getW);
             conteneurSelectionPartie = new JPanel() ;
 
-            newGame.setBounds(0,0, 400, 100);
 
+            // ajout d' élement de la JComboBox
+                addAllSave();
 
-            container.add(newGame) ;
+            // setLayout
 
+            conteneurSelectionPartie.setLayout(new GridBagLayout());
+            GridBagConstraints c = new GridBagConstraints();
+            
+
+            c.fill = GridBagConstraints.HORIZONTAL;
+            
+                c.gridwidth = 4 ; 
+                c.gridx = 0;
+                c.gridy = 0;
+                conteneurSelectionPartie.add(newGame, c);
 
             
+            c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridwidth = 4;
+                c.gridx = 0;
+                c.gridy = 2;
+                conteneurSelectionPartie.add(listsaveComboBox, c);
+            
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.fill = GridBagConstraints.VERTICAL ;
+                c.gridwidth = 1;
+                c.gridx = 5;
+                c.gridy = 0;
+                conteneurSelectionPartie.add(lancerlaPartie1, c);
+
+            
+                c.gridwidth = 1;
+                c.gridx = 5;
+                c.gridy = 2;
+                conteneurSelectionPartie.add(lancerlaPartie2, c);
+            
+           
+            // placement indication
+            indication = new JLabel("Veuillez créer une partie ou en choisir une déjà existante :") ;
+
+            indication.setSize(widthFrame/3, heightFrame/3);
+            indication.setLocation(widthFrame/2 - indication.getWidth()/2, 100);
+            container.add(indication) ;
+            indication.setVisible(true ) ;
+
+            // placement container
+
+            container.add(conteneurSelectionPartie) ;
+            conteneurSelectionPartie.setVisible(true);
+
+            conteneurSelectionPartie.setSize(widthFrame/2, heightFrame/2) ;
+            conteneurSelectionPartie.setLocation(widthFrame/2 - conteneurSelectionPartie.getWidth()/2, heightFrame/2- conteneurSelectionPartie.getHeight()/2) ;
+
+            newGame.setVisible(true);
+            listsaveComboBox.setVisible(true);
+            lancerlaPartie1.setVisible(true);
+            lancerlaPartie2.setVisible(true);
+
             // action 
-            newGame.addActionListener(event -> {
-                pane.setModele(new Modele(carcassonneBoolean));
-                nextInterfaceMenu();
-            });
             
-            lancerlaPartie.addActionListener(event -> {
-                if (true){
-                    // pane.setModele(null);
+            
+            lancerlaPartie1.addActionListener(event -> {
+                if (isFree(newGame.getText())){
+                    if (carcassonneBoolean){
+                        pane.setPartie((Partie) new PartieCarcassonne(newGame.getText()))  ;
+                    }else{
+                        pane.setPartie((Partie) new Partie(newGame.getText()))  ;
+
+                    }
                     nextInterfaceMenu() ;
-                }
+                
+                }else{
+                    newGame.setText("Nom déjà utilisé");
+                    newGame.setForeground(Color.GRAY);
+                } 
+
             });
 
+            lancerlaPartie2.addActionListener(event -> {
+                System.out.println("here");
+                System.out.println(listsaveComboBox.getSelectedItem());
+                if (listsaveComboBox.getSelectedItem() != null ){
+                    try {
+                        final FileInputStream fichier = new FileInputStream("Sauvegarde/"+ (carcassonneBoolean? "Carcassonne/" : "Domino/" ) + listsaveComboBox.getSelectedItem());
+                        System.out.println("hre2");
+                        ObjectInputStream obj = new ObjectInputStream(fichier) ;
+                        System.out.println("hre3");
+                        pane.setPartie( (Partie) obj.readObject() );
+                        System.out.println("hre4");
+                        obj.close();
+                        nextInterfaceMenu();
+                    } catch (Exception e) {
+                    }
+                }   
 
-            // affichage possition 
-            displayAllSave();
-            setLocationObjet();
+            });
+
+            newGame.addFocusListener(new FocusPlaceholder(newGame, aide));
+
+           
+
+
             changevisibility(true);
         }
 
         private boolean isFree(String nom){
-            return false ;
-        }
-
-        private void displayAllSave(){
-            // faire en fonction du mode de jeu 
-            List<String> list = new ArrayList<String>() ;
-
-            // File dir  = new File("C:\\Users\\PC\\Desktop\\Dossier");
-		    // File[] liste = dir.listFiles();
-
-            if (carcassonneBoolean){
-                // cherche dans caracasson 
-
-            }else{
-                // cherche dans domino 
+            for (String string : listtouteSauvegarde) {
+                if (string.equals(nom)) return false ;
             }
-
-            // listsave  = new JList<String>(list.toArray()) ;
-            
+            for (String string : aide) {
+                if (string.equals(nom)) return false ;
+                
+            }
+            return true ;
         }
 
-        private void setLocationObjet(){
+        private void addAllSave(){
+            // faire en fonction du mode de jeu 
 
-            newGame.setLocation(widthFrame/2 -newGame.getWidth()/2, heightFrame/2 - 50);
             
-            lancerlaPartie.setAlignmentX(widthFrame/2 -lancerlaPartie.getWidth()/2);
-            lancerlaPartie.setAlignmentY(heightFrame/2 +50);
+            String path = "./Sauvegarde/"+ (carcassonneBoolean? "Carcassonne" : "Domino" ) ;
+            
+            
+            try {
+                File[] dir  = (new File(path)).listFiles();
 
-            // ajouter listsave
+                listtouteSauvegarde = new String[dir.length] ;
+                for (int i = 0 ; i < listtouteSauvegarde.length ; i++){
+                    listtouteSauvegarde[i] = dir[i].getName() ;
+                }
+
+            } catch (Exception e) {
+                listtouteSauvegarde[0] = ("Aucun fichier n'a été trouvé !");
+            }
+            listsaveComboBox  = new JComboBox<String>((listtouteSauvegarde)) ;
+            
         }
 
         public void changevisibility(boolean visibility){
             newGame.setVisible(visibility);
             conteneurSelectionPartie.setVisible(visibility);
             retour.setVisible(visibility);
-            if (visibility) displayAllSave();
-            // else list.setVisible(visibility );
+            indication.setVisible(visibility);
             
 
         }
@@ -258,9 +383,7 @@ public class Menu {
         public void previousInterfaceMenu(){
             changevisibility(false);
             
-            selectGame.changevisibility(true);
-            
-            
+            selectGame = new SelectGame() ;
         }
         
         public void nextInterfaceMenu(){
@@ -283,6 +406,8 @@ public class Menu {
             JButton IA ;
             boolean isIA ;
 
+            String[] aide = new String[]{"Nom déjà utilisé", "Le nombre maximun de joueur est atteint !", "Entrer le nom du joueur"} ;
+
             ConteneurAddPlayer(){
 
                 // définir les J
@@ -292,6 +417,8 @@ public class Menu {
                 
 
                 nom = new JTextField("Entrer le nom du joueur") ;
+                nom.setForeground(Color.GRAY);
+
 
                 add = new JButton("+") ;
 
@@ -304,73 +431,24 @@ public class Menu {
 
                 add.addActionListener(event -> {
                     if (NameFree()){
-                        Joueur j = new Joueur(nom.getText(), isIA, false) ;
-                        if (pane.getModele().getPlayers().add(j)){
+                        if (pane.getPartie().getJoueurs().addPlayer(nom.getText(), isIA, false)){
                             dispPlayer.add( new ConteneurPlayer(j)) ;
                             dispPlayer.revalidate();
                             dispPlayer.repaint();
                         }else{
                             nom.setText("Le nombre maximun de joueur est atteint !");
+                            nom.setForeground(Color.GRAY);
                         }
                     }else{
                         nom.setText("Nom déjà utilisé");
+                        nom.setForeground(Color.GRAY);
                     }
                 });
 
                 // permet l'effacement du texte pré-écrit lorsque on passe sur le texte
-                nom.addMouseListener(
-                    new MouseInputListener() {
+                nom.addFocusListener(new FocusPlaceholder(nom, aide));
 
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            if ( (nom.getText().equals("Le nombre maximun de joueur est atteint !") || nom.getText().equals("Nom déjà utilisé") || nom.getText().equals("Entrer le nom du joueur"))){
-                                nom.setText("");
-                            }
-                            
-                        }
-
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-                            // TODO Auto-generated method stub
-                            
-                        }
-
-                        @Override
-                        public void mouseReleased(MouseEvent e) {
-                            // TODO Auto-generated method stub
-                            
-                        }
-
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                            // TODO Auto-generated method stub
-                            
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                            // TODO Auto-generated method stub
-                            
-                        }
-
-                        @Override
-                        public void mouseDragged(MouseEvent e) {
-                            // TODO Auto-generated method stub
-                            
-                        }
-
-                        @Override
-                        public void mouseMoved(MouseEvent e) {
-                            // TODO Auto-generated method stub
-                            
-                        }
-
-                        
-                        
-                    }
-                   
-                );
-
+    
                 // placer
                 setLayout(new FlowLayout()) ;
 
@@ -393,9 +471,15 @@ public class Menu {
 
         private boolean NameFree(){
             String name = nom.getText() ;
-            for (Joueur j : pane.getModele().getPlayers()) {
+            if (name.equals("")) return false ;
+            
+
+            System.out.println(pane.getPartie()== null);
+            for (Joueur j : pane.getPartie().getJoueurs().getList()) {
                 if (name.equals(j.getName())) return false ;
             }
+            
+
             return true ;
         }
 
@@ -407,8 +491,6 @@ public class Menu {
             JButton IA ;
 
             ConteneurPlayer(Joueur joueur){
-                // Joueur joueur = pane.getModele().getPlayers(indexPlayer) ;
-
 
                 // définir les J
                 IA  = new JButton("IA") ;
@@ -426,7 +508,7 @@ public class Menu {
                 });
 
                 remove.addActionListener(event -> {
-                    pane.getModele().getPlayers().remove(joueur) ;
+                    pane.getPartie().getJoueurs().getList().remove(joueur) ;
                     dispPlayer.remove(this);
                     dispPlayer.revalidate();
                     dispPlayer.repaint();
@@ -458,13 +540,15 @@ public class Menu {
         ConteneurAddPlayer conteneurAddPlayer ;
         JPanel dispPlayer;
 
-        ManagePlayer(){
+        JPanel panelmanage ;
+        JLabel IndicationAjout ;
+        JLabel IndicationPresent ;
 
-            // ajout d'élemtn test dans model
-            pane.getModele().addPlayer(new Joueur("damiens", true, false)) ;
-            // pane.getModele().addPlayer(new Joueur("piere", false, false));
-            // pane.getModele().addPlayer(new Joueur("etienne", true, false));
-            System.out.println(pane.getModele().getPlayers().size());
+        // ButtonImageRetour play ;
+        JButton play ;
+    
+
+        ManagePlayer(){
 
             // bouton retour
                 retour = new ButtonImageRetour("retour50p.png") ;
@@ -474,50 +558,80 @@ public class Menu {
                 });
 
             
+            
+            
             // Barre ajout de joueur :
                 conteneurAddPlayer= new ConteneurAddPlayer() ;
                 conteneurAddPlayer.setVisible(true);
                 container.add(conteneurAddPlayer) ;
                
-                conteneurAddPlayer.setSize(300, 100);
-                conteneurAddPlayer.setLocation(200, 300);
+                conteneurAddPlayer.setSize(widthFrame/3, 100);
+                conteneurAddPlayer.setLocation(widthFrame/2 -conteneurAddPlayer.getWidth()/2, heightFrame/4);
                 
+                conteneurAddPlayer.nom.setSize(100, conteneurAddPlayer.IA.getWidth());
                 
-            // les jouers deja present :
+            // les joueurs deja present :
                 dispPlayer = new JPanel() ;
                 dispPlayer.setLayout(new BoxLayout(dispPlayer, BoxLayout.PAGE_AXIS));
                 
-                for (Joueur joueur : pane.getModele().getPlayers()){
+                for (Joueur joueur : pane.getPartie().getJoueurs().getList()){
                     dispPlayer.add( new ConteneurPlayer(joueur)) ;
                 }
 
-                dispPlayer.setSize(300, 400);
-                dispPlayer.setLocation(200, 400);
+                
+                dispPlayer.setSize(widthFrame/3, 300);
+                dispPlayer.setLocation(widthFrame/2 -dispPlayer.getWidth()/2, heightFrame/2);
+                
                 dispPlayer.setVisible(true);
                 container.add(dispPlayer) ;
                 
+                
+                
+            // Texte d'aide :
+                IndicationAjout = new JLabel("Ajouter un nouveau joueur :") ;
+                IndicationPresent = new JLabel("Liste des joueurs de la partie : ") ;
+                
+                IndicationAjout.setSize(widthFrame/3, 100);
+                IndicationAjout.setLocation(widthFrame/2 -IndicationAjout.getWidth()/2, heightFrame/4-100);
+                
+                IndicationPresent.setSize(widthFrame/3, 100);
+                IndicationPresent.setLocation(widthFrame/2 -IndicationPresent.getWidth()/2, heightFrame/2-100);
 
+                container.add(IndicationAjout) ;
+                container.add(IndicationPresent) ;
 
+            // Boutton play :
+                    // play = new ButtonImageRetour("play.png", new Rectangle(50, 50, widthFrame-50 , heightFrame/2  )) ;
+                    play = new JButton("play");  
+                
+                    play.setSize(50,50);
+                    play.setLocation((widthFrame*5 )/6, heightFrame/2  );
+                    container.add(play) ;
+
+                    play.addActionListener(event -> {
+                        container.setVisible(false);
+                        changevisibility(false);
+                        play() ;
+                    });
+
+            changevisibility(true);
         }
         
         
         public void previousInterfaceMenu(){
             changevisibility(false);
-            selectSave.changevisibility(true);
+            selectSave = new SelectSave() ;
             
         }
     
-        public void nextInterfaceMenu(){
-            changevisibility(false);
-
-            // lancement du jeu 
-            play();
-        }
 
         public void changevisibility(boolean visibility){
             dispPlayer.setVisible(visibility);
             conteneurAddPlayer.setVisible(visibility);
             retour.setVisible(visibility);
+            IndicationAjout.setVisible(visibility);
+            IndicationPresent.setVisible(visibility);
+            play.setVisible(visibility);
         }
     }
 }

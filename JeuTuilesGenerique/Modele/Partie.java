@@ -1,19 +1,30 @@
 package JeuTuilesGenerique.Modele;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import JeuDominos.PartieDomino;
+import JeuCarcassonne.PartieCarcassonne;
 
 public class Partie implements Serializable {
 
-    public Joueurs joueurs;
+    
+    public Joueurs joueurs ;
     public Plateau plateau;
     public Pioche pioche;
     public Tuile aJouer;
+    public String nomPartie ;
 
     public Partie(Joueurs joueurs, Plateau plateau, Pioche pioche) {
+        
         this.joueurs = joueurs;
         this.plateau = plateau;
         this.pioche = pioche;
         nouvelleTuileAjouer();
+    }
+
+    public Partie(String nomPartie){
+        this.nomPartie = nomPartie ;
     }
 
     public void nouvelleTuileAjouer() {
@@ -33,5 +44,9 @@ public class Partie implements Serializable {
     public boolean partieFinie() {
         return pioche.isEmpty();
     }
+
+    public Joueurs getJoueurs(){ return joueurs ;}
+
+    
     
 }

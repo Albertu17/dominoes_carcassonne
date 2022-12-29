@@ -58,8 +58,15 @@ public class Joueurs {
         public boolean isIA(){return IA ;}
         public void setIA(boolean IA){this.IA = IA ;}
         
-    }
+}
 
+    public boolean addPlayer(String nom, boolean IA, boolean Pion){
+        if (players.size() <= nombreMaximalDeJoueur ){
+            players.add(new Joueur( nom,  IA,  Pion)) ;
+            return true ;
+        }
+        return false ;
+    }
     public boolean addPlayer(Joueur playeur){
         if (players.size() <= nombreMaximalDeJoueur ){
             players.add(playeur) ;
@@ -68,7 +75,7 @@ public class Joueurs {
         return false ;
     }
     public Joueur getPlayers(int index){return players.get(index) ;}
-    public List<Joueur> getPlayers(){return players ;}
+    public List<Joueur> getList(){return players ;}
 }
 
 

@@ -1,8 +1,8 @@
 import JeuTuilesGenerique.Modele.*;
 
-public class PartieDomino extends Partie {
+public class PartieDominos extends Partie {
 
-    public PartieDomino(Joueurs joueurs, Plateau plateau, Pioche pioche) {
+    public PartieDominos(Joueurs joueurs, Plateau plateau, Pioche pioche) {
         super(joueurs, plateau, pioche);
     }
 
