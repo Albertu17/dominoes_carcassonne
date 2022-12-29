@@ -12,10 +12,10 @@ public class Tuile extends JPanel implements MouseInputListener {
 
     GameView environnement;
     int x, y;
-    Bord nord;
-    Bord est;
-    Bord sud;
-    Bord ouest;
+    public Bord nord;
+    public Bord est;
+    public Bord sud;
+    public Bord ouest;
     boolean moving;
 
     public Tuile() {

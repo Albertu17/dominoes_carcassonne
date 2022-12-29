@@ -3,7 +3,7 @@ import java.util.*;
 
 
 public class Pioche {
-    private List<Tuile> pioche;
+    public List<Tuile> pioche;
 
 
     Pioche(){
@@ -26,8 +26,7 @@ public class Pioche {
             int nombreTuiles = 72 ;
             
             while (nombreTuiles != 0){
-                pioche.add(new Tuile(false)) ;
-
+                pioche.add(new Tuile()) ;
                 nombreTuiles-- ;
             }
         }
@@ -40,7 +39,7 @@ public class Pioche {
     public Pioche(int nombreTuiles){
         this() ;
         while (nombreTuiles != 0){
-            pioche.add(new Tuile(false)) ;
+            pioche.add(new Tuile()) ;
 
             nombreTuiles-- ;
         }
