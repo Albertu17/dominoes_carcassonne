@@ -189,17 +189,52 @@ public class Menu {
             // System.out.println(newGAme.getW);
             conteneurSelectionPartie = new JPanel() ;
 
-            newGame.setBounds(200,400, 400, 50);
 
 
-            container.add(newGame) ;
+            // container.add(newGame) ;
 
 
             // placement de la JComboBox
             addAllSave();
-            listsaveComboBox.setBounds(200,600, 400, 100);
-            listsaveComboBox.setVisible(true);
+            // listsaveComboBox.setBounds(200,600, 400, 100);
+            // listsaveComboBox.setVisible(true);
+
+
+            // setLayout
+
+            conteneurSelectionPartie.setLayout(new GridBagLayout());
+            GridBagConstraints c = new GridBagConstraints();
+
+            c.fill = GridBagConstraints.HORIZONTAL;
+                c.ipadx = 0 ; 
+                c.ipady = 0 ; 
+                c.weightx = 1 ;
+                c.gridwidth = 4 ; 
+                c.gridx = 0;
+                c.gridy = 0;
+                conteneurSelectionPartie.add(newGame, c);
+
             
+            c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridwidth = 4;
+                c.gridx = 0;
+                c.gridy = 2;
+                conteneurSelectionPartie.add(listsaveComboBox, c);
+                
+            c.fill = GridBagConstraints.HORIZONTAL;
+                c.gridwidth = 1;
+                c.gridx = 5;
+                c.gridy = 1;
+                conteneurSelectionPartie.add(lancerlaPartie1, c);
+            
+           
+
+            container.add(conteneurSelectionPartie) ;
+            conteneurSelectionPartie.setVisible(true);
+            newGame.setVisible(true);
+            listsaveComboBox.setVisible(true);
+            lancerlaPartie1.setVisible(true);
+
             // action 
             
             
@@ -268,8 +303,10 @@ public class Menu {
 
             // affichage possition 
             // displayAllSave();
-            setLocationObjet();
+            // setLocationObjet();
             changevisibility(true);
+            // pane.setModele(new Modele(true));
+            // nextInterfaceMenu();
         }
 
         private boolean isFree(String nom){
@@ -358,6 +395,7 @@ public class Menu {
                 
 
                 nom = new JTextField("Entrer le nom du joueur") ;
+
 
                 add = new JButton("+") ;
 
@@ -459,9 +497,11 @@ public class Menu {
 
         private boolean NameFree(){
             String name = nom.getText() ;
+            if (name.equals("")) return false ;
             for (Joueur j : pane.getModele().getPlayers()) {
                 if (name.equals(j.getName())) return false ;
             }
+
             return true ;
         }
 
@@ -524,13 +564,19 @@ public class Menu {
         ConteneurAddPlayer conteneurAddPlayer ;
         JPanel dispPlayer;
 
+        JPanel panelmanage ;
+        JLabel IndicationAjout ;
+        JLabel IndicationPresent ;
+
+    
+
         ManagePlayer(){
 
             // ajout d'élemtn test dans model
-            pane.getModele().addPlayer(new Joueur("damiens", true, false)) ;
-            // pane.getModele().addPlayer(new Joueur("piere", false, false));
-            // pane.getModele().addPlayer(new Joueur("etienne", true, false));
-            System.out.println(pane.getModele().getPlayers().size());
+                // pane.getModele().addPlayer(new Joueur("damiens", true, false)) ;
+                // pane.getModele().addPlayer(new Joueur("piere", false, false));
+                // pane.getModele().addPlayer(new Joueur("etienne", true, false));
+                // System.out.println(pane.getModele().getPlayers().size());
 
             // bouton retour
                 retour = new ButtonImageRetour("retour50p.png") ;
@@ -540,16 +586,19 @@ public class Menu {
                 });
 
             
+            
+            
             // Barre ajout de joueur :
                 conteneurAddPlayer= new ConteneurAddPlayer() ;
                 conteneurAddPlayer.setVisible(true);
                 container.add(conteneurAddPlayer) ;
                
-                conteneurAddPlayer.setSize(300, 100);
-                conteneurAddPlayer.setLocation(200, 300);
+                conteneurAddPlayer.setSize(widthFrame/3, 100);
+                conteneurAddPlayer.setLocation(widthFrame/2 -conteneurAddPlayer.getWidth()/2, heightFrame/4);
                 
+                conteneurAddPlayer.nom.setSize(100, conteneurAddPlayer.IA.getWidth());
                 
-            // les jouers deja present :
+            // les joueurs deja present :
                 dispPlayer = new JPanel() ;
                 dispPlayer.setLayout(new BoxLayout(dispPlayer, BoxLayout.PAGE_AXIS));
                 
@@ -557,13 +606,34 @@ public class Menu {
                     dispPlayer.add( new ConteneurPlayer(joueur)) ;
                 }
 
-                dispPlayer.setSize(300, 400);
-                dispPlayer.setLocation(200, 400);
+                
+                dispPlayer.setSize(widthFrame/3, 300);
+                dispPlayer.setLocation(widthFrame/2 -dispPlayer.getWidth()/2, heightFrame/2);
+                
                 dispPlayer.setVisible(true);
                 container.add(dispPlayer) ;
                 
+                
+                
+            // Texte d'aide :
+                IndicationAjout = new JLabel("Ajouter un nouveau joueur :") ;
+                IndicationPresent = new JLabel("Liste des joueurs de la partie : ") ;
+                
+                IndicationAjout.setSize(widthFrame/3, 100);
+                IndicationAjout.setLocation(widthFrame/2 -IndicationAjout.getWidth()/2, heightFrame/4-100);
+                
+                IndicationPresent.setSize(widthFrame/3, 100);
+                IndicationPresent.setLocation(widthFrame/2 -IndicationPresent.getWidth()/2, heightFrame/2-100);
 
+                container.add(IndicationAjout) ;
+                container.add(IndicationPresent) ;
 
+            // panelmanage = new JPanel(new BoxLayout(panelmanage, BoxLayout.PAGE_AXIS)) ;
+            // panelmanage.setBounds(100, 100 , container.getWidth()- 200 , container.getHeight()-200) ;
+            // panelmanage.add(conteneurAddPlayer) ;
+            // panelmanage.add(dispPlayer) ;
+
+            changevisibility(true);
         }
         
         
@@ -584,6 +654,8 @@ public class Menu {
             dispPlayer.setVisible(visibility);
             conteneurAddPlayer.setVisible(visibility);
             retour.setVisible(visibility);
+            IndicationAjout.setVisible(visibility);
+            IndicationPresent.setVisible(visibility);
         }
     }
 }

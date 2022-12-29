@@ -23,8 +23,7 @@ public class Modele implements Serializable{
         if (players.size() <= 6 ){
             players.add(playeur) ;
             return true ;
-        }
-        return false ;
+        }else  return false ;
     }
 
 
