@@ -10,32 +10,7 @@ public class Pioche implements Serializable{
         pioche = new ArrayList<Tuile>() ;
     }
 
-    Pioche(boolean Carcassonne){
-        this() ;
-
-        if (Carcassonne){
-            for(int i = 0 ; i < 72 ; i++){
-                // ajout des caractéristique des Tuile, routes...
-                // pioche.add() ;
-            }
-
-            // permet de mélanger la pioche pour ne pas avoir toujours la même partie
-            Collections.shuffle(pioche) ;
-            
-        }else{
-            int nombreTuiles = 72 ;
-            
-            while (nombreTuiles != 0){
-                pioche.add(new Tuile()) ;
-                nombreTuiles-- ;
-            }
-        }
-
-    
-    }
-
-
-     // Ajouter à la pioche des tuiles vides.
+     // Ajoute à la pioche des tuiles vides.
     public Pioche(int nombreTuiles){
         this() ;
         for (int i = 0; i < nombreTuiles; i++) {
@@ -43,8 +18,7 @@ public class Pioche implements Serializable{
         }
     }
 
-
-    // renvoie un élément de la pioche, si la pioche est vide renvoie null
+    // Renvoie un élément de la pioche, ou null si cette dernière est vide.
     public Tuile pickOne(){
         if (! pioche.isEmpty()){
             return pioche.remove(0) ;

@@ -1,4 +1,4 @@
-package JeuDominos;
+
 
 import JeuTuilesGenerique.Modele.*;
 

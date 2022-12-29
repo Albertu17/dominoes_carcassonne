@@ -49,11 +49,10 @@ public class GameView extends JFrame{
 
     }
 
-    public void setPartie(Partie partie2){ this.partie = partie2 ; }
-    public Partie getPartie(){ return partie ; }
+    public void setPartie(Partie partie) {this.partie = partie;}
+    public Partie getPartie() {return partie;}
 
     public void setGameView () {
-
 
         // JPanel conteneurGlobal
         conteneurGlobal = new JPanel();
