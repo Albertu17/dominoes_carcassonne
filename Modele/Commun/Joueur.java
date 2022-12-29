@@ -1,5 +1,8 @@
 package Modele.Commun;
-public class Joueur {
+
+import java.io.Serializable;
+
+public class Joueur implements Serializable{
     private int score ;
     private final String nom ;
     private int NbrPion ;

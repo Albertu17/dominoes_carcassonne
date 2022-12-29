@@ -14,9 +14,15 @@ import Modele.Commun.Joueur;
 import Modele.Commun.Modele;
 
 import  java.awt.*;
+import  java.awt.event.FocusListener;
+import  java.awt.event.FocusEvent ;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class Menu {
     
@@ -52,6 +58,9 @@ public class Menu {
         // lancer la partie
     }
 
+
+    // Objet avec des défintion spécial
+
     private class ButtonImageRetour extends JButton{
 
 
@@ -73,7 +82,37 @@ public class Menu {
         }
     }
 
-    
+    private class FocusPlaceholder implements FocusListener{
+        JTextField field ; 
+        String[] motplacerholder ;
+        String hold ;
+
+        FocusPlaceholder(JTextField field, String[] motplacerholder){
+            this.field = field ;
+            this.motplacerholder = motplacerholder.clone() ;
+            field.setForeground(Color.GRAY);
+            
+        }
+
+        public void focusGained(FocusEvent e) {
+            for (String string : motplacerholder) {
+                if (field.getText().equals(string)) {
+                    hold = field.getText() ;
+                    field.setText("");
+                    field.setForeground(Color.BLACK);
+                }
+                
+            }
+        }
+        @Override
+        public void focusLost(FocusEvent e) {
+            if (field.getText().isEmpty()) {
+                field.setForeground(Color.GRAY);
+                field.setText(hold);
+            }
+        }
+    }
+
 
     class SelectGame{
         
@@ -166,7 +205,11 @@ public class Menu {
         String[] listtouteSauvegarde  ;
         
         ButtonImageRetour retour ;
+        JLabel indication ;
         
+
+        String[] aide = new String[]{"Rentrer le nom de votre nouvelle partie", "Nom déjà utilisé"};
+
         SelectSave(){
 
             // set button retour
@@ -183,32 +226,23 @@ public class Menu {
             lancerlaPartie1 = new JButton();
 
             newGame.setText("Rentrer le nom de votre nouvelle partie");
-            lancerlaPartie1.setText("Lancer la partie");
+            lancerlaPartie1.setText("Charger la partie");
 
 
-            // System.out.println(newGAme.getW);
             conteneurSelectionPartie = new JPanel() ;
 
 
-
-            // container.add(newGame) ;
-
-
-            // placement de la JComboBox
-            addAllSave();
-            // listsaveComboBox.setBounds(200,600, 400, 100);
-            // listsaveComboBox.setVisible(true);
-
+            // ajout d' élement de la JComboBox
+                addAllSave();
 
             // setLayout
 
             conteneurSelectionPartie.setLayout(new GridBagLayout());
             GridBagConstraints c = new GridBagConstraints();
+            
 
             c.fill = GridBagConstraints.HORIZONTAL;
-                c.ipadx = 0 ; 
-                c.ipady = 0 ; 
-                c.weightx = 1 ;
+            
                 c.gridwidth = 4 ; 
                 c.gridx = 0;
                 c.gridy = 0;
@@ -222,15 +256,29 @@ public class Menu {
                 conteneurSelectionPartie.add(listsaveComboBox, c);
                 
             c.fill = GridBagConstraints.HORIZONTAL;
+            c.fill = GridBagConstraints.VERTICAL ;
                 c.gridwidth = 1;
                 c.gridx = 5;
                 c.gridy = 1;
                 conteneurSelectionPartie.add(lancerlaPartie1, c);
             
            
+            // placement indication
+            indication = new JLabel("Veuillez créer une partie ou en choisir une déjà existante :") ;
+
+            indication.setSize(widthFrame/3, heightFrame/3);
+            indication.setLocation(widthFrame/2 - indication.getWidth()/2, 100);
+            container.add(indication) ;
+            indication.setVisible(true ) ;
+
+            // placement container
 
             container.add(conteneurSelectionPartie) ;
             conteneurSelectionPartie.setVisible(true);
+
+            conteneurSelectionPartie.setSize(widthFrame/2, heightFrame/2) ;
+            conteneurSelectionPartie.setLocation(widthFrame/2 - conteneurSelectionPartie.getWidth()/2, heightFrame/2- conteneurSelectionPartie.getHeight()/2) ;
+
             newGame.setVisible(true);
             listsaveComboBox.setVisible(true);
             lancerlaPartie1.setVisible(true);
@@ -239,15 +287,29 @@ public class Menu {
             
             
             lancerlaPartie1.addActionListener(event -> {
-                if (true){
-                    // pane.setModele(null);
+                if (isFree(newGame.getText())){
+                    pane.setModele(new Modele(carcassonneBoolean));
                     nextInterfaceMenu() ;
+                    System.out.println("1");
+                    System.out.println(pane.getModele() == null );
                 }
+                else if (listsaveComboBox.getSelectedItem() != null ){
+                    try {
+                        final FileInputStream fichier = new FileInputStream("./Sauvegarde/"+ (carcassonneBoolean? "Carcassonne/" : "Domino/" ) + listsaveComboBox.getSelectedItem());
+                        ObjectInputStream obj = new ObjectInputStream(fichier) ;
+                        pane.setModele( (Modele) obj.readObject() );
+                        obj.close();
+                        nextInterfaceMenu();
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }
+                }   
+
             });
 
             newGame.addMouseListener(
                     new MouseInputListener() {
-                        String[] aide = new String[]{"Rentrer le nom de votre nouvelle partie", "Nom déjà utilisé"};
+                        
 
                         @Override
                         public void mouseClicked(MouseEvent e) {
@@ -301,17 +363,16 @@ public class Menu {
             
 
 
-            // affichage possition 
-            // displayAllSave();
-            // setLocationObjet();
             changevisibility(true);
-            // pane.setModele(new Modele(true));
-            // nextInterfaceMenu();
         }
 
         private boolean isFree(String nom){
             for (String string : listtouteSauvegarde) {
                 if (string.equals(nom)) return false ;
+            }
+            for (String string : aide) {
+                if (string.equals(nom)) return false ;
+                
             }
             return true ;
         }
@@ -338,22 +399,11 @@ public class Menu {
             
         }
 
-        private void setLocationObjet(){
-
-            // newGame.setLocation(widthFrame/2 -newGame.getWidth()/2, heightFrame/2 - 50);
-            
-            // lancerlaPartie.setAlignmentX(widthFrame/2 -lancerlaPartie.getWidth()/2);
-            // lancerlaPartie.setAlignmentY(heightFrame/2 +50);
-
-            // ajouter listsave
-        }
-
         public void changevisibility(boolean visibility){
             newGame.setVisible(visibility);
             conteneurSelectionPartie.setVisible(visibility);
             retour.setVisible(visibility);
-            // if (visibility) displayAllSave();
-            // else list.setVisible(visibility );
+            indication.setVisible(visibility);
             
 
         }
@@ -361,9 +411,7 @@ public class Menu {
         public void previousInterfaceMenu(){
             changevisibility(false);
             
-            selectGame.changevisibility(true);
-            
-            
+            selectGame = new SelectGame() ;
         }
         
         public void nextInterfaceMenu(){
@@ -385,6 +433,8 @@ public class Menu {
             JTextField nom ;
             JButton IA ;
             boolean isIA ;
+
+            String[] aide = new String[]{"Nom déjà utilisé", "Le nombre maximun de joueur est atteint !", "Entrer le nom du joueur"} ;
 
             ConteneurAddPlayer(){
 
@@ -409,7 +459,7 @@ public class Menu {
                 add.addActionListener(event -> {
                     if (NameFree()){
                         Joueur j = new Joueur(nom.getText(), isIA, false) ;
-                        if (pane.getModele().getPlayers().add(j)){
+                        if (pane.getModele().addPlayer(j)){
                             dispPlayer.add( new ConteneurPlayer(j)) ;
                             dispPlayer.revalidate();
                             dispPlayer.repaint();
@@ -422,58 +472,60 @@ public class Menu {
                 });
 
                 // permet l'effacement du texte pré-écrit lorsque on passe sur le texte
-                nom.addMouseListener(
-                    new MouseInputListener() {
+                nom.addFocusListener(new FocusPlaceholder(nom, aide));
 
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            if ( (nom.getText().equals("Le nombre maximun de joueur est atteint !") || nom.getText().equals("Nom déjà utilisé") || nom.getText().equals("Entrer le nom du joueur"))){
-                                nom.setText("");
-                            }
-                            
-                        }
+                // nom.addMouseListener(
+                //     new MouseInputListener() {
 
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-                            // TODO Auto-generated method stub
+                //         @Override
+                //         public void mouseClicked(MouseEvent e) {
+                //             if ( (nom.getText().equals("Le nombre maximun de joueur est atteint !") || nom.getText().equals("Nom déjà utilisé") || nom.getText().equals("Entrer le nom du joueur"))){
+                //                 nom.setText("");
+                //             }
                             
-                        }
+                //         }
 
-                        @Override
-                        public void mouseReleased(MouseEvent e) {
-                            // TODO Auto-generated method stub
+                //         @Override
+                //         public void mousePressed(MouseEvent e) {
+                //             // TODO Auto-generated method stub
                             
-                        }
+                //         }
 
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                            // TODO Auto-generated method stub
+                //         @Override
+                //         public void mouseReleased(MouseEvent e) {
+                //             // TODO Auto-generated method stub
                             
-                        }
+                //         }
 
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                            // TODO Auto-generated method stub
+                //         @Override
+                //         public void mouseEntered(MouseEvent e) {
+                //             // TODO Auto-generated method stub
                             
-                        }
+                //         }
 
-                        @Override
-                        public void mouseDragged(MouseEvent e) {
-                            // TODO Auto-generated method stub
+                //         @Override
+                //         public void mouseExited(MouseEvent e) {
+                //             // TODO Auto-generated method stub
                             
-                        }
+                //         }
 
-                        @Override
-                        public void mouseMoved(MouseEvent e) {
-                            // TODO Auto-generated method stub
+                //         @Override
+                //         public void mouseDragged(MouseEvent e) {
+                //             // TODO Auto-generated method stub
                             
-                        }
+                //         }
+
+                //         @Override
+                //         public void mouseMoved(MouseEvent e) {
+                //             // TODO Auto-generated method stub
+                            
+                //         }
 
                         
                         
-                    }
+                //     }
                    
-                );
+                // );
 
                 // placer
                 setLayout(new FlowLayout()) ;
@@ -498,9 +550,13 @@ public class Menu {
         private boolean NameFree(){
             String name = nom.getText() ;
             if (name.equals("")) return false ;
+            
+
+            System.out.println(pane.getModele() == null);
             for (Joueur j : pane.getModele().getPlayers()) {
                 if (name.equals(j.getName())) return false ;
             }
+            
 
             return true ;
         }
@@ -513,8 +569,6 @@ public class Menu {
             JButton IA ;
 
             ConteneurPlayer(Joueur joueur){
-                // Joueur joueur = pane.getModele().getPlayers(indexPlayer) ;
-
 
                 // définir les J
                 IA  = new JButton("IA") ;
@@ -568,15 +622,10 @@ public class Menu {
         JLabel IndicationAjout ;
         JLabel IndicationPresent ;
 
+        JButton play ;
     
 
         ManagePlayer(){
-
-            // ajout d'élemtn test dans model
-                // pane.getModele().addPlayer(new Joueur("damiens", true, false)) ;
-                // pane.getModele().addPlayer(new Joueur("piere", false, false));
-                // pane.getModele().addPlayer(new Joueur("etienne", true, false));
-                // System.out.println(pane.getModele().getPlayers().size());
 
             // bouton retour
                 retour = new ButtonImageRetour("retour50p.png") ;
@@ -628,10 +677,17 @@ public class Menu {
                 container.add(IndicationAjout) ;
                 container.add(IndicationPresent) ;
 
-            // panelmanage = new JPanel(new BoxLayout(panelmanage, BoxLayout.PAGE_AXIS)) ;
-            // panelmanage.setBounds(100, 100 , container.getWidth()- 200 , container.getHeight()-200) ;
-            // panelmanage.add(conteneurAddPlayer) ;
-            // panelmanage.add(dispPlayer) ;
+            // Boutton play :
+                    play = new JButton("Jouer") ;
+                    play.setSize(50,50);
+                    play.setLocation((widthFrame*5 )/6 , heightFrame/2 );
+                    container.add(play) ;
+
+                    play.addActionListener(event -> {
+                        container.setVisible(false);
+                        changevisibility(false);
+                        play() ;
+                    });
 
             changevisibility(true);
         }
@@ -639,16 +695,10 @@ public class Menu {
         
         public void previousInterfaceMenu(){
             changevisibility(false);
-            selectSave.changevisibility(true);
+            selectSave = new SelectSave() ;
             
         }
     
-        public void nextInterfaceMenu(){
-            changevisibility(false);
-
-            // lancement du jeu 
-            play();
-        }
 
         public void changevisibility(boolean visibility){
             dispPlayer.setVisible(visibility);
@@ -656,6 +706,7 @@ public class Menu {
             retour.setVisible(visibility);
             IndicationAjout.setVisible(visibility);
             IndicationPresent.setVisible(visibility);
+            play.setVisible(visibility);
         }
     }
 }

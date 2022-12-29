@@ -6,7 +6,7 @@ import java.util.List;
 public class Modele implements Serializable{
     List<Joueur> players ; 
     Plateau plateau ;
-    Pioche pioche ;
+    // Pioche pioche ;
 
     
 
@@ -14,8 +14,8 @@ public class Modele implements Serializable{
         players = new ArrayList<Joueur>() ;
         plateau = new Plateau() ; 
 
-        pioche = new Pioche(Carcassonne) ;
-        plateau.add(pioche.pickOne(), 0, 0) ;
+        // pioche = new Pioche(Carcassonne) ;
+        // plateau.add(pioche.pickOne(), 0, 0) ;
         
     }
 
