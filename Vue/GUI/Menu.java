@@ -1,28 +1,17 @@
 package GUI;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Flow;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.MouseInputListener;
-import javax.swing.text.FlowView;
-import javax.swing.text.AttributeSet.ColorAttribute;
-
 import Modele.Commun.Joueur;
 import Modele.Commun.Modele;
 
 import  java.awt.*;
 import  java.awt.event.FocusListener;
 import  java.awt.event.FocusEvent ;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class Menu {
     
@@ -63,8 +52,11 @@ public class Menu {
 
     private class ButtonImageRetour extends JButton{
 
-
         ButtonImageRetour(String NameImage){
+            this(NameImage, new Rectangle(15,15, 50 , 50)) ;
+        }
+
+        ButtonImageRetour(String NameImage, Rectangle d){
 
             try {
                 Image img;
@@ -73,7 +65,7 @@ public class Menu {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            this.setBounds(15,15, 50 , 50);
+            this.setBounds(d);
             this.setOpaque(false);
             this.setContentAreaFilled(false);
             this.setBorderPainted(false);
@@ -224,9 +216,13 @@ public class Menu {
             // autre fonction
             newGame = new JTextField() ;
             lancerlaPartie1 = new JButton();
+            lancerlaPartie2 = new JButton();
 
             newGame.setText("Rentrer le nom de votre nouvelle partie");
+            newGame.setForeground(Color.GRAY) ;
+
             lancerlaPartie1.setText("Charger la partie");
+            lancerlaPartie2.setText("Charger la partie");
 
 
             conteneurSelectionPartie = new JPanel() ;
@@ -254,13 +250,19 @@ public class Menu {
                 c.gridx = 0;
                 c.gridy = 2;
                 conteneurSelectionPartie.add(listsaveComboBox, c);
-                
+            
             c.fill = GridBagConstraints.HORIZONTAL;
             c.fill = GridBagConstraints.VERTICAL ;
                 c.gridwidth = 1;
                 c.gridx = 5;
-                c.gridy = 1;
+                c.gridy = 0;
                 conteneurSelectionPartie.add(lancerlaPartie1, c);
+
+            
+                c.gridwidth = 1;
+                c.gridx = 5;
+                c.gridy = 2;
+                conteneurSelectionPartie.add(lancerlaPartie2, c);
             
            
             // placement indication
@@ -282,6 +284,7 @@ public class Menu {
             newGame.setVisible(true);
             listsaveComboBox.setVisible(true);
             lancerlaPartie1.setVisible(true);
+            lancerlaPartie2.setVisible(true);
 
             // action 
             
@@ -290,10 +293,16 @@ public class Menu {
                 if (isFree(newGame.getText())){
                     pane.setModele(new Modele(carcassonneBoolean));
                     nextInterfaceMenu() ;
-                    System.out.println("1");
-                    System.out.println(pane.getModele() == null );
-                }
-                else if (listsaveComboBox.getSelectedItem() != null ){
+                
+                }else{
+                    newGame.setText("Nom déjà utilisé");
+                    newGame.setForeground(Color.GRAY);
+                } 
+
+            });
+
+            lancerlaPartie2.addActionListener(event -> {
+                if (listsaveComboBox.getSelectedItem() != null ){
                     try {
                         final FileInputStream fichier = new FileInputStream("./Sauvegarde/"+ (carcassonneBoolean? "Carcassonne/" : "Domino/" ) + listsaveComboBox.getSelectedItem());
                         ObjectInputStream obj = new ObjectInputStream(fichier) ;
@@ -301,66 +310,14 @@ public class Menu {
                         obj.close();
                         nextInterfaceMenu();
                     } catch (Exception e) {
-                        // TODO: handle exception
                     }
                 }   
 
             });
 
-            newGame.addMouseListener(
-                    new MouseInputListener() {
-                        
+            newGame.addFocusListener(new FocusPlaceholder(newGame, aide));
 
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            for (String string : aide) {
-                                if (string.equals(newGame.getText())) newGame.setText("") ;
-                            }
-                            
-                        }
-
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-                            // TODO Auto-generated method stub
-                            
-                        }
-
-                        @Override
-                        public void mouseReleased(MouseEvent e) {
-                            // TODO Auto-generated method stub
-                            
-                        }
-
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                            // TODO Auto-generated method stub
-                            
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                            // TODO Auto-generated method stub
-                            
-                        }
-
-                        @Override
-                        public void mouseDragged(MouseEvent e) {
-                            // TODO Auto-generated method stub
-                            
-                        }
-
-                        @Override
-                        public void mouseMoved(MouseEvent e) {
-                            // TODO Auto-generated method stub
-                            
-                        }
-
-                        
-                        
-                    }
-                   
-            );
-            
+           
 
 
             changevisibility(true);
@@ -445,6 +402,7 @@ public class Menu {
                 
 
                 nom = new JTextField("Entrer le nom du joueur") ;
+                nom.setForeground(Color.GRAY);
 
 
                 add = new JButton("+") ;
@@ -465,68 +423,18 @@ public class Menu {
                             dispPlayer.repaint();
                         }else{
                             nom.setText("Le nombre maximun de joueur est atteint !");
+                            nom.setForeground(Color.GRAY);
                         }
                     }else{
                         nom.setText("Nom déjà utilisé");
+                        nom.setForeground(Color.GRAY);
                     }
                 });
 
                 // permet l'effacement du texte pré-écrit lorsque on passe sur le texte
                 nom.addFocusListener(new FocusPlaceholder(nom, aide));
 
-                // nom.addMouseListener(
-                //     new MouseInputListener() {
-
-                //         @Override
-                //         public void mouseClicked(MouseEvent e) {
-                //             if ( (nom.getText().equals("Le nombre maximun de joueur est atteint !") || nom.getText().equals("Nom déjà utilisé") || nom.getText().equals("Entrer le nom du joueur"))){
-                //                 nom.setText("");
-                //             }
-                            
-                //         }
-
-                //         @Override
-                //         public void mousePressed(MouseEvent e) {
-                //             // TODO Auto-generated method stub
-                            
-                //         }
-
-                //         @Override
-                //         public void mouseReleased(MouseEvent e) {
-                //             // TODO Auto-generated method stub
-                            
-                //         }
-
-                //         @Override
-                //         public void mouseEntered(MouseEvent e) {
-                //             // TODO Auto-generated method stub
-                            
-                //         }
-
-                //         @Override
-                //         public void mouseExited(MouseEvent e) {
-                //             // TODO Auto-generated method stub
-                            
-                //         }
-
-                //         @Override
-                //         public void mouseDragged(MouseEvent e) {
-                //             // TODO Auto-generated method stub
-                            
-                //         }
-
-                //         @Override
-                //         public void mouseMoved(MouseEvent e) {
-                //             // TODO Auto-generated method stub
-                            
-                //         }
-
-                        
-                        
-                //     }
-                   
-                // );
-
+    
                 // placer
                 setLayout(new FlowLayout()) ;
 
@@ -622,6 +530,7 @@ public class Menu {
         JLabel IndicationAjout ;
         JLabel IndicationPresent ;
 
+        // ButtonImageRetour play ;
         JButton play ;
     
 
@@ -678,9 +587,11 @@ public class Menu {
                 container.add(IndicationPresent) ;
 
             // Boutton play :
-                    play = new JButton("Jouer") ;
+                    // play = new ButtonImageRetour("play.png", new Rectangle(50, 50, widthFrame-50 , heightFrame/2  )) ;
+                    play = new JButton("play");  
+                
                     play.setSize(50,50);
-                    play.setLocation((widthFrame*5 )/6 , heightFrame/2 );
+                    play.setLocation((widthFrame*5 )/6, heightFrame/2  );
                     container.add(play) ;
 
                     play.addActionListener(event -> {
