@@ -42,7 +42,7 @@ public class Partie implements Serializable {
     }
 
     public boolean partieFinie() {
-        return pioche.isEmpty();
+        return pioche.pioche.isEmpty();
     }
 
     public Joueurs getJoueurs(){ return joueurs ;}

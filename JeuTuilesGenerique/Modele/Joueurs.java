@@ -26,8 +26,8 @@ public class Joueurs {
     }
 
     public class Joueur {
-        private int score ;
-        private final String nom ;
+        public int score ;
+        public final String nom ;
         private int NbrPion ;
         private boolean IA ;  
     
