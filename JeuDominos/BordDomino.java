@@ -14,4 +14,9 @@ public class BordDomino extends Bord{
         int[] numeros = {n1,n2,n3};
         return numeros;
     }
+
+    public boolean estCompatibleAvec(BordDomino bD) {
+        if (bD == null || (n1 == bD.n1 && n2 == bD.n2 && n3 == bD.n3)) return true;
+        return false;
+    }
 }

@@ -31,8 +31,18 @@ public class Partie implements Serializable {
         if (aJouer == null) aJouer = new Tuile();
     }
 
-    // Fonction adaptée à un jeu dans les extensions de cette classe.
     public boolean check(Tuile t, int x, int y) {
+        Bord bordAuNord = getBordAuNord(t, x, y);
+        Bord bordAlOuest = getBordAuNord(t, x, y);
+        Bord bordAuSud = getBordAuNord(t, x, y);
+        Bord bordAlEst = getBordAuNord(t, x, y);
+        // On ne peut pas poser une tuile si elle n'est adjacente à aucune autre tuile.
+        if (bordAuNord == null && bordAlOuest == null && bordAuSud == null && bordAlEst == null)
+            return false;
+        if (!(t.nord.estCompatibleAvec(bordAuNord))) return false;
+        if (!(t.ouest.estCompatibleAvec(bordAlOuest))) return false;
+        if (!(t.sud.estCompatibleAvec(bordAuSud))) return false;
+        if (!(t.est.estCompatibleAvec(bordAlEst))) return false;
         return true;
     }
 
@@ -49,4 +59,19 @@ public class Partie implements Serializable {
 
     
     
+    public Bord getBordAuNord(Tuile t, int x, int y) {
+        return plateau.plateau[x-1][y].sud;
+    }
+
+    public Bord getBordAlOuest(Tuile t, int x, int y) {
+        return plateau.plateau[x][y+1].est;
+    }
+
+    public Bord getBordAuSud(Tuile t, int x, int y) {
+        return plateau.plateau[x+1][y].nord;
+    }
+
+    public Bord getBordAlEst(Tuile t, int x, int y) {
+        return plateau.plateau[x][y-1].ouest;
+    }
 }
