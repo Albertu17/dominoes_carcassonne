@@ -14,7 +14,7 @@ public class BordCarcassonne extends Bord{
 
     public BordCarcassonne(String initiale) {
         // S'il y a un bouclier
-        if (initiale.length() == 2) this.structure = new Structure.Ville(true);
+        if (initiale.contains("b")) this.structure = new Structure.Ville(true);
         else {
             switch (initiale) {
                 case "V": 
