@@ -1,6 +1,11 @@
 import JeuTuilesGenerique.Modele.Tuile;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.*;
+
 public class TuileDomino extends Tuile  {
     
     public TuileDomino() {

@@ -6,6 +6,7 @@ import JeuCarcassonne.PartieCarcassonne;
 
 import java.awt.*;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import JeuTuilesGenerique.Modele.Partie;
@@ -47,11 +48,10 @@ public class GameView extends JFrame{
 
     }
 
-    public void setPartie(Partie partie2){ this.partie = partie2 ; }
-    public Partie getPartie(){ return partie ; }
+    public void setPartie(Partie partie) {this.partie = partie;}
+    public Partie getPartie() {return partie;}
 
     public void setGameView () {
-
 
         // JPanel conteneurGlobal
         conteneurGlobal = new JPanel();
