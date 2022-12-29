@@ -69,8 +69,8 @@ public class Tuile extends JPanel implements MouseInputListener {
 
     // TODO bon comportement quand tuile est dragged
     public void mouseDragged(MouseEvent e) {
-        if (moving) setLocation(e.getXOnScreen() - environnement.getX(),
-        e.getYOnScreen() - environnement.getY() - environnement.getInsets().top);
+        // if (moving) setLocation(e.getXOnScreen() - environnement.getX(),
+        // e.getYOnScreen() - environnement.getY() - environnement.getInsets().top);
     }
 
     public void mouseMoved(MouseEvent e) {}
