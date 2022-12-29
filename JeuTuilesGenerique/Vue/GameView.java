@@ -1,7 +1,12 @@
 package JeuTuilesGenerique.Vue;
 
 import javax.swing.*;
+
+import JeuCarcassonne.PartieCarcassonne;
+
 import java.awt.*;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Tuile;
@@ -74,6 +79,32 @@ public class GameView extends JFrame{
             conteneurBoutons.add(infos);
             sauvegarder = new JButton("save");
             conteneurBoutons.add(sauvegarder);
+
+            // ajout de l'action de sauvegarder :
+                sauvegarder.addActionListener(event -> {
+                    String path = "Sauvegarde/" + (partie instanceof PartieCarcassonne ? "Carcassonne/" : "Domino/") ;
+                    // enregistrer un objet
+                    try
+                    {  
+                        //Saving of object in a file
+                        FileOutputStream file = new FileOutputStream(path+ partie.getNomPartie());
+                        ObjectOutputStream out = new ObjectOutputStream(file);
+                        
+                        // Method for serialization of object
+                        out.writeObject(partie);
+                        
+                        out.close();
+                        file.close();
+                        
+                        // System.out.println("Object has been serialized");
+            
+                    }
+                    
+                    catch(IOException ex)
+                    {
+                        // System.out.println(ex);
+                    }
+                });
         
         // JPanel bordureGauche
         bordureGauche = new JPanel();

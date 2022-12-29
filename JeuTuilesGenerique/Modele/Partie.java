@@ -45,6 +45,7 @@ public class Partie implements Serializable {
     }
 
     public Joueurs getJoueurs(){ return joueurs ;}
+    public String getNomPartie(){return nomPartie ;}
 
     
     
