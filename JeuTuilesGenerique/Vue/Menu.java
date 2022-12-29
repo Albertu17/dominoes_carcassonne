@@ -5,7 +5,7 @@ import javax.swing.*;
 
 
 import JeuCarcassonne.PartieCarcassonne;
-import JeuDominos.PartieDominos;
+// import JeuDominos.PartieDominos;
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 import JeuTuilesGenerique.Modele.*;
@@ -301,7 +301,7 @@ public class Menu {
                     if (carcassonneBoolean){
                         pane.setPartie((Partie) new PartieCarcassonne(newGame.getText()))  ;
                     }else{
-                        pane.setPartie((Partie) new PartieDominos(newGame.getText()))  ;
+                        pane.setPartie((Partie) new Partie(newGame.getText()));
 
                     }
                     nextInterfaceMenu() ;
@@ -314,16 +314,17 @@ public class Menu {
             });
 
             lancerlaPartie2.addActionListener(event -> {
-                System.out.println("here");
-                System.out.println(listsaveComboBox.getSelectedItem());
                 if (listsaveComboBox.getSelectedItem() != null ){
                     try {
                         final FileInputStream fichier = new FileInputStream("Sauvegarde/"+ (carcassonneBoolean? "Carcassonne/" : "Domino/" ) + listsaveComboBox.getSelectedItem());
                         ObjectInputStream obj = new ObjectInputStream(fichier) ;
+                        System.out.println("3");
                         pane.setPartie( (Partie) obj.readObject() );
+                        System.out.println("4");
                         obj.close();
                         nextInterfaceMenu();
                     } catch (Exception e) {
+                        System.out.println(e);
                     }
                 }   
 
@@ -431,7 +432,7 @@ public class Menu {
                 add.addActionListener(event -> {
                     if (NameFree()){
                         if (pane.getPartie().getJoueurs().addPlayer(nom.getText(), isIA, false)){
-                            dispPlayer.add( new ConteneurPlayer(j)) ;
+                            dispPlayer.add( new ConteneurPlayer(pane.getPartie().getJoueurs().getLast())) ;
                             dispPlayer.revalidate();
                             dispPlayer.repaint();
                         }else{
@@ -474,8 +475,8 @@ public class Menu {
             
 
             System.out.println(pane.getPartie()== null);
-            for (Joueur j : pane.getPartie().getJoueurs().getList()) {
-                if (name.equals(j.getName())) return false ;
+            for (Joueur jo : pane.getPartie().getJoueurs().getList()) {
+                if (name.equals(jo.getName())) return false ;
             }
             
 

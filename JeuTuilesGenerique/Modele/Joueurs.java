@@ -77,6 +77,12 @@ public class Joueurs implements Serializable{
     }
     public Joueur getPlayers(int index){return players.get(index) ;}
     public List<Joueur> getList(){return players ;}
+    public Joueur getLast(){
+        if (players.size()  != 0 ){
+            return players.get(players.size()-1) ;
+        }
+        return null ;
+    }
 }
 
 

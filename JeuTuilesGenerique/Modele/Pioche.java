@@ -37,6 +37,7 @@ public class Pioche implements Serializable{
 
      // Ajouter à la pioche des tuiles vides.
     public Pioche(int nombreTuiles){
+        this() ;
         for (int i = 0; i < nombreTuiles; i++) {
             pioche.add(new Tuile());
         }

@@ -1,6 +1,10 @@
 package JeuTuilesGenerique.Modele;
 
 import JeuTuilesGenerique.Vue.Menu;
+
+import javax.security.auth.callback.LanguageCallback;
+
+import JeuCarcassonne.PartieCarcassonne;
 import JeuTuilesGenerique.Vue.GameView;
 
 public class Controleur {
@@ -13,12 +17,27 @@ public class Controleur {
     //     new GameView(partie);
     // }
 
+    public static  void launchWithOutMenu(){
+
+
+        GameView pane = new GameView() ;
+        PartieCarcassonne partie = new PartieCarcassonne("TestCarcassonne") ;
+        partie.getJoueurs().addPlayer("Pierre", false, true);
+        partie.getJoueurs().addPlayer("Damiens", false, true);
+        pane.setPartie(partie);
+
+        pane.setGameView();
+        
+    }
+
     public static void start(){
         new Menu(new GameView()  ) ;
     }
 
     public static void main(String[] args) {
         // initialisation();
-        start();
+        // start();
+        launchWithOutMenu() ;
+        // je sais pas pk tu dosi appuier sur save pour que ça s'affiche
     }
 }
