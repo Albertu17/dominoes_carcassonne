@@ -156,12 +156,15 @@ public class Menu {
     }
 
     class SelectSave{
-        JButton newGame ;
+        JTextField newGame ;
 
         JPanel conteneurSelectionPartie ;
-        JButton lancerlaPartie ;
-        JList<String> listsave  ;
-
+        JButton lancerlaPartie1 ;
+        JButton lancerlaPartie2 ;
+        JComboBox<String> listsaveComboBox  ;
+        
+        String[] listtouteSauvegarde  ;
+        
         ButtonImageRetour retour ;
         
         SelectSave(){
@@ -176,71 +179,134 @@ public class Menu {
 
 
             // autre fonction
-            newGame = new JButton() ;
-            lancerlaPartie = new JButton();
+            newGame = new JTextField() ;
+            lancerlaPartie1 = new JButton();
 
             newGame.setText("Rentrer le nom de votre nouvelle partie");
-            lancerlaPartie.setText("Lancer la partie");
+            lancerlaPartie1.setText("Lancer la partie");
 
 
             // System.out.println(newGAme.getW);
             conteneurSelectionPartie = new JPanel() ;
 
-            newGame.setBounds(0,0, 400, 100);
+            newGame.setBounds(200,400, 400, 50);
 
 
             container.add(newGame) ;
 
 
+            // placement de la JComboBox
+            addAllSave();
+            listsaveComboBox.setBounds(200,600, 400, 100);
+            listsaveComboBox.setVisible(true);
             
             // action 
-            newGame.addActionListener(event -> {
-                pane.setModele(new Modele(carcassonneBoolean));
-                nextInterfaceMenu();
-            });
             
-            lancerlaPartie.addActionListener(event -> {
+            
+            lancerlaPartie1.addActionListener(event -> {
                 if (true){
                     // pane.setModele(null);
                     nextInterfaceMenu() ;
                 }
             });
 
+            newGame.addMouseListener(
+                    new MouseInputListener() {
+                        String[] aide = new String[]{"Rentrer le nom de votre nouvelle partie", "Nom déjà utilisé"};
+
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            for (String string : aide) {
+                                if (string.equals(newGame.getText())) newGame.setText("") ;
+                            }
+                            
+                        }
+
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+
+                        @Override
+                        public void mouseReleased(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+
+                        @Override
+                        public void mouseDragged(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+
+                        @Override
+                        public void mouseMoved(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+
+                        
+                        
+                    }
+                   
+            );
+            
+
 
             // affichage possition 
-            displayAllSave();
+            // displayAllSave();
             setLocationObjet();
             changevisibility(true);
         }
 
         private boolean isFree(String nom){
-            return false ;
+            for (String string : listtouteSauvegarde) {
+                if (string.equals(nom)) return false ;
+            }
+            return true ;
         }
 
-        private void displayAllSave(){
+        private void addAllSave(){
             // faire en fonction du mode de jeu 
-            List<String> list = new ArrayList<String>() ;
 
-            // File dir  = new File("C:\\Users\\PC\\Desktop\\Dossier");
-		    // File[] liste = dir.listFiles();
+            
+            String path = "./Sauvegarde/"+ (carcassonneBoolean? "Carcassonne" : "Domino" ) ;
+            
+            
+            try {
+                File[] dir  = (new File(path)).listFiles();
 
-            if (carcassonneBoolean){
-                // cherche dans caracasson 
+                listtouteSauvegarde = new String[dir.length] ;
+                for (int i = 0 ; i < listtouteSauvegarde.length ; i++){
+                    listtouteSauvegarde[i] = dir[i].getName() ;
+                }
 
-            }else{
-                // cherche dans domino 
+            } catch (Exception e) {
+                listtouteSauvegarde[0] = ("Aucun fichier n'a été trouvé !");
             }
-
-            // listsave  = new JList<String>(list.toArray()) ;
+            listsaveComboBox  = new JComboBox<String>((listtouteSauvegarde)) ;
             
         }
 
         private void setLocationObjet(){
 
-            newGame.setLocation(widthFrame/2 -newGame.getWidth()/2, heightFrame/2 - 50);
+            // newGame.setLocation(widthFrame/2 -newGame.getWidth()/2, heightFrame/2 - 50);
             
-            lancerlaPartie.setAlignmentX(widthFrame/2 -lancerlaPartie.getWidth()/2);
-            lancerlaPartie.setAlignmentY(heightFrame/2 +50);
+            // lancerlaPartie.setAlignmentX(widthFrame/2 -lancerlaPartie.getWidth()/2);
+            // lancerlaPartie.setAlignmentY(heightFrame/2 +50);
 
             // ajouter listsave
         }
@@ -249,7 +315,7 @@ public class Menu {
             newGame.setVisible(visibility);
             conteneurSelectionPartie.setVisible(visibility);
             retour.setVisible(visibility);
-            if (visibility) displayAllSave();
+            // if (visibility) displayAllSave();
             // else list.setVisible(visibility );
             
 
