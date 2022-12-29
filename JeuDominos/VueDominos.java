@@ -8,7 +8,7 @@ public class VueDominos extends GameView {
 
         super.titre.setText("Jeu de Dominos");
 
-        // JPanel conteneurMilieuDroite
+        // TODO ajouter spécificités VueDomino
     }
     
 }

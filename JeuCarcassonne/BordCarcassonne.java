@@ -1,7 +1,5 @@
 package JeuCarcassonne;
 
-import java.io.Serializable;
-
 import JeuTuilesGenerique.Modele.Bord;
 
 public class BordCarcassonne extends Bord{
@@ -30,6 +28,11 @@ public class BordCarcassonne extends Bord{
                     this.structure = null;
             }
         }
+    }
+
+    public boolean estCompatibleAvec(BordCarcassonne bD) {
+        if (bD == null || (bD.structure.getClass().equals(structure.getClass()))) return true;
+        return false;
     }
 
     public static class Structure {

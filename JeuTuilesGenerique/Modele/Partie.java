@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class Partie implements Serializable {
 
-    
     public Joueurs joueurs ;
     public Plateau plateau;
     public Pioche pioche;
@@ -12,7 +11,6 @@ public class Partie implements Serializable {
     public String nomPartie ;
 
     public Partie(Joueurs joueurs, Plateau plateau, Pioche pioche) {
-        
         this.joueurs = joueurs;
         this.plateau = plateau;
         this.pioche = pioche;
@@ -23,7 +21,6 @@ public class Partie implements Serializable {
         joueurs = new Joueurs() ;
         this.nomPartie = nomPartie ;
         plateau = new Plateau(5,5);
-
     }
 
     public void nouvelleTuileAjouer() {
@@ -54,11 +51,9 @@ public class Partie implements Serializable {
         return pioche.pioche.isEmpty();
     }
 
-    public Joueurs getJoueurs(){ return joueurs ;}
-    public String getNomPartie(){return nomPartie ;}
+    public Joueurs getJoueurs() {return joueurs;}
+    public String getNomPartie() {return nomPartie;}
 
-    
-    
     public Bord getBordAuNord(Tuile t, int x, int y) {
         return plateau.plateau[x-1][y].sud;
     }

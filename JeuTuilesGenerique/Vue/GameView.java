@@ -3,7 +3,6 @@ package JeuTuilesGenerique.Vue;
 import javax.swing.*;
 
 import JeuCarcassonne.PartieCarcassonne;
-import JeuDominos.PartieDominos;
 
 import java.awt.*;
 import java.io.FileOutputStream;

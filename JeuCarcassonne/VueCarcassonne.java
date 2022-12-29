@@ -7,9 +7,8 @@ public class VueCarcassonne extends GameView{
 
     public VueCarcassonne(Partie partie) {
         this.partie = partie;
-
         super.titre.setText("Jeu de Carcassonne");
 
-        // JPanel conteneurMilieuDroite
+        // TODO Ajouter spécificités conteneurInfos
     }
 }

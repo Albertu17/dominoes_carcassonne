@@ -2,7 +2,6 @@ package JeuTuilesGenerique.Modele;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
-import java.io.Serializable;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -84,7 +83,6 @@ public class Tuile extends JPanel implements MouseInputListener {
     }
 
     public void mouseMoved(MouseEvent e) {}
-
     // Lorsque la souris passe sur une tuile de la grille, sa bordure devient verte si la tuile à jouer est
     // plaçable à cet endroit, sinon sa bordure devient rouge.
     public void mouseEntered(MouseEvent e) {
