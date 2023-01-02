@@ -50,6 +50,8 @@ public class GameView{
 
     // }
     
+    public GameView(){}
+
     public GameView(Fenetre f){ fenetreGraphique = f ; }
     public void setFenetre(Fenetre f){ fenetreGraphique = f ;}
     public void setPartie(Partie partie) {this.partie = partie;}

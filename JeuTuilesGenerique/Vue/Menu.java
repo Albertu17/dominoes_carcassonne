@@ -5,10 +5,12 @@ import javax.swing.*;
 
 
 import JeuCarcassonne.PartieCarcassonne;
-// import JeuDominos.PartieDominos;
+import JeuCarcassonne.VueCarcassonne;
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 import JeuTuilesGenerique.Modele.*;
+import JeuDominos.VueDominos ;
+import JeuDominos.PartieDominos;
 
 import  java.awt.*;
 import  java.awt.event.FocusListener;
@@ -17,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.security.cert.URICertStoreParameters;
 
 public class Menu {
     
@@ -300,9 +303,12 @@ public class Menu {
             lancerlaPartie1.addActionListener(event -> {
                 if (isFree(newGame.getText())){
                     if (carcassonneBoolean){
-                        vuePartie.setPartie((Partie) new PartieCarcassonne(newGame.getText()))  ;
+                        vuePartie = new VueCarcassonne( new PartieCarcassonne(newGame.getText())) ;
+                        // vuePartie.setPartie((Partie) new PartieCarcassonne(newGame.getText()))  ;
                     }else{
-                        vuePartie.setPartie((Partie) new Partie(newGame.getText()));
+                        // vuePartie = new GameView(new Partie(newGame.getText())) ;
+                        // vuePartie = new VueDominos(new PartieDominos(newGame.getText())) ;
+                        // vuePartie.setPartie((Partie) new Partie(newGame.getText()));
 
                     }
                     nextInterfaceMenu() ;
