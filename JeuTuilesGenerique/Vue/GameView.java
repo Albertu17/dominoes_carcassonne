@@ -13,7 +13,9 @@ import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Tuile;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 
-public class GameView extends JFrame{
+public class GameView{
+
+    Fenetre fenetreGraphique ;
     
     public Partie partie;
     JPanel conteneurGlobal;
@@ -38,16 +40,18 @@ public class GameView extends JFrame{
     // JPanel conteneurPieceAjouerDroite;
     // JPanel conteneurPieceAjouerBas;
 
-    public GameView(){
-        // Fenêtre
-        setVisible(true);
-        setTitle("JEU");
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); // Récupère taille de l'écran utilisateur.
-        setSize((int) size.getWidth(), (int) size.getHeight()); // Met la fenêtre en plein écran.
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    // public GameView(){
+    //     // Fenêtre
+    //     setVisible(true);
+    //     setTitle("JEU");
+    //     Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); // Récupère taille de l'écran utilisateur.
+    //     setSize((int) size.getWidth(), (int) size.getHeight()); // Met la fenêtre en plein écran.
+    //     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-    }
-
+    // }
+    
+    public GameView(Fenetre f){ fenetreGraphique = f ; }
+    public void setFenetre(Fenetre f){ fenetreGraphique = f ;}
     public void setPartie(Partie partie) {this.partie = partie;}
     public Partie getPartie() {return partie;}
 
@@ -56,7 +60,7 @@ public class GameView extends JFrame{
         // JPanel conteneurGlobal
         conteneurGlobal = new JPanel();
         conteneurGlobal.setLayout(new BorderLayout());
-        this.getContentPane().add(conteneurGlobal);
+        fenetreGraphique.getContentPane().add(conteneurGlobal);
 
         // JPanel BandeauSup (nom du jeu + 2 boutons)
         bandeauSup = new JPanel();

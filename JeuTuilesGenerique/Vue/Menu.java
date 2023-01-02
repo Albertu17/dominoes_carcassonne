@@ -20,7 +20,8 @@ import java.io.ObjectInputStream;
 
 public class Menu {
     
-    GameView pane ;
+    GameView vuePartie ;
+    Fenetre pane ;
     JPanel container ;
     private int widthFrame ; 
     private int heightFrame ; 
@@ -32,9 +33,8 @@ public class Menu {
     ManagePlayer managePlayer ;
 
 
-    public Menu(GameView pane){
-        this.pane = pane ;
-        pane.setBackground(Color.GREEN);
+    public Menu(Fenetre f){
+        pane = f ;
 
         widthFrame = pane.getWidth() ;
         heightFrame = pane.getHeight() ;
@@ -49,7 +49,8 @@ public class Menu {
 
 
     public void play(){
-        pane.setGameView();
+        vuePartie.setFenetre(pane);
+        vuePartie.setGameView();
     }
 
 
@@ -299,9 +300,9 @@ public class Menu {
             lancerlaPartie1.addActionListener(event -> {
                 if (isFree(newGame.getText())){
                     if (carcassonneBoolean){
-                        pane.setPartie((Partie) new PartieCarcassonne(newGame.getText()))  ;
+                        vuePartie.setPartie((Partie) new PartieCarcassonne(newGame.getText()))  ;
                     }else{
-                        pane.setPartie((Partie) new Partie(newGame.getText()));
+                        vuePartie.setPartie((Partie) new Partie(newGame.getText()));
 
                     }
                     nextInterfaceMenu() ;
@@ -319,7 +320,7 @@ public class Menu {
                         final FileInputStream fichier = new FileInputStream("Sauvegarde/"+ (carcassonneBoolean? "Carcassonne/" : "Domino/" ) + listsaveComboBox.getSelectedItem());
                         ObjectInputStream obj = new ObjectInputStream(fichier) ;
                         System.out.println("3");
-                        pane.setPartie( (Partie) obj.readObject() );
+                        vuePartie.setPartie( (Partie) obj.readObject() );
                         System.out.println("4");
                         obj.close();
                         nextInterfaceMenu();
@@ -431,8 +432,8 @@ public class Menu {
 
                 add.addActionListener(event -> {
                     if (NameFree()){
-                        if (pane.getPartie().getJoueurs().addPlayer(nom.getText(), isIA, false)){
-                            dispPlayer.add( new ConteneurPlayer(pane.getPartie().getJoueurs().getLast())) ;
+                        if (vuePartie.getPartie().getJoueurs().addPlayer(nom.getText(), isIA, false)){
+                            dispPlayer.add( new ConteneurPlayer(vuePartie.getPartie().getJoueurs().getLast())) ;
                             dispPlayer.revalidate();
                             dispPlayer.repaint();
                         }else{
@@ -474,8 +475,8 @@ public class Menu {
             if (name.equals("")) return false ;
             
 
-            System.out.println(pane.getPartie()== null);
-            for (Joueur jo : pane.getPartie().getJoueurs().getList()) {
+            System.out.println(vuePartie.getPartie()== null);
+            for (Joueur jo : vuePartie.getPartie().getJoueurs().getList()) {
                 if (name.equals(jo.getName())) return false ;
             }
             
@@ -508,7 +509,7 @@ public class Menu {
                 });
 
                 remove.addActionListener(event -> {
-                    pane.getPartie().getJoueurs().getList().remove(joueur) ;
+                    vuePartie.getPartie().getJoueurs().getList().remove(joueur) ;
                     dispPlayer.remove(this);
                     dispPlayer.revalidate();
                     dispPlayer.repaint();
@@ -574,7 +575,7 @@ public class Menu {
                 dispPlayer = new JPanel() ;
                 dispPlayer.setLayout(new BoxLayout(dispPlayer, BoxLayout.PAGE_AXIS));
                 
-                for (Joueur joueur : pane.getPartie().getJoueurs().getList()){
+                for (Joueur joueur : vuePartie.getPartie().getJoueurs().getList()){
                     dispPlayer.add( new ConteneurPlayer(joueur)) ;
                 }
 
