@@ -1,3 +1,5 @@
+package JeuDominos;
+
 import JeuTuilesGenerique.Modele.Bord;
 
 public class BordDomino extends Bord{

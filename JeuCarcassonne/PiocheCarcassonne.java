@@ -5,7 +5,7 @@ import JeuTuilesGenerique.Modele.Pioche;
 
 public class PiocheCarcassonne extends Pioche{
 
-    PiocheCarcassonne() throws IOException {
+    public PiocheCarcassonne() throws IOException {
         super(); // Création d'une arraylist de tuiles.
         // Ajout à la pioche des 24 différents types de tuiles en leur nombre correspondant.
         addSeveralTimes(new TuileCarcassonne("CCCCV"), 4); // Abbaye
@@ -33,5 +33,4 @@ public class PiocheCarcassonne extends Pioche{
         addSeveralTimes(new TuileCarcassonne("VVRVV"), 1);
         addSeveralTimes(new TuileCarcassonne("VVVVVb"), 1);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
     }
-    
 }

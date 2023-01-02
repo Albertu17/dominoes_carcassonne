@@ -1,3 +1,5 @@
+package JeuDominos;
+
 import JeuTuilesGenerique.Modele.Tuile;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -52,3 +54,4 @@ public class TuileDomino extends Tuile  {
         return ThreadLocalRandom.current().nextInt(0, 3);
     }
 }
+

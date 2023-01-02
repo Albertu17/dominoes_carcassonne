@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.*;
+
 public class Joueurs implements Serializable{
     
     public List<Joueur> players ; 
@@ -82,7 +87,14 @@ public class Joueurs implements Serializable{
     
         public boolean isIA(){return IA ;}
         public void setIA(boolean IA){this.IA = IA ;}
-        
+
+        public class PanelJoueur extends JPanel {
+    
+            public PanelJoueur() {
+                this.add(new JLabel(Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts"));
+                this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            }
+        }
     }
 }
 

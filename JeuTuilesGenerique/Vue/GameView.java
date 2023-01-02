@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Tuile;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
+import JeuTuilesGenerique.Modele.Joueurs.Joueur.PanelJoueur;
 
 public class GameView{
 
@@ -154,7 +155,7 @@ public class GameView{
             conteneurInfos.setLayout(new GridLayout(partie.joueurs.nbJoueurs() + 1,1,-1,-1));
                 // Les différents PanelJoueur
                 for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
-                    conteneurInfos.add(new PanelJoueur(partie.joueurs.players.get(i)));
+                    conteneurInfos.add(partie.joueurs.players.get(i).new PanelJoueur());
                 }
 
                 // TODO bon visuel de conteneurInfosCoup
@@ -189,19 +190,4 @@ public class GameView{
         conteneurInfosCoup.add(t);
         t.setEnvironnement(this);
     }
-
-    // TODO  mettre dans la classe Joueurs.Joueur
-    public class PanelJoueur extends JPanel {
-        
-        Joueur joueur;
-
-        public PanelJoueur(Joueur joueur) {
-            this.joueur = joueur;
-            this.add(new JLabel(joueur.getName() + " : " + String.valueOf(joueur.getScore()) + "pts"));
-            this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        }
-
-    }
-
-    
 }

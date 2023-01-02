@@ -11,7 +11,7 @@ public class Controleur {
         Pioche pioche = new Pioche(72);
         Joueurs joueurs = new Joueurs(2);
         Plateau plateau = new Plateau(5,5);
-        Partie partie = new Partie(joueurs, plateau, pioche);
+        Partie partie = new Partie(joueurs, plateau, pioche, "test");
         GameView gV = new GameView(new Fenetre());
         gV.setPartie(partie);
         gV.setGameView();
@@ -31,7 +31,7 @@ public class Controleur {
     }
 
     public static void main(String[] args) {
-        initialisation();
+        // initialisation();
         start();
         // launchWithoutMenu();
         

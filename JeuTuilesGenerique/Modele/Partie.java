@@ -10,10 +10,11 @@ public class Partie implements Serializable {
     public Tuile aJouer;
     public String nomPartie ;
 
-    public Partie(Joueurs joueurs, Plateau plateau, Pioche pioche) {
+    public Partie(Joueurs joueurs, Plateau plateau, Pioche pioche, String nomPartie) {
         this.joueurs = joueurs;
         this.plateau = plateau;
         this.pioche = pioche;
+        this.nomPartie = nomPartie;
         nouvelleTuileAjouer();
     }
 

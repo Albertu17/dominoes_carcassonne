@@ -1,4 +1,5 @@
-import JeuTuilesGenerique.Modele.Pioche;
+package JeuDominos;
+
 import JeuTuilesGenerique.Modele.Plateau;
 import JeuTuilesGenerique.Modele.Tuile;
 
@@ -6,9 +7,9 @@ public class DominoTerminal {
     Plateau plat ;
 
     DominoTerminal(){
-        // juste dans le but de tester  la fonction print 
+        // juste dans le but de tester la fonction print 
         plat  = new Plateau(9, 8) ;
-        Pioche sac = new PiocheDominos();
+        PiocheDominos sac = new PiocheDominos();
         Tuile t = sac.pickOne();
         plat.add(t, 0, 0) ;
         while ((t = sac.pickOne()) != null){
@@ -88,3 +89,4 @@ public class DominoTerminal {
         d1.printPlateau();
     }
 }
+
