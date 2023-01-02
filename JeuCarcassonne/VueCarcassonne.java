@@ -7,11 +7,10 @@ import JeuTuilesGenerique.Vue.GameView;
 
 public class VueCarcassonne extends GameView{
 
-    public VueCarcassonne(Partie partie) {
-        this.partie = partie;
-        super.titre = new JLabel() ;
-        super.titre.setText("Jeu de Carcassonne");
+    // public VueCarcassonne(Partie partie) {
+    //     this.partie = partie;
+    //     super.titre.setText("Jeu de Carcassonne");
 
-        // TODO Ajouter spécificités conteneurInfos
-    }
+    //     // TODO Ajouter spécificités conteneurInfos
+    // }
 }

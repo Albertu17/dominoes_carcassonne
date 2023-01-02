@@ -211,7 +211,7 @@ public class Menu {
         JLabel indication ;
         
 
-        String[] aide = new String[]{"Rentrer le nom de votre nouvelle partie", "Nom déjà utilisé"};
+        String[] aide = new String[]{"Rentrer le nom de la nouvelle partie", "Nom déjà utilisé"};
 
         SelectSave(){
 
@@ -229,7 +229,7 @@ public class Menu {
             lancerlaPartie1 = new JButton();
             lancerlaPartie2 = new JButton();
 
-            newGame.setText("Rentrer le nom de votre nouvelle partie");
+            newGame.setText("Rentrer le nom de la nouvelle partie");
             newGame.setForeground(Color.GRAY) ;
 
             lancerlaPartie1.setText("Charger la partie");

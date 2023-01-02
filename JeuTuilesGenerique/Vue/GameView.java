@@ -90,25 +90,21 @@ public class GameView{
                 sauvegarder.addActionListener(event -> {
                     String path = "Sauvegarde/" + (partie instanceof PartieCarcassonne ? "Carcassonne/" : "Domino/") ;
                     // enregistrer un objet
-                    try
-                    {  
+                    try {  
                         //Saving of object in a file
                         FileOutputStream file = new FileOutputStream(path+ partie.getNomPartie());
                         ObjectOutputStream out = new ObjectOutputStream(file);
                         
                         // Method for serialization of object
                         out.writeObject(partie);
-                        
                         out.close();
                         file.close();
                         
                         // System.out.println("Object has been serialized");
-            
                     }
                     
-                    catch(IOException ex)
-                    {
-                        // System.out.println(ex);
+                    catch(IOException ex) {
+                        // System.out.println(ex); 
                     }
                 });
         
@@ -194,6 +190,7 @@ public class GameView{
         t.setEnvironnement(this);
     }
 
+    // TODO  mettre dans la classe Joueurs.Joueur
     public class PanelJoueur extends JPanel {
         
         Joueur joueur;
