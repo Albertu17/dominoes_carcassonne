@@ -1,16 +1,19 @@
 package JeuCarcassonne;
 
-import javax.swing.JLabel;
-
-import JeuTuilesGenerique.Modele.*;
+import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Vue.GameView;
 
 public class VueCarcassonne extends GameView{
 
     public VueCarcassonne(Partie partie) {
         this.partie = partie;
-        super.titre.setText("Jeu de Carcassonne");
 
         // TODO Ajouter spécificités conteneurInfos
+    }
+
+    public void setGameView(){
+        super.setGameView();
+
+        super.titre.setText("Jeu de Carcassonne");
     }
 }

@@ -56,7 +56,7 @@ public class Joueurs implements Serializable{
         return null ;
     }
 
-    public class Joueur {
+    public class Joueur implements Serializable{
 
         public int score ;
         public final String nom ;

@@ -1,6 +1,11 @@
 package JeuTuilesGenerique.Modele;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import JeuCarcassonne.PartieCarcassonne;
 
 public class Partie implements Serializable {
 
@@ -69,5 +74,26 @@ public class Partie implements Serializable {
 
     public Bord getBordAlEst(Tuile t, int x, int y) {
         return plateau.plateau[x][y-1].ouest;
+    }
+
+    public void save(){
+        String path = "Sauvegarde/" + (this instanceof PartieCarcassonne ? "Carcassonne/" : "Domino/") ;
+                    // enregistrer un objet
+            try {  
+                //Saving of object in a file
+                FileOutputStream file = new FileOutputStream(path+ this.getNomPartie());
+                ObjectOutputStream out = new ObjectOutputStream(file);
+                
+                // Method for serialization of object
+                out.writeObject(this);
+                out.close();
+                file.close();
+                
+                System.out.println("Object has been serialized");
+            }
+            
+            catch(IOException ex) {
+                System.out.println(ex); 
+            }
     }
 }

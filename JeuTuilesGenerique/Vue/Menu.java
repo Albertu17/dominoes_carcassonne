@@ -1,27 +1,30 @@
 package JeuTuilesGenerique.Vue;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-
-
-import JeuCarcassonne.PartieCarcassonne;
-import JeuCarcassonne.VueCarcassonne;
-import JeuTuilesGenerique.Modele.Partie;
-import JeuTuilesGenerique.Modele.Joueurs.Joueur;
-import JeuTuilesGenerique.Modele.*;
-// import JeuDominos.VueDominos ;
-// import JeuDominos.PartieDominos;
-
-import  java.awt.*;
-import  java.awt.event.FocusListener;
+import java.awt.*;
 import  java.awt.event.FocusEvent ;
+import  java.awt.event.FocusListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.security.cert.URICertStoreParameters;
+import java.io.Serializable;
 
-public class Menu {
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import JeuCarcassonne.PartieCarcassonne;
+import JeuCarcassonne.VueCarcassonne;
+import JeuDominos.PartieDominos;
+import JeuDominos.VueDominos ;
+import JeuTuilesGenerique.Modele.Joueurs.Joueur;
+
+public class Menu implements Serializable{
     
     GameView vuePartie ;
     Fenetre pane ;
@@ -57,7 +60,7 @@ public class Menu {
     }
 
 
-    // Objet avec des défintion spécial
+    // Objet avec des définition spécial
 
     private class ButtonImageRetour extends JButton{
 
@@ -115,7 +118,7 @@ public class Menu {
     }
 
 
-    class SelectGame{
+    class SelectGame implements Serializable{
         
         // JLabel indication ;
         JButton carcassonne ;
@@ -187,17 +190,17 @@ public class Menu {
             // if (selectSave == null) selectSave = new SelectSave() ;
             // else selectSave.changevisibility(true);
 
-            selectSave = new SelectSave() ;
+            selectSave = new SelectSave() ;     
 
 
             // set the backgound image 
                 // Image background = Toolkit.getDefaultToolkit().createImage("Image/background_" + (carcassonneBoolean? "carcassonne.jpg": "domino.jpg"));
-                // ((JFrame)pane).drawImage(background, 0, 0, container);
+                // container.drawImage(background, 0, 0, null);
         }
 
     }
 
-    class SelectSave{
+    class SelectSave implements Serializable{
         JTextField newGame ;
 
         JPanel conteneurSelectionPartie ;
@@ -307,7 +310,7 @@ public class Menu {
                         // vuePartie.setPartie((Partie) new PartieCarcassonne(newGame.getText()))  ;
                     }else{
                         // vuePartie = new GameView(new Partie(newGame.getText())) ;
-                        // vuePartie = new VueDominos(new PartieDominos(newGame.getText())) ;
+                        vuePartie = new VueDominos(new PartieDominos(newGame.getText())) ;
                         // vuePartie.setPartie((Partie) new Partie(newGame.getText()));
 
                     }
@@ -326,7 +329,9 @@ public class Menu {
                         final FileInputStream fichier = new FileInputStream("Sauvegarde/"+ (carcassonneBoolean? "Carcassonne/" : "Domino/" ) + listsaveComboBox.getSelectedItem());
                         ObjectInputStream obj = new ObjectInputStream(fichier) ;
                         System.out.println("3");
-                        vuePartie.setPartie( (Partie) obj.readObject() );
+                        if (carcassonneBoolean) vuePartie = new VueCarcassonne((PartieCarcassonne) obj.readObject()) ;
+                        else vuePartie = new VueDominos((PartieDominos) obj.readObject()) ;
+                        // vuePartie.setPartie(  );
                         System.out.println("4");
                         obj.close();
                         nextInterfaceMenu();
@@ -405,7 +410,7 @@ public class Menu {
 
     
     
-    class ManagePlayer{
+    class ManagePlayer implements Serializable{
 
         private class ConteneurAddPlayer extends JPanel{
             JButton add;
@@ -575,7 +580,8 @@ public class Menu {
                 conteneurAddPlayer.setSize(widthFrame/3, 100);
                 conteneurAddPlayer.setLocation(widthFrame/2 -conteneurAddPlayer.getWidth()/2, heightFrame/4);
                 
-                conteneurAddPlayer.nom.setSize(100, conteneurAddPlayer.IA.getWidth());
+                // conteneurAddPlayer.nom.setSize(100, conteneurAddPlayer.IA.getWidth());
+                // conteneurAddPlayer.nom.setPreferredSize(new Dimension( 100, conteneurAddPlayer.IA.getWidth()));
                 
             // les joueurs deja present :
                 dispPlayer = new JPanel() ;
@@ -627,6 +633,7 @@ public class Menu {
         
         public void previousInterfaceMenu(){
             changevisibility(false);
+            vuePartie.getPartie().save();
             selectSave = new SelectSave() ;
             
         }

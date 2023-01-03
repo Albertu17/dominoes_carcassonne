@@ -1,20 +1,25 @@
 package JeuTuilesGenerique.Vue;
 
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.io.Serializable;
 
-import JeuCarcassonne.PartieCarcassonne;
-
-import java.awt.*;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Tuile;
-import JeuTuilesGenerique.Modele.Joueurs.Joueur;
-import JeuTuilesGenerique.Modele.Joueurs.Joueur.PanelJoueur;
 
-public class GameView{
+public class GameView implements Serializable{
 
     Fenetre fenetreGraphique ;
     
@@ -89,24 +94,7 @@ public class GameView{
 
             // ajout de l'action de sauvegarder :
                 sauvegarder.addActionListener(event -> {
-                    String path = "Sauvegarde/" + (partie instanceof PartieCarcassonne ? "Carcassonne/" : "Domino/") ;
-                    // enregistrer un objet
-                    try {  
-                        //Saving of object in a file
-                        FileOutputStream file = new FileOutputStream(path+ partie.getNomPartie());
-                        ObjectOutputStream out = new ObjectOutputStream(file);
-                        
-                        // Method for serialization of object
-                        out.writeObject(partie);
-                        out.close();
-                        file.close();
-                        
-                        // System.out.println("Object has been serialized");
-                    }
-                    
-                    catch(IOException ex) {
-                        // System.out.println(ex); 
-                    }
+                    partie.save() ;
                 });
         
         // JPanel bordureGauche
