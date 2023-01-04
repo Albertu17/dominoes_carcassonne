@@ -234,6 +234,9 @@ public class Menu implements Serializable{
 
             newGame.setText("Rentrer le nom de la nouvelle partie");
             newGame.setForeground(Color.GRAY) ;
+            newGame.setMinimumSize(new Dimension(240, 20));
+            newGame.setPreferredSize(newGame.getMinimumSize());
+
 
             lancerlaPartie1.setText("Charger la partie");
             lancerlaPartie2.setText("Charger la partie");
@@ -307,11 +310,8 @@ public class Menu implements Serializable{
                 if (isFree(newGame.getText())){
                     if (carcassonneBoolean){
                         vuePartie = new VueCarcassonne( new PartieCarcassonne(newGame.getText())) ;
-                        // vuePartie.setPartie((Partie) new PartieCarcassonne(newGame.getText()))  ;
                     }else{
-                        // vuePartie = new GameView(new Partie(newGame.getText())) ;
                         vuePartie = new VueDominos(new PartieDominos(newGame.getText())) ;
-                        // vuePartie.setPartie((Partie) new Partie(newGame.getText()));
 
                     }
                     nextInterfaceMenu() ;
@@ -328,11 +328,8 @@ public class Menu implements Serializable{
                     try {
                         final FileInputStream fichier = new FileInputStream("Sauvegarde/"+ (carcassonneBoolean? "Carcassonne/" : "Domino/" ) + listsaveComboBox.getSelectedItem());
                         ObjectInputStream obj = new ObjectInputStream(fichier) ;
-                        System.out.println("3");
                         if (carcassonneBoolean) vuePartie = new VueCarcassonne((PartieCarcassonne) obj.readObject()) ;
                         else vuePartie = new VueDominos((PartieDominos) obj.readObject()) ;
-                        // vuePartie.setPartie(  );
-                        System.out.println("4");
                         obj.close();
                         nextInterfaceMenu();
                     } catch (Exception e) {
@@ -431,6 +428,9 @@ public class Menu implements Serializable{
                 nom = new JTextField("Entrer le nom du joueur") ;
                 nom.setForeground(Color.GRAY);
 
+                nom.setMinimumSize(new Dimension(240, 20));
+                nom.setPreferredSize(nom.getMinimumSize());
+
 
                 add = new JButton("+") ;
 
@@ -485,8 +485,6 @@ public class Menu implements Serializable{
             String name = nom.getText() ;
             if (name.equals("")) return false ;
             
-
-            System.out.println(vuePartie.getPartie()== null);
             for (Joueur jo : vuePartie.getPartie().getJoueurs().getList()) {
                 if (name.equals(jo.getName())) return false ;
             }
@@ -602,7 +600,7 @@ public class Menu implements Serializable{
                 
             // Texte d'aide :
                 IndicationAjout = new JLabel("Ajouter un nouveau joueur :") ;
-                IndicationPresent = new JLabel("Liste des joueurs de la partie : ") ;
+                IndicationPresent = new JLabel("Liste des joueurs de la partie (min:2, max:6) : ") ;
                 
                 IndicationAjout.setSize(widthFrame/3, 100);
                 IndicationAjout.setLocation(widthFrame/2 -IndicationAjout.getWidth()/2, heightFrame/4-100);
@@ -614,17 +612,19 @@ public class Menu implements Serializable{
                 container.add(IndicationPresent) ;
 
             // Boutton play :
-                    // play = new ButtonImageRetour("play.png", new Rectangle(50, 50, widthFrame-50 , heightFrame/2  )) ;
-                    play = new JButton("play");  
+                    play = new ButtonImageRetour("play.png", new Rectangle(50, 50, widthFrame-50 , heightFrame/2  )) ;
+                    // play = new JButton("play");  
                 
                     play.setSize(50,50);
                     play.setLocation((widthFrame*5 )/6, heightFrame/2  );
                     container.add(play) ;
 
                     play.addActionListener(event -> {
-                        container.setVisible(false);
-                        changevisibility(false);
-                        play() ;
+                        if (vuePartie.getPartie().getJoueurs().nbJoueurs() >= 2){
+                            container.setVisible(false);
+                            changevisibility(false);
+                            play() ;
+                        }
                     });
 
             changevisibility(true);
