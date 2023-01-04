@@ -7,8 +7,10 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.io.Serializable;
 
+import javax.sound.midi.SysexMessage;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,6 +20,7 @@ import javax.swing.JPanel;
 
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Tuile;
+import JeuTuilesGenerique.Vue.Menu.ButtonImage;
 
 public class GameView implements Serializable{
 
@@ -40,7 +43,10 @@ public class GameView implements Serializable{
     JPanel conteneurInfos;
     JPanel conteneurInfosCoup;
     JPanel conteneurPieceAJouer;
+
     JButton retourMenu ;
+    JButton quitter ;
+
     // JPanel conteneurPieceAjouerMilieu;
     // JPanel conteneurPieceAjouerHaut;
     // JPanel conteneurPieceAjouerGauche;
@@ -66,6 +72,8 @@ public class GameView implements Serializable{
 
     public void setGameView () {
 
+        
+
         // JPanel conteneurGlobal
         conteneurGlobal = new JPanel();
         conteneurGlobal.setLayout(new BorderLayout());
@@ -76,6 +84,26 @@ public class GameView implements Serializable{
         bandeauSup.setLayout(new BoxLayout(bandeauSup, BoxLayout.LINE_AXIS));
         bandeauSup.setBorder(BorderFactory.createEmptyBorder(20,0,10,0));
         conteneurGlobal.add(bandeauSup, BorderLayout.PAGE_START);
+
+        // Bouton quiter, retour 
+            quitter = new ButtonImage("croix.png", new Rectangle(40,40, 0, 0 )); 
+            retourMenu = new ButtonImage("retour50p.png", new Rectangle(40,40, 0, 0 ));
+            bandeauSup.add(quitter);
+            bandeauSup.add(retourMenu);
+
+            // action bouton 
+
+            quitter.addActionListener(event -> {
+                partie.save();
+                System.exit(0);
+            });
+
+            retourMenu.addActionListener(event -> {
+                partie.save() ;
+                conteneurGlobal.setVisible(false);
+                new Menu(fenetreGraphique) ;
+            });
+
 
             // JPanel conteneurTitre et JLabel titre
             conteneurTitre = new JPanel();
@@ -93,6 +121,7 @@ public class GameView implements Serializable{
             sauvegarder = new JButton("save");
             conteneurBoutons.add(sauvegarder);
 
+           
             // ajout de l'action de sauvegarder :
                 sauvegarder.addActionListener(event -> {
                     partie.save() ;

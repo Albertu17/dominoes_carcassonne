@@ -62,29 +62,6 @@ public class Menu implements Serializable{
 
     // Objet avec des définition spécial
 
-    class ButtonImage extends JButton{
-
-        ButtonImage(String NameImage){
-            this(NameImage, new Rectangle(15,15, 50 , 50)) ;
-        }
-
-        ButtonImage(String NameImage, Rectangle d){
-
-            try {
-                Image img;
-                img = ImageIO.read(getClass().getResource("Image/" + NameImage));
-                this.setIcon(new ImageIcon(img));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            this.setBounds(d);
-            this.setOpaque(false);
-            this.setContentAreaFilled(false);
-            this.setBorderPainted(false);
-            this.setVisible(true);
-            container.add(this) ; 
-        }
-    }
 
     private class FocusPlaceholder implements FocusListener{
         JTextField field ; 
@@ -132,6 +109,7 @@ public class Menu implements Serializable{
 
             // fermer le jeu
             fermer = new ButtonImage("croix.png") ;
+            container.add(fermer); 
             
             fermer.addActionListener(event -> {
                 System.exit(0);
@@ -220,6 +198,7 @@ public class Menu implements Serializable{
 
             // set button retour
             retour = new ButtonImage("retour50p.png") ;
+            container.add(retour) ;
             
             retour.addActionListener(event -> {
                 previousInterfaceMenu() ;
@@ -565,6 +544,7 @@ public class Menu implements Serializable{
 
             // bouton retour
                 retour = new ButtonImage("retour50p.png") ;
+                container.add(retour) ;
                     
                 retour.addActionListener(event -> {
                     previousInterfaceMenu() ;
@@ -616,11 +596,11 @@ public class Menu implements Serializable{
 
             // Boutton play :
                     play = new ButtonImage("play.png", new Rectangle(50, 50, widthFrame-50 , heightFrame/2  )) ;
-                    // play = new JButton("play");  
+                    container.add(play) ;
                 
                     play.setSize(50,50);
                     play.setLocation((widthFrame*5 )/6, heightFrame/2  );
-                    container.add(play) ;
+                    
 
                     play.addActionListener(event -> {
                         if (vuePartie.getPartie().getJoueurs().nbJoueurs() >= 2){
