@@ -21,7 +21,7 @@ import JeuTuilesGenerique.Modele.Tuile;
 
 public class GameView implements Serializable{
 
-    Fenetre fenetreGraphique ;
+    Launcher fenetreGraphique ;
     
     public Partie partie;
     JPanel conteneurGlobal;
@@ -58,8 +58,8 @@ public class GameView implements Serializable{
     
     public GameView(){}
 
-    public GameView(Fenetre f){ fenetreGraphique = f ; }
-    public void setFenetre(Fenetre f){ fenetreGraphique = f ;}
+    public GameView(Launcher f){ fenetreGraphique = f ; }
+    public void setFenetre(Launcher f){ fenetreGraphique = f ;}
     public void setPartie(Partie partie) {this.partie = partie;}
     public Partie getPartie() {return partie;}
 

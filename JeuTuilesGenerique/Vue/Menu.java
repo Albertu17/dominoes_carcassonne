@@ -27,7 +27,7 @@ import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 public class Menu implements Serializable{
     
     GameView vuePartie ;
-    Fenetre pane ;
+    Launcher pane ;
     JPanel container ;
     private int widthFrame ; 
     private int heightFrame ; 
@@ -39,7 +39,7 @@ public class Menu implements Serializable{
     ManagePlayer managePlayer ;
 
 
-    public Menu(Fenetre f){
+    public Menu(Launcher f){
         pane = f ;
 
         widthFrame = pane.getWidth() ;
