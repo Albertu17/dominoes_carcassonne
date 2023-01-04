@@ -349,7 +349,7 @@ public class Menu implements Serializable{
 
         private boolean isFree(String nom){
             for (String string : listtouteSauvegarde) {
-                if (string.equals(nom)) return false ;
+                if (nom.equals(string)) return false ;
             }
             for (String string : aide) {
                 if (string.equals(nom)) return false ;
