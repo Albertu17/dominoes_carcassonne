@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class Launcher extends JFrame{
 
-    public Launcher() {
+    public void createWinwow() {
         setVisible(true);
         setTitle("JEU");
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); // Récupère taille de l'écran utilisateur.
@@ -25,25 +25,27 @@ public class Launcher extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public static void launchCarcassonne(Joueurs joueurs, String nomPartie) throws IOException {
+    public void launch() {
+        createWinwow();
+        new Menu(this); // On passe au menu un objet de cette classe pour qu'il puisse appeler
+        // launchCarcassonne ou launchDomino.
+    }
+
+    public void launchCarcassonne(Joueurs joueurs, String nomPartie) throws IOException {
         Plateau plateau = new Plateau(5, 5);
         PiocheCarcassonne piocheC = new PiocheCarcassonne();
         PartieCarcassonne partieC = new PartieCarcassonne(joueurs, plateau, piocheC, nomPartie);
         VueCarcassonne vueC = new VueCarcassonne(partieC);
-        vueC.setFenetre(new Launcher()) ;
+        getContentPane().add(vueC.conteneurGlobal);
+        // vueC.setFenetre(new Launcher()) ;
     }
 
-    public static void launchDominos(Joueurs joueurs, String nomPartie) throws IOException {
+    public void launchDominos(Joueurs joueurs, String nomPartie) throws IOException {
         Plateau plateau = new Plateau(5, 5);
         PiocheDominos piocheD = new PiocheDominos();
         PartieDominos partieD = new PartieDominos(joueurs, plateau, piocheD, nomPartie);
         VueDominos vueD = new VueDominos(partieD);
-        vueD.setFenetre(new Launcher());
-    }
-
-    
-    public static void launchMenu(){
-        new Menu(new Launcher());
+        getContentPane().add(vueD.conteneurGlobal);
     }
 
 
@@ -69,6 +71,7 @@ public class Launcher extends JFrame{
                 // }
 
     public static void main(String[] args) {
-        launchMenu();
+        Launcher l = new Launcher();
+        l.launch();
     }
 }
