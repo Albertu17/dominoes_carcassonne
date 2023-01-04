@@ -76,6 +76,9 @@ public class Partie implements Serializable {
         return plateau.plateau[x][y-1].ouest;
     }
 
+    public Pioche getPioche(){return pioche ;}
+    public Plateau getPlateau(){return plateau ;}
+
     public void save(){
         String path = "Sauvegarde/" + (this instanceof PartieCarcassonne ? "Carcassonne/" : "Domino/") ;
                     // enregistrer un objet

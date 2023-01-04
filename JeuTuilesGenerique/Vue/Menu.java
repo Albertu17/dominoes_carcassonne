@@ -1,17 +1,19 @@
 package JeuTuilesGenerique.Vue;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Rectangle;
 import  java.awt.event.FocusEvent ;
 import  java.awt.event.FocusListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.ImageIcon;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;

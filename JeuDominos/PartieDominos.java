@@ -10,7 +10,12 @@ public class PartieDominos extends Partie {
     
     public PartieDominos(String nomPartie){
         super(nomPartie) ;
-        pioche = new Pioche(72);
+        pioche = new PiocheDominos(false);
+        nouvelleTuileAjouer();
+    }
+    public PartieDominos(String nomPartie, boolean GUI){
+        super(nomPartie) ;
+        pioche = new PiocheDominos(GUI);
         nouvelleTuileAjouer();
     }
 }

@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Tuile;
-import JeuTuilesGenerique.Vue.Menu.ButtonImage;
 
 public class GameView implements Serializable{
 

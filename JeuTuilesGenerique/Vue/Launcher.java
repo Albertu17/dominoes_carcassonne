@@ -42,7 +42,7 @@ public class Launcher extends JFrame{
 
     public void launchDominos(Joueurs joueurs, String nomPartie) throws IOException {
         Plateau plateau = new Plateau(5, 5);
-        PiocheDominos piocheD = new PiocheDominos();
+        PiocheDominos piocheD = new PiocheDominos(true);
         PartieDominos partieD = new PartieDominos(joueurs, plateau, piocheD, nomPartie);
         VueDominos vueD = new VueDominos(partieD);
         getContentPane().add(vueD.conteneurGlobal);
