@@ -374,9 +374,9 @@ public class Menu implements Serializable{
                 }
                 
             } catch (Exception e) {
+                listtouteSauvegarde = new  String[1] ;
                 listtouteSauvegarde[0] = ("Aucun fichier n'a été trouvé !");
             }
-            listtouteSauvegarde = new String[1] ;
             listsaveComboBox  = new JComboBox<String>((listtouteSauvegarde)) ;
             
         }
