@@ -20,8 +20,12 @@ public class Launcher extends JFrame{
     public void createWinwow() {
         setVisible(true);
         setTitle("JEU");
-        Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); // Récupère taille de l'écran utilisateur.
-        setSize((int) size.getWidth(), (int) size.getHeight()); // Met la fenêtre en plein écran.
+        
+        setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        // setUndecorated(true);
+
+        // Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); // Récupère taille de l'écran utilisateur.
+        // setSize((int) size.getWidth(), (int) size.getHeight()); // Met la fenêtre en plein écran.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 

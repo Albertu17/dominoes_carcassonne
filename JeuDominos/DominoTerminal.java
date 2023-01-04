@@ -2,6 +2,8 @@ package JeuDominos;
 
 import java.util.Scanner;
 
+import javax.swing.event.SwingPropertyChangeSupport;
+
 import JeuTuilesGenerique.Modele.Plateau;
 import JeuTuilesGenerique.Modele.Tuile;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
@@ -71,6 +73,7 @@ public class DominoTerminal {
 
     public void ajoutertoutJoueur(){
         // ajout de 2 jours minimun
+        // TODO a remettre apres developpement
         // for (int i = 0; i < 2; i++) {
         //     ajoutJoueur();
         // }
@@ -82,7 +85,7 @@ public class DominoTerminal {
             if (sc.next().equals("oui")){
                 ajoutJoueur();
             }
-            else break ;
+            else break  ;
         }
     }
 
@@ -116,7 +119,7 @@ public class DominoTerminal {
                     
                     continuer = ! placer(tuile) ;
 
-                    // TODO Crer la gestion de demande placement tuile possibilité et placement
+                    if (continuer) System.out.println("Placement impossible ici");
                     break ;
 
 
@@ -133,7 +136,7 @@ public class DominoTerminal {
         int y = Integer.valueOf( coord[1] ) ;
 
         if ( partie.check(tuile, x, y) ){
-            // faire l'ajout
+            partie.getPlateau().plateau[x][y] = tuile ;
             return true ;
         }else return false ;
 
@@ -190,9 +193,9 @@ public class DominoTerminal {
 
 
             // affichage ligne 2,3,4 :
-                AffichesTuiles[1] += act.est.getNumeros()[0] + " ".repeat(7) + act.ouest.getNumeros()[0] ;
-                AffichesTuiles[2] += act.est.getNumeros()[1] + " ".repeat(3) + "#" + " ".repeat(3) + act.ouest.getNumeros()[1] ;
-                AffichesTuiles[3] += act.est.getNumeros()[2] + " ".repeat(7) + act.ouest.getNumeros()[2] ;
+                AffichesTuiles[1] += act.ouest.getNumeros()[0] + " ".repeat(7) + act.est.getNumeros()[0] ;
+                AffichesTuiles[2] += act.ouest.getNumeros()[1] + " ".repeat(3) + "#" + " ".repeat(3) + act.est.getNumeros()[1] ;
+                AffichesTuiles[3] += act.ouest.getNumeros()[2] + " ".repeat(7) + act.est.getNumeros()[2] ;
 
             return AffichesTuiles ;
         }
@@ -239,7 +242,7 @@ public class DominoTerminal {
 
             for(int j = 0 ; j < platTab[0].length ; j++ ){
                 act = platTab[i][j] ;
-                if (act != null){
+                if (act != null && act.nord != null){
                     // System.out.println(act.getClass());
                     String[] dispTuile = StringTabTuille((TuileDomino)act) ;
                     for (int j2 = 0; j2 < AffichesTuiles.length; j2++) {
