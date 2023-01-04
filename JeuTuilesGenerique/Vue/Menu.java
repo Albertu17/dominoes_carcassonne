@@ -62,13 +62,13 @@ public class Menu implements Serializable{
 
     // Objet avec des définition spécial
 
-    private class ButtonImageRetour extends JButton{
+    class ButtonImage extends JButton{
 
-        ButtonImageRetour(String NameImage){
+        ButtonImage(String NameImage){
             this(NameImage, new Rectangle(15,15, 50 , 50)) ;
         }
 
-        ButtonImageRetour(String NameImage, Rectangle d){
+        ButtonImage(String NameImage, Rectangle d){
 
             try {
                 Image img;
@@ -125,13 +125,13 @@ public class Menu implements Serializable{
         JButton domino ;
 
         // fermer le jeu
-        ButtonImageRetour fermer ;
+        ButtonImage fermer ;
 
 
         SelectGame(){
 
             // fermer le jeu
-            fermer = new ButtonImageRetour("croix.png") ;
+            fermer = new ButtonImage("croix.png") ;
             
             fermer.addActionListener(event -> {
                 System.exit(0);
@@ -210,7 +210,7 @@ public class Menu implements Serializable{
         
         String[] listtouteSauvegarde  ;
         
-        ButtonImageRetour retour ;
+        ButtonImage retour ;
         JLabel indication ;
         
 
@@ -219,7 +219,7 @@ public class Menu implements Serializable{
         SelectSave(){
 
             // set button retour
-            retour = new ButtonImageRetour("retour50p.png") ;
+            retour = new ButtonImage("retour50p.png") ;
             
             retour.addActionListener(event -> {
                 previousInterfaceMenu() ;
@@ -372,10 +372,11 @@ public class Menu implements Serializable{
                 for (int i = 0 ; i < listtouteSauvegarde.length ; i++){
                     listtouteSauvegarde[i] = dir[i].getName() ;
                 }
-
+                
             } catch (Exception e) {
                 listtouteSauvegarde[0] = ("Aucun fichier n'a été trouvé !");
             }
+            listtouteSauvegarde = new String[1] ;
             listsaveComboBox  = new JComboBox<String>((listtouteSauvegarde)) ;
             
         }
@@ -546,7 +547,7 @@ public class Menu implements Serializable{
         }
 
         
-        ButtonImageRetour retour ;
+        ButtonImage retour ;
         ConteneurAddPlayer conteneurAddPlayer ;
         JPanel dispPlayer;
 
@@ -554,14 +555,14 @@ public class Menu implements Serializable{
         JLabel IndicationAjout ;
         JLabel IndicationPresent ;
 
-        // ButtonImageRetour play ;
+        // ButtonImage play ;
         JButton play ;
     
 
         ManagePlayer(){
 
             // bouton retour
-                retour = new ButtonImageRetour("retour50p.png") ;
+                retour = new ButtonImage("retour50p.png") ;
                     
                 retour.addActionListener(event -> {
                     previousInterfaceMenu() ;
@@ -612,7 +613,7 @@ public class Menu implements Serializable{
                 container.add(IndicationPresent) ;
 
             // Boutton play :
-                    play = new ButtonImageRetour("play.png", new Rectangle(50, 50, widthFrame-50 , heightFrame/2  )) ;
+                    play = new ButtonImage("play.png", new Rectangle(50, 50, widthFrame-50 , heightFrame/2  )) ;
                     // play = new JButton("play");  
                 
                     play.setSize(50,50);
