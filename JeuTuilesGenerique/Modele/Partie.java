@@ -36,9 +36,9 @@ public class Partie implements Serializable {
 
     public boolean check(Tuile t, int x, int y) {
         Bord bordAuNord = getBordAuNord(t, x, y);
-        Bord bordAlOuest = getBordAuNord(t, x, y);
-        Bord bordAuSud = getBordAuNord(t, x, y);
-        Bord bordAlEst = getBordAuNord(t, x, y);
+        Bord bordAlOuest = getBordAlOuest(t, x, y);
+        Bord bordAuSud = getBordAuSud(t, x, y);
+        Bord bordAlEst = getBordAlEst(t, x, y);
         // On ne peut pas poser une tuile si elle n'est adjacente à aucune autre tuile.
         if (bordAuNord == null && bordAlOuest == null && bordAuSud == null && bordAlEst == null)
             return false;
@@ -65,7 +65,7 @@ public class Partie implements Serializable {
     }
 
     public Bord getBordAlOuest(Tuile t, int x, int y) {
-        return plateau.plateau[x][y+1].est;
+        return plateau.plateau[x][y-1].est;
     }
 
     public Bord getBordAuSud(Tuile t, int x, int y) {
@@ -73,7 +73,7 @@ public class Partie implements Serializable {
     }
 
     public Bord getBordAlEst(Tuile t, int x, int y) {
-        return plateau.plateau[x][y-1].ouest;
+        return plateau.plateau[x][y+1].ouest;
     }
 
     public Pioche getPioche(){return pioche ;}
