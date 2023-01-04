@@ -56,6 +56,16 @@ public class Joueurs implements Serializable{
         return null ;
     }
 
+    public boolean nomLibre(String name){
+        if (name.equals("")) return false ;
+        
+        for (Joueur jo : players) {
+            if (name.equals(jo.getName())) return false ;
+        }
+        
+        return true ;
+    }
+
     public class Joueur implements Serializable{
 
         public int score ;

@@ -422,7 +422,7 @@ public class Menu implements Serializable{
                 });
 
                 add.addActionListener(event -> {
-                    if (NameFree()){
+                    if (vuePartie.getPartie().getJoueurs().nomLibre(nom.getText())){
                         if (vuePartie.getPartie().getJoueurs().addPlayer(nom.getText(), isIA, false)){
                             dispPlayer.add( new ConteneurPlayer(vuePartie.getPartie().getJoueurs().getLast())) ;
                             dispPlayer.revalidate();
@@ -463,17 +463,7 @@ public class Menu implements Serializable{
             IA.setBackground(color) ;
         }
 
-        private boolean NameFree(){
-            String name = nom.getText() ;
-            if (name.equals("")) return false ;
-            
-            for (Joueur jo : vuePartie.getPartie().getJoueurs().getList()) {
-                if (name.equals(jo.getName())) return false ;
-            }
-            
-
-            return true ;
-        }
+        
 
     }
         
