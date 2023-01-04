@@ -40,6 +40,7 @@ public class GameView implements Serializable{
     JPanel conteneurInfos;
     JPanel conteneurInfosCoup;
     JPanel conteneurPieceAJouer;
+    JButton retourMenu ;
     // JPanel conteneurPieceAjouerMilieu;
     // JPanel conteneurPieceAjouerHaut;
     // JPanel conteneurPieceAjouerGauche;

@@ -448,6 +448,8 @@ public class Menu implements Serializable{
                             dispPlayer.add( new ConteneurPlayer(vuePartie.getPartie().getJoueurs().getLast())) ;
                             dispPlayer.revalidate();
                             dispPlayer.repaint();
+                            nom.setText("Entrer le nom du joueur") ;
+                            nom.setForeground(Color.GRAY);
                         }else{
                             nom.setText("Le nombre maximun de joueur est atteint !");
                             nom.setForeground(Color.GRAY);
