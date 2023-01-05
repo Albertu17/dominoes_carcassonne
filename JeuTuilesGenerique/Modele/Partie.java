@@ -22,7 +22,6 @@ public class Partie implements Serializable {
         this.plateau = plateau;
         this.pioche = pioche;
         this.nomPartie = nomPartie;
-        nouvelleTuileAjouer();
     }
 
     public Partie(String nomPartie){
@@ -31,16 +30,23 @@ public class Partie implements Serializable {
         plateau = new Plateau(5,5);
     }
 
+    public void unePartie() {
+        nouvelleTuileAjouer();
+    }
+
     public void nouvelleTuileAjouer() {
         aJouer = pioche.pickOne();
         if (aJouer == null) aJouer = new Tuile();
     }
 
+    // Vérifie si une tuile est plaçable.
     public boolean check(Tuile t, int x, int y) {
-        Bord bordAuNord = getBordAuNord(t, x, y);
-        Bord bordAlOuest = getBordAlOuest(t, x, y);
-        Bord bordAuSud = getBordAuSud(t, x, y);
-        Bord bordAlEst = getBordAlEst(t, x, y);
+        if (plateau.plateau[x][y].getClass().equals(t.getClass())) return false; // L'endroit où l'on
+        // veut poser une tuile doit contenir une tuile vide (classe différente).
+        Bord bordAuNord = getBordAuNord(x, y);
+        Bord bordAlOuest = getBordAlOuest(x, y);
+        Bord bordAuSud = getBordAuSud(x, y);
+        Bord bordAlEst = getBordAlEst(x, y);
         // On ne peut pas poser une tuile si elle n'est adjacente à aucune autre tuile.
         if (bordAuNord == null && bordAlOuest == null && bordAuSud == null && bordAlEst == null)
             return false;
@@ -51,8 +57,9 @@ public class Partie implements Serializable {
         return true;
     }
 
+    // Vérifie si une tuile est plaçable et la place le cas échéant.
     public boolean jouer(Tuile t, int x, int y) {
-        if (check(t, x, y) && ! (plateau.plateau[x][y] instanceof TuileDomino) &&  ! (plateau.plateau[x][y] instanceof TuileCarcassonne )){
+        if (check(t, x, y)) {
            plateau.add(t, x, y) ;
            return true;
         }
@@ -66,19 +73,19 @@ public class Partie implements Serializable {
     public Joueurs getJoueurs() {return joueurs;}
     public String getNomPartie() {return nomPartie;}
 
-    public Bord getBordAuNord(Tuile t, int x, int y) {
+    public Bord getBordAuNord(int x, int y) {
         return plateau.plateau[x-1][y].sud;
     }
 
-    public Bord getBordAlOuest(Tuile t, int x, int y) {
+    public Bord getBordAlOuest(int x, int y) {
         return plateau.plateau[x][y-1].est;
     }
 
-    public Bord getBordAuSud(Tuile t, int x, int y) {
+    public Bord getBordAuSud(int x, int y) {
         return plateau.plateau[x+1][y].nord;
     }
 
-    public Bord getBordAlEst(Tuile t, int x, int y) {
+    public Bord getBordAlEst(int x, int y) {
         return plateau.plateau[x][y+1].ouest;
     }
 
