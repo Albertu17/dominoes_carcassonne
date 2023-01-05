@@ -16,7 +16,7 @@ public class DominoTerminal {
     // pour test
     public static int mark = 1 ;
     void addPrePlayer(){
-        partie.getJoueurs().addPlayer("Pierre", false, false) ;
+        partie.getJoueurs().addPlayer("Pierre", true, false) ;
         partie.getJoueurs().addPlayer("Mathieu", false, false) ;
     }
 
@@ -94,8 +94,9 @@ public class DominoTerminal {
         boolean continuer = true ;
         clearTerminal();
         printPlateau();
+        ScoreBoard();
         System.out.println();
-        System.out.println("C'est au tour de " + j.getName() +". Score : " + j.getScore() +"." );
+        System.out.println("C'est au tour de " + j.getName()+"." );
         System.out.println();
         System.out.println("Choisi quoi faire :");
         
@@ -144,6 +145,16 @@ public class DominoTerminal {
 
 
     }
+
+    public void ScoreBoard(){
+        System.out.println();
+        System.out.println("       Scrore :");
+        for (Joueur j : partie.getJoueurs().getList()) {
+            System.out.println("  " + j.getName() + " : " + j.getScore() + " pts.");
+        }
+        System.out.println();
+        System.out.println();
+    }
     
     
     public void JeuDomino(){
@@ -157,6 +168,7 @@ public class DominoTerminal {
             if (partie.getJoueurs().getPlayers(tour).isIA()){
                 // action baser sur l'IA
                 // TODO placer action de l'IA
+                partie.TourIA(partie.getJoueurs().getPlayers(tour));
             }else{
                 TourJoueur(partie.getJoueurs().getPlayers(tour));
             }

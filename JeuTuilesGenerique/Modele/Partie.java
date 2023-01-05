@@ -4,8 +4,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import JeuCarcassonne.PartieCarcassonne;
+import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 
 public class Partie implements Serializable {
 
@@ -70,6 +73,41 @@ public class Partie implements Serializable {
         }
         return 0 ;
     }
+    public void TourIA(Joueur j){
+        int ptsIA = RecursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ;
+        if (ptsIA != 0 ) j.addScore(ptsIA);
+
+    }
+
+    public int RecursiveIA(int x, int y, List<Tuile> list){
+        if (list.contains(plateau.plateau[x][y])) return 0 ;
+
+        // pour ne pas tester 2 fois la meme tuile et donc faire ne boucle infini
+        list.add(plateau.plateau[x][y]) ;
+
+        // si on peu placer à cette place
+        for (int i = 0 ; i < 4 ; i++){
+            int pos = jouer(x, y) ;
+            if (pos != 0) return pos ;
+            aJouer.Rotate(true);
+        }
+
+        // recursif sur tuille adjacentes :
+        if (x!= 1 && y!=1 && x != plateau.plateau.length-2 && y != plateau.plateau[0].length-2 ){
+            int a =  RecursiveIA(x-1, y, list);
+            if (a != 0) return a ;
+            int b = RecursiveIA(x+1, y, list);
+            if (b != 0) return b ;
+            int c = RecursiveIA(x, y-1, list);
+            if (c != 0) return c ;
+            int d = RecursiveIA(x, y+1, list);
+            if (d != 0) return d ;
+        }
+        return 0 ;
+
+       
+    }
+
 
     public boolean partieFinie() {
         return pioche.pioche.isEmpty();
