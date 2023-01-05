@@ -39,7 +39,9 @@ public class Plateau implements Serializable{
                     plateau[i+1][j+1] = tab[i][j] ; 
                 }
             }
-            
+
+            x = x+1;
+            y = y +1 ;
         }
         // ajout sur le plateau
         plateau[x][y] = tuile ;
