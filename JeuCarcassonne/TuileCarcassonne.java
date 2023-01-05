@@ -2,6 +2,8 @@ package JeuCarcassonne;
 
 import JeuTuilesGenerique.Modele.Bord;
 import JeuTuilesGenerique.Modele.Tuile;
+import JeuTuilesGenerique.Vue.GameView;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +13,8 @@ import java.io.ObjectStreamException;
 
 import javax.imageio.ImageIO;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
 public class TuileCarcassonne extends Tuile {
     
@@ -25,7 +29,6 @@ public class TuileCarcassonne extends Tuile {
     }
     
     private void setImage(String description) throws IOException{   
-        System.out.println(description);
         image = ImageIO.read(new File("JeuCarcassonne/ImagesTuiles/Tuile-" + description + ".png"));
     }
 
@@ -72,10 +75,29 @@ public class TuileCarcassonne extends Tuile {
 
     // Rajoute l'image récupérée sur la tuile, sans même qu'on ait à appeler cette fonction.
     protected void paintComponent(Graphics g) {
+
+        resizeImage();
         super.paintComponent(g);
         g.drawImage(image, 0, 0, this);
-        // g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), 0, 0, 0, 0, null);
-        // g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), 0, 0, image.getWidth(), image.getHeight(), null);
+    }
+
+
+    // permet d'adapter l'image à la taille de la tuille
+    public void resizeImage(){
+        int newH = Math.max(100, this.getHeight());
+        int newW = Math.max(this.getWidth(), 50) ;
+        Image tmp = image.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+        image = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+    }
+
+
+    // tourner l'image dans le GUI
+    public void Rotate(boolean sensHoraire){
+        super.Rotate(sensHoraire);
+        
     }
 
     // enregistrement spécial (Serializable), pour eviter les problème et réduire la taille de sauvegarde
