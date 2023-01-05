@@ -36,10 +36,13 @@ public class Launcher extends JFrame{
     }
 
     public void launchRunningGame(Partie partie) {
-        GameView vue;
-        if (partie instanceof PartieCarcassonne) vue = new VueCarcassonne(partie);
-        else vue = new VueDominos(partie);
-        getContentPane().add(vue.conteneurGlobal);
+        if (partie instanceof PartieCarcassonne) {
+            VueCarcassonne vueC = new VueCarcassonne(partie);
+            getContentPane().add(vueC.conteneurGlobal);
+        } else {
+            VueDominos vueD = new VueDominos(partie);
+            getContentPane().add(vueD.conteneurGlobal);
+        }
     }
 
     public void launchCarcassonne(Joueurs joueurs, String nomPartie) throws IOException {
@@ -59,12 +62,12 @@ public class Launcher extends JFrame{
     }
 
     public static void main(String[] args) throws IOException {
-        // new Launcher().launch();
-        Launcher l = new Launcher();
-        l.createWinwow();
-        Joueurs j = new Joueurs();
-        j.addPlayer(j.new Joueur("Bob", false, false));
-        j.addPlayer(j.new Joueur("Paul", false, false));
-        l.launchDominos(j, "p5");
+        new Launcher().launch();
+        // Launcher l = new Launcher();
+        // l.createWinwow();
+        // Joueurs j = new Joueurs();
+        // j.addPlayer(j.new Joueur("Bob", false, false));
+        // j.addPlayer(j.new Joueur("Paul", false, false));
+        // l.launchDominos(j, "p5");
     }
 }

@@ -10,7 +10,6 @@ import java.awt.*;
 
 public class TuileDomino extends Tuile  {
 
-        
     public TuileDomino(boolean GUI) {
         // Création des bords dont les numéros sont pris au hasard.
         nord = new BordDomino(randNum(), randNum(), randNum());
@@ -21,11 +20,11 @@ public class TuileDomino extends Tuile  {
         // Création du rendu visuel de la tuile domino
         if (GUI){
             setLayout(new GridLayout(5,5));
-            int[] contenuCases = new int[] {-1, nord.n1, nord.n2, nord.n3, -1,
-                                            ouest.n1, -1, -1, -1, est.n1, 
-                                            ouest.n2, -1, -1, -1, est.n2, 
-                                            ouest.n3, -1, -1, -1, est.n3, 
-                                            -1, sud.n1, sud.n2, sud.n3, -1,
+            int[] contenuCases = new int[] {-1, ((BordDomino) nord).n1, ((BordDomino) nord).n2, ((BordDomino) nord).n3, -1,
+                                            ((BordDomino) ouest).n1, -1, -1, -1, ((BordDomino) est).n1, 
+                                            ((BordDomino) ouest).n2, -1, -1, -1, ((BordDomino) est).n2, 
+                                            ((BordDomino) ouest).n3, -1, -1, -1, ((BordDomino) est).n3, 
+                                            -1, ((BordDomino) sud).n1, ((BordDomino) sud).n2, ((BordDomino) sud).n3, -1,
                                             };
             for (int i = 0; i < 25; i++) {
                 if (contenuCases[i] == -1) {
