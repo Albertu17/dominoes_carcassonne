@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import JeuCarcassonne.PartieCarcassonne;
+import JeuCarcassonne.TuileCarcassonne;
+import JeuDominos.TuileDomino;
 
 public class Partie implements Serializable {
 
@@ -49,8 +51,12 @@ public class Partie implements Serializable {
         return true;
     }
 
-    public void jouer(Tuile t, int x, int y) {
-        if (check(t, x, y)) plateau.plateau[x][y] = t;
+    public boolean jouer(Tuile t, int x, int y) {
+        if (check(t, x, y) && ! (plateau.plateau[x][y] instanceof TuileDomino) &&  ! (plateau.plateau[x][y] instanceof TuileCarcassonne )){
+           plateau.add(t, x, y) ;
+           return true;
+        }
+        return false ;
     }
 
     public boolean partieFinie() {
