@@ -70,10 +70,14 @@ public class Partie implements Serializable {
     // Vérifie si une tuile est plaçable, la place le cas échéant et prépare le tour suivant.
     public boolean jouer(int x, int y) {
         if (check(x, y)) { 
+            // l'appel de nbPoints à besoin d'etre mis avant l'ajout de la tuile au plateau.
+            // car les coordonnées de la tuile peuvent changer si le plateau devient plus grand 
+            joueurs.joueurAuTrait().addScore(nbPoint(x, y));
+            
+
             // aggrandit le plateau si la tuile est placée en bordure de la grille du GUI.
             if (plateau.add(aJouer, x, y)) gui.repaintGrille();
             else gui.updateGrille(aJouer, x, y);
-            joueurs.joueurAuTrait().addScore(nbPoint(x, y));
             joueurs.nextJoueurAuTrait();
             gui.repaintPanelJoueurs();
             nouvelleTuileAjouer();
@@ -81,6 +85,22 @@ public class Partie implements Serializable {
             return true ; //besoin du boolean pour l'IA
         }
         return false ;
+    }
+    
+    
+    public boolean jouerTerminal(int x, int y){
+        if (check(x, y)) { 
+            // l'appel de nbPoints à besoin d'etre mis avant l'ajout de la tuile au plateau.
+            // car les coordonnées de la tuile peuvent changer si le plateau devient plus grand 
+            joueurs.joueurAuTrait().addScore(nbPoint(x, y));
+
+            plateau.add(aJouer, x, y) ;
+            joueurs.nextJoueurAuTrait();
+
+            return true ; //besoin du boolean pour l'IA
+        }
+        return false ;
+
     }
 
 
