@@ -5,6 +5,9 @@ import JeuTuilesGenerique.Modele.Tuile;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
 
 import javax.imageio.ImageIO;
 import java.awt.Graphics;
@@ -18,7 +21,6 @@ public class TuileCarcassonne extends Tuile {
     public TuileCarcassonne(BordCarcassonne[] bords, String chemin) throws IOException {
         super(bords[0], bords[1], bords[2], bords[3]);
         this.centre = bords[4];
-        image = ImageIO.read(new File(chemin));
         setImage(chemin);
     }
     
