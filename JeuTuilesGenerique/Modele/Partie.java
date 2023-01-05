@@ -113,6 +113,9 @@ public class Partie implements Serializable {
             
         }
         return false  ;
+        
+        // TODO besoin de mettre ici next() joueurs au trait au cas où la tuille n'ets pas plaçable ;
+        // plus mettre a jour le GUI
     }
 
 
