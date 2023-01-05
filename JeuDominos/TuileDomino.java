@@ -19,22 +19,37 @@ public class TuileDomino extends Tuile  {
 
         // Création du rendu visuel de la tuile domino
         if (GUI){
-            setLayout(new GridLayout(5,5));
-            int[] contenuCases = new int[] {-1, ((BordDomino) nord).n1, ((BordDomino) nord).n2, ((BordDomino) nord).n3, -1,
-                                            ((BordDomino) ouest).n1, -1, -1, -1, ((BordDomino) est).n1, 
-                                            ((BordDomino) ouest).n2, -1, -1, -1, ((BordDomino) est).n2, 
-                                            ((BordDomino) ouest).n3, -1, -1, -1, ((BordDomino) est).n3, 
-                                            -1, ((BordDomino) sud).n1, ((BordDomino) sud).n2, ((BordDomino) sud).n3, -1,
-                                            };
-            for (int i = 0; i < 25; i++) {
-                if (contenuCases[i] == -1) {
-                    JPanel panelVide = new JPanel();
-                    panelVide.setBackground(Color.BLACK);
-                    add(panelVide);
-                } else add(caseNumero(contenuCases[i]));
-            }
+            updateLayout();
         }
     }
+    
+    public void updateLayout(){
+        removeAll();
+        
+        setLayout(new GridLayout(5,5));
+        int[] contenuCases = new int[] {-1, ((BordDomino) nord).n1, ((BordDomino) nord).n2, ((BordDomino) nord).n3, -1,
+                                        ((BordDomino) ouest).n1, -1, -1, -1, ((BordDomino) est).n1, 
+                                        ((BordDomino) ouest).n2, -1, -1, -1, ((BordDomino) est).n2, 
+                                        ((BordDomino) ouest).n3, -1, -1, -1, ((BordDomino) est).n3, 
+                                        -1, ((BordDomino) sud).n1, ((BordDomino) sud).n2, ((BordDomino) sud).n3, -1,
+                                        };
+        for (int i = 0; i < 25; i++) {
+            if (contenuCases[i] == -1) {
+                JPanel panelVide = new JPanel();
+                panelVide.setBackground(Color.BLACK);
+                add(panelVide);
+            } else add(caseNumero(contenuCases[i]));
+        }
+        revalidate();
+        repaint();
+    }
+
+    public void Rotate(boolean sensHoraire){
+        super.Rotate(sensHoraire);
+        updateLayout();
+    }
+
+
 
     // Renvoie un JPanel designé pour accueillir un numéro
     public JPanel caseNumero(int num) {
