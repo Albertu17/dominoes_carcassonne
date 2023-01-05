@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.io.Serializable;
 
 import javax.swing.BorderFactory;
@@ -41,6 +42,7 @@ public class GameView implements Serializable{
     JPanel conteneurInfosCoup;
     JPanel conteneurPieceAJouer;
     JButton retourMenu ;
+    JButton quitter ;;
     // JPanel conteneurPieceAjouerMilieu;
     // JPanel conteneurPieceAjouerHaut;
     // JPanel conteneurPieceAjouerGauche;
@@ -59,6 +61,25 @@ public class GameView implements Serializable{
         bandeauSup.setLayout(new BoxLayout(bandeauSup, BoxLayout.LINE_AXIS));
         bandeauSup.setBorder(BorderFactory.createEmptyBorder(20,0,10,0));
         conteneurGlobal.add(bandeauSup, BorderLayout.PAGE_START);
+
+        // Bouton quiter, retour 
+            quitter = new ButtonImage("croix.png", new Rectangle(40,40, 0, 0 )); 
+            retourMenu = new ButtonImage("retour50p.png", new Rectangle(40,40, 0, 0 ));
+            bandeauSup.add(quitter);
+            bandeauSup.add(retourMenu);
+
+            // action bouton 
+
+            quitter.addActionListener(event -> {
+                partie.save();
+                System.exit(0);
+            });
+
+            retourMenu.addActionListener(event -> {
+                partie.save() ;
+                conteneurGlobal.setVisible(false);
+                new Menu(conteneurGlobal.getRootPane()) ;
+            });
 
             // JPanel conteneurTitre et JLabel titre
             conteneurTitre = new JPanel();
@@ -136,7 +157,9 @@ public class GameView implements Serializable{
                 conteneurInfosCoup.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 conteneurInfosCoup.setLayout(new BoxLayout(conteneurInfosCoup, BoxLayout.PAGE_AXIS));
                 conteneurInfosCoup.add(new JButton("Turn"));
-                Tuile t = partie.aJouer;
+                // TODO rechanger plus atrd quand ça sera implanter
+                // Tuile t = partie.aJouer;
+                Tuile t = partie.pioche.pickOne();
                 // t.setPreferredSize(new Dimension(20,20));
                 conteneurInfosCoup.add(t);
                 t.setEnvironnement(this);
