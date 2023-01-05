@@ -73,7 +73,7 @@ public class Partie implements Serializable {
             // l'appel de nbPoints à besoin d'etre mis avant l'ajout de la tuile au plateau.
             // car les coordonnées de la tuile peuvent changer si le plateau devient plus grand 
             joueurs.joueurAuTrait().addScore(nbPoint(x, y));
-            
+
 
             // aggrandit le plateau si la tuile est placée en bordure de la grille du GUI.
             if (plateau.add(aJouer, x, y)) gui.repaintGrille();
@@ -136,6 +136,7 @@ public class Partie implements Serializable {
         
         // TODO besoin de mettre ici next() joueurs au trait au cas où la tuille n'ets pas plaçable ;
         // plus mettre a jour le GUI
+        // attention ne pas mettre à jour si gui == null, ça veut dire que on joue une partie domino sur le terminal
     }
 
 
