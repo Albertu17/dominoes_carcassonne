@@ -13,4 +13,10 @@ public class PartieCarcassonne extends Partie{
         pioche = new Pioche(72);
         nouvelleTuileAjouer();
     }
+
+    public int nbPoints(Tuile t, int x, int y){
+
+
+        return 0 ;
+    }
 }

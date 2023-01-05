@@ -40,8 +40,8 @@ public class Partie implements Serializable {
     }
 
     // Vérifie si une tuile est plaçable.
-    public boolean check(Tuile t, int x, int y) {
-        if (plateau.plateau[x][y].getClass().equals(t.getClass())) return false; // L'endroit où l'on
+    public boolean check(int x, int y) {
+        if (plateau.plateau[x][y].getClass().equals(aJouer.getClass())) return false; // L'endroit où l'on
         // veut poser une tuile doit contenir une tuile vide (classe différente).
         Bord bordAuNord = getBordAuNord(x, y);
         Bord bordAlOuest = getBordAlOuest(x, y);
@@ -50,24 +50,30 @@ public class Partie implements Serializable {
         // On ne peut pas poser une tuile si elle n'est adjacente à aucune autre tuile.
         if (bordAuNord == null && bordAlOuest == null && bordAuSud == null && bordAlEst == null)
             return false;
-        if (!(t.nord.estCompatibleAvec(bordAuNord))) return false;
-        if (!(t.ouest.estCompatibleAvec(bordAlOuest))) return false;
-        if (!(t.sud.estCompatibleAvec(bordAuSud))) return false;
-        if (!(t.est.estCompatibleAvec(bordAlEst))) return false;
+        if (!(aJouer.nord.estCompatibleAvec(bordAuNord))) return false;
+        if (!(aJouer.ouest.estCompatibleAvec(bordAlOuest))) return false;
+        if (!(aJouer.sud.estCompatibleAvec(bordAuSud))) return false;
+        if (!(aJouer.est.estCompatibleAvec(bordAlEst))) return false;
         return true;
     }
 
     // Vérifie si une tuile est plaçable et la place le cas échéant.
-    public boolean jouer(Tuile t, int x, int y) {
-        if (check(t, x, y)) {
-           plateau.add(t, x, y) ;
-           return true;
+    public int jouer(int x, int y) {
+        if (check(x, y)) { 
+            int pts = this.nbPoint(x, y) ;
+           plateau.add(aJouer, x, y) ;
+           return pts;
         }
-        return false ;
+        return 0 ;
     }
 
     public boolean partieFinie() {
         return pioche.pioche.isEmpty();
+    }
+
+    //  a redéfinir dans chaque variante du jeu
+    public int nbPoint(int x, int y){
+        return 0 ;
     }
 
     public Joueurs getJoueurs() {return joueurs;}

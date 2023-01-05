@@ -89,7 +89,7 @@ public class DominoTerminal {
         }
     }
 
-    public void TourJoueur(Joueur j, TuileDomino tuile){
+    public void TourJoueur(Joueur j){
 
         boolean continuer = true ;
         clearTerminal();
@@ -100,16 +100,16 @@ public class DominoTerminal {
         System.out.println("Choisi quoi faire :");
         
         while(continuer){
-            printTuile(tuile);
+            printTuile((TuileDomino)partie.aJouer);
             System.out.println();
             System.out.println("Tourner à gauche ou droite (G/D), défausser (jeter), placer (placer)");
             switch (sc.next()){
                 case "G" :
-                    tuile.Rotate(false);
+                    partie.aJouer.Rotate(false);
                     break ;
                 
                 case "D" :
-                    tuile.Rotate(true);
+                    partie.aJouer.Rotate(true);
                     break;
 
                 case "jeter" :
@@ -117,7 +117,7 @@ public class DominoTerminal {
                     break ;
                 default :
                     
-                    continuer = ! placer(tuile) ;
+                    continuer = ! placer(j) ;
 
                     if (continuer) System.out.println("Placement impossible ici");
                     break ;
@@ -128,17 +128,18 @@ public class DominoTerminal {
 
     }
 
-    public boolean placer(TuileDomino tuile){
+    public boolean placer(Joueur j){
         System.out.println();
         System.out.println("Renseigner vos coordonnnées (x,y)");
         String[] coord  =  sc.next().split(",") ;
         int x = Integer.valueOf( coord[0] ) ;
         int y = Integer.valueOf( coord[1] ) ;
 
-        if ( partie.check(tuile, x, y) ){
-            partie.getPlateau().plateau[x][y] = tuile ;
-            return true ;
-        }else return false ;
+        int pts = partie.jouer( x, y) ;
+
+        j.addScore(pts);
+
+        return pts != 0 ;
 
 
 
@@ -149,16 +150,15 @@ public class DominoTerminal {
         ajoutertoutJoueur();
         
         // fait jouer les joueur tour à tour
-        TuileDomino tuile ;
         int tour = 0;
-        while( (tuile = (TuileDomino)partie.getPioche().pickOne()) != null){
+        while( (partie.aJouer = (TuileDomino)partie.getPioche().pickOne()) != null){
             if (tour >= partie.getJoueurs().nbJoueurs() ) tour = 0 ;
 
             if (partie.getJoueurs().getPlayers(tour).isIA()){
                 // action baser sur l'IA
                 // TODO placer action de l'IA
             }else{
-                TourJoueur(partie.getJoueurs().getPlayers(tour), tuile);
+                TourJoueur(partie.getJoueurs().getPlayers(tour));
             }
             tour++ ;
         }
@@ -250,8 +250,10 @@ public class DominoTerminal {
                     }
                     
                 }else{
-                    for (int nbrligne = 0 ; nbrligne < AffichesTuiles.length ; nbrligne++) {
-                        AffichesTuiles[nbrligne] += " ".repeat(9) ; 
+                    for (int nbrligne = 0 ; nbrligne < AffichesTuiles.length ; nbrligne++){
+                        if (nbrligne == 2) AffichesTuiles[nbrligne] += " ".repeat(4) +"#"+ " ".repeat(4) ; 
+
+                        else AffichesTuiles[nbrligne] += " ".repeat(9) ; 
                     }
                 }
 

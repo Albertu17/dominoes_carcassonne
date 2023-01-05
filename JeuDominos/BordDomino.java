@@ -18,6 +18,10 @@ public class BordDomino extends Bord{
         return numeros;
     }
 
+    public int sommeBord(){
+        return n1+n2+n3 ;
+    }
+
     
     public boolean estCompatibleAvec(Bord bD) {;
         if (bD == null || (n1 == ((BordDomino)bD).getN1() && n2 == ((BordDomino)bD).getN2() && n3 == ((BordDomino)bD).getN3())) return true;
