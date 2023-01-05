@@ -65,10 +65,8 @@ public class Tuile extends JPanel implements MouseInputListener {
 
     // Mouse clicked = mouse pressed and released
     public void mouseClicked(MouseEvent e) {
-        if (environnement.partie.aJouer != this && environnement.partie.check(x, y)) {
+        if (!environnement.partie.aJouer.equals(this) && environnement.partie.check(x, y)) {
             environnement.partie.jouer(x, y);
-            environnement.updateGrille(environnement.partie.aJouer, x, y);
-            environnement.updateTuileAJouer();
         }  
     }
 
