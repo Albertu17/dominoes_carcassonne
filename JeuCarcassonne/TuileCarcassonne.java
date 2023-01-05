@@ -73,10 +73,8 @@ public class TuileCarcassonne extends Tuile {
     // Rajoute l'image récupérée sur la tuile, sans même qu'on ait à appeler cette fonction.
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(image, 0, 0, this);  
-        // g.drawImage(image, 0, 0, image.getWidth(), image.getHeight());
-              
-              
+        // g.drawImage(image, 0, 0, this);
+        g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), 0, 0, image.getWidth(), image.getHeight(), null);
     }
 
     // enregistrement spécial (Serializable), pour eviter les problème et réduire la taille de sauvegarde
