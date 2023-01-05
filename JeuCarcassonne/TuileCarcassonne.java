@@ -22,6 +22,10 @@ public class TuileCarcassonne extends Tuile {
     BufferedImage image;
     String nom ;
 
+    // permet de retrouver la rotation initial quand on recharge une partie ;
+    int rotation = 0 ;
+
+
     public TuileCarcassonne(BordCarcassonne[] bords, String chemin) throws IOException {
         super(bords[0], bords[1], bords[2], bords[3]);
         this.centre = bords[4];
@@ -83,33 +87,62 @@ public class TuileCarcassonne extends Tuile {
 
     // permet d'adapter l'image à la taille de la tuille
     public void resizeImage(){
-        int newH = Math.max(10, this.getHeight());
-        int newW = Math.max(this.getWidth(), 10) ;
-        Image tmp = image.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-        image = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+        int newHeigh = Math.max(10, this.getHeight());
+        int newWidth = Math.max(this.getWidth(), 10) ;
+        Image temp = image.getScaledInstance(newWidth, newHeigh, Image.SCALE_SMOOTH);
+        image = new BufferedImage(newWidth, newHeigh, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
-        g2d.drawImage(tmp, 0, 0, null);
+        g2d.drawImage(temp, 0, 0, null);
         g2d.dispose();
     }
 
 
     // tourner l'image dans le GUI
     public void Rotate(boolean sensHoraire){
+        // tourne les bords
         super.Rotate(sensHoraire);
 
+        // pour le GUI
+        MemoireRotate(sensHoraire);
+
+        int newHeigh = image.getWidth();
+        int newWidth = image.getHeight();
+        int typeOfImage = image.getType();
+
+        BufferedImage temp = new BufferedImage(newHeigh, newWidth, typeOfImage);
+        Graphics2D graphics2D = temp.createGraphics();
+        graphics2D.rotate( sensHoraire ? Math.PI/2 : - Math.PI/2,  newHeigh / 2, newWidth / 2);
+        graphics2D.drawImage(image, null, 0, 0);
+        image = temp ;
+        repaint();
+
+    }
+
+    private void MemoireRotate(boolean sensHoraire){
+        if (sensHoraire) rotation += 1 ;
+        else rotation -= 1 ;
+        // permet de garder l'entier entre 0 et 3
+        rotation = rotation%4 ;
     }
 
     // enregistrement spécial (Serializable), pour eviter les problème et réduire la taille de sauvegarde
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.writeObject(centre);
         out.writeObject(nom);
+        out.writeObject(rotation);
         
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         centre = (Bord)in.readObject() ;
         nom = (String)in.readObject() ;
+        rotation =  (int)in.readObject() ;
         setImage(nom);
+
+        // permet de mettre l'image dans la rotation avant enregistrement
+        for (int i = 0 ; i < rotation ; i++){
+            Rotate(true);
+        }
 
     }
 
