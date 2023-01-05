@@ -77,8 +77,8 @@ public class GameView implements Serializable{
 
             retourMenu.addActionListener(event -> {
                 partie.save() ;
-                conteneurGlobal.setVisible(false);
-                new Menu(conteneurGlobal.getRootPane()) ;
+                // conteneurGlobal.setVisible(false);
+                // new Menu(conteneurGlobal.getRootPane()) ;
             });
 
             // JPanel conteneurTitre et JLabel titre
