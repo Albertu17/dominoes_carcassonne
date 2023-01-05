@@ -44,6 +44,10 @@ public class GameView implements Serializable{
     JPanel conteneurPieceAJouer;
     JButton retourMenu ;
     JButton quitter ;
+    JButton defausser ;
+    JButton rotationDroite ;
+    JButton rotationGauche ;
+    JPanel conteneurRotate ;
     // JPanel conteneurPieceAjouerMilieu;
     // JPanel conteneurPieceAjouerHaut;
     // JPanel conteneurPieceAjouerGauche;
@@ -140,6 +144,52 @@ public class GameView implements Serializable{
             // JPanel conteneurInfos
             conteneurInfos = new JPanel();
             conteneurInfos.setLayout(new GridLayout(partie.joueurs.nbJoueurs() + 1,1,-1,-1));
+
+            conteneurInfosCoup = new JPanel();
+            conteneurInfosCoup.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            conteneurInfosCoup.setLayout(new BoxLayout(conteneurInfosCoup, BoxLayout.PAGE_AXIS));
+
+            conteneurRotate = new JPanel() ;
+            conteneurRotate.setLayout(new FlowLayout()) ;
+            conteneurInfosCoup.add(conteneurRotate); 
+
+            rotationDroite = new JButton("Rotation a droite");
+            rotationGauche = new JButton("Rotation a gauche");
+            defausser = new JButton("Jeter la tuile");
+
+            // définition action
+                rotationDroite.addActionListener(event -> {
+                    partie.aJouer.Rotate(true) ;
+                });
+                
+                rotationGauche.addActionListener(event -> {
+                    partie.aJouer.Rotate(false) ;
+                });
+
+                defausser.addActionListener(evnt -> {
+                    // TODO au tour du suivant
+                });
+
+            // ajout
+            conteneurRotate.add(rotationGauche);
+            conteneurRotate.add(rotationDroite);
+            conteneurRotate.add(defausser) ;
+
+
+
+
+
+
+            // TODO rechanger plus atrd quand ça sera implanter
+            // Tuile t = partie.aJouer;
+            partie.aJouer = partie.pioche.pickOne();
+            // t.setPreferredSize(new Dimension(20,20));
+            conteneurInfosCoup.add(partie.aJouer);
+            partie.aJouer.setEnvironnement(this);
+            // conteneurPieceAJouer.add(new JPanel(), BorderLayout.LINE_START);
+            conteneurInfos.add(conteneurInfosCoup);
+
+
                 // Les différents PanelJoueur
                 for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
                     conteneurInfos.add(partie.joueurs.players.get(i).new PanelJoueur());
