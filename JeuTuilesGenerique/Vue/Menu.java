@@ -319,7 +319,9 @@ public class Menu implements Serializable{
                         if (carcassonneBoolean) launcher.launchRunningGame((PartieCarcassonne) obj.readObject()) ;
                         else launcher.launchRunningGame((PartieDominos) obj.readObject()) ;
                         obj.close();
-                        nextInterfaceMenu();
+                        container.setVisible(false);
+                        
+                        // nextInterfaceMenu();
                     } catch (Exception e) {
                         System.out.println(e);
                     }
