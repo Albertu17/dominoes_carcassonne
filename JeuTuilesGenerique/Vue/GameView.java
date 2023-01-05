@@ -37,6 +37,7 @@ public class GameView implements Serializable{
     JPanel bandeauInf;
     JLabel credit;
     JPanel coeur;
+    JPanel conteneurGrille;
     JPanel grille;
     JPanel conteneurInfos;
     JPanel conteneurInfosCoup;
@@ -52,6 +53,7 @@ public class GameView implements Serializable{
     public GameView(Partie partie){
 
         this.partie = partie;
+        partie.setGui(this);
         // JPanel conteneurGlobal
         conteneurGlobal = new JPanel();
         conteneurGlobal.setLayout(new BorderLayout());
@@ -125,23 +127,15 @@ public class GameView implements Serializable{
         gbc.fill = GridBagConstraints.BOTH;
         conteneurGlobal.add(coeur, BorderLayout.CENTER);
 
-            // JPanel grille
-            grille = new JPanel();
-            grille.setLayout(new GridLayout(partie.plateau.hauteur-2, partie.plateau.largeur-2, -1, -1));
-            grille.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+            // JPanel conteneurGrille
+            conteneurGrille = new JPanel();
+            conteneurGrille.setLayout(new BoxLayout(conteneurGrille, BoxLayout.X_AXIS));
+            conteneurGrille.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
             gbc.weightx = 3; // Grandit 3 fois plus vite qu'un weigthx = 1.
-            coeur.add(grille, gbc);
+            coeur.add(conteneurGrille, gbc);
 
-            // Remplissage de la grille avec tuiles non-extérieures du plateau.
-            for (int i = 1; i < (partie.plateau.hauteur - 1); i++) {
-                for (int j = 1; j < (partie.plateau.largeur - 1); j++) {
-                    grille.add(partie.plateau.plateau[i][j]);
-                    // Dès qu'une tuile est ajoutée au GUI, on lui définit son environnement (GameView)
-                    // et ses coordonnées si c'est une tuile de la grille.
-                    partie.plateau.plateau[i][j].setEnvironnement(this);
-                    partie.plateau.plateau[i][j].setCoordonnées(i, j);
-                }
-            }
+            // JPanel grille
+            repaintGrille();
 
             // JPanel conteneurInfos
             conteneurInfos = new JPanel();
@@ -178,6 +172,36 @@ public class GameView implements Serializable{
         grille.add(t, x*partie.plateau.largeur+y); // Remplace par la tuile jouée.
         grille.repaint(); // Repeint GUI.
         grille.revalidate(); // Revalide GUI.
+    }
+
+    public void repaintGrille() {
+        grille = new JPanel();
+        grille.setLayout(new GridLayout(partie.plateau.hauteur-2, partie.plateau.largeur-2, -1, -1));
+        conteneurGrille.add(grille);
+
+        // Remplissage de la grille avec tuiles non-extérieures du plateau.
+        for (int i = 1; i < (partie.plateau.hauteur - 1); i++) {
+            for (int j = 1; j < (partie.plateau.largeur - 1); j++) {
+                grille.add(partie.plateau.plateau[i][j]);
+                // Dès qu'une tuile est ajoutée au GUI, on lui définit son environnement (GameView)
+                // et ses coordonnées si c'est une tuile de la grille.
+                partie.plateau.plateau[i][j].setEnvironnement(this);
+                partie.plateau.plateau[i][j].setCoordonnées(i, j);
+            }
+        }
+    }
+
+    public void repaintPanelJoueurs() {
+        for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
+            conteneurInfos.remove(i+1);
+            conteneurInfos.add(partie.joueurs.players.get(i).new PanelJoueur());
+            grille.repaint(); // Repeint GUI.
+            grille.revalidate(); // Revalide GUI.
+        }
+    }
+
+    public void repaintTuileAJouer() { // TODO écrire avec idée updateTuileAJouer
+
     }
 
     public void updateTuileAJouer() {

@@ -136,7 +136,7 @@ public class DominoTerminal {
         int x = Integer.valueOf( coord[0] ) ;
         int y = Integer.valueOf( coord[1] ) ;
 
-        int pts = partie.jouer( x, y) ;
+        int pts = 0;//partie.jouer( x, y) ; // TODO demander Thib but
 
         j.addScore(pts);
 
