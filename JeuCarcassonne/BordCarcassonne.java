@@ -1,5 +1,7 @@
 package JeuCarcassonne;
 
+import java.io.Serializable;
+
 import JeuTuilesGenerique.Modele.Bord;
 
 public class BordCarcassonne extends Bord{
@@ -35,7 +37,7 @@ public class BordCarcassonne extends Bord{
         return false;
     }
 
-    public static class Structure {
+    public static class Structure implements Serializable {
         public static class Route extends Structure {}
         public static class Champ extends Structure {}
         public static class Ville extends Structure {
