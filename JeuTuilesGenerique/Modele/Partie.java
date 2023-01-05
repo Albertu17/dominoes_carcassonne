@@ -68,7 +68,7 @@ public class Partie implements Serializable {
     }
 
     // Vérifie si une tuile est plaçable, la place le cas échéant et prépare le tour suivant.
-    public void jouer(int x, int y) {
+    public boolean jouer(int x, int y) {
         if (check(x, y)) { 
             // aggrandit le plateau si la tuile est placée en bordure de la grille du GUI.
             if (plateau.add(aJouer, x, y)) gui.repaintGrille();
@@ -78,38 +78,41 @@ public class Partie implements Serializable {
             gui.repaintPanelJoueurs();
             nouvelleTuileAjouer();
             // gui.repaintTuileAJouer(); // TODO fonction dans GUI
+            return true ; //besoin du boolean pour l'IA
         }
-    }
-    public void TourIA(Joueur j){
-        int ptsIA = RecursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ;
-        if (ptsIA != 0 ) j.addScore(ptsIA);
+        return false ;
     }
 
-    public int RecursiveIA(int x, int y, List<Tuile> list){
-        if (list.contains(plateau.plateau[x][y])) return 0 ;
+
+    // prend en fonction de joueur au trait
+    public void TourIA(Joueur j){
+        RecursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ;
+    }
+
+    public boolean RecursiveIA(int x, int y, List<Tuile> list){
+        if (list.contains(plateau.plateau[x][y])) return false ;
 
         // pour ne pas tester 2 fois la meme tuile et donc faire une boucle infinie
         list.add(plateau.plateau[x][y]) ;
 
         // si on peut placer à cette place
         for (int i = 0 ; i < 4 ; i++){
-            int pos = 0;//jouer(x, y) ; // TODO demander Thib but
-            if (pos != 0) return pos ;
-            aJouer.Rotate(true);
+            if (jouer(x, y)) return true ;
+            else aJouer.Rotate(true);
         }
 
         // recursif sur tuille adjacentes :
         if (x!= 1 && y!=1 && x != plateau.plateau.length-2 && y != plateau.plateau[0].length-2 ){
-            int a =  RecursiveIA(x-1, y, list);
-            if (a != 0) return a ;
-            int b = RecursiveIA(x+1, y, list);
-            if (b != 0) return b ;
-            int c = RecursiveIA(x, y-1, list);
-            if (c != 0) return c ;
-            int d = RecursiveIA(x, y+1, list);
-            if (d != 0) return d ;
+            if (RecursiveIA(x-1, y, list) ) return true;
+            
+            if (RecursiveIA(x+1, y, list)) return true;
+            
+            if (RecursiveIA(x, y-1, list)) return true ;
+            
+            if (RecursiveIA(x, y+1, list)) return true;
+            
         }
-        return 0 ;
+        return false  ;
     }
 
 
