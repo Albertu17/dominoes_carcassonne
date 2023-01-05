@@ -21,7 +21,7 @@ public class TuileCarcassonne extends Tuile {
 
     // Prend en argument une string de type VRRVV
     public TuileCarcassonne(String description) throws IOException {
-        this(stringToTile(description), "ImagesTuiles/Tuile-" + description + ".png");
+        this(stringToTile(description), "JeuCarcassonne/ImagesTuiles/Tuile-" + description + ".png");
     }
 
     // Une fonction annexe doit être créée car un appel au constructeur this() doit être la première
