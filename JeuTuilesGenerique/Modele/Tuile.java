@@ -2,6 +2,10 @@ package JeuTuilesGenerique.Modele;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -95,5 +99,35 @@ public class Tuile extends JPanel implements MouseInputListener {
     public void mouseExited(MouseEvent e) {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
+
+    // enregistrement spécial pour enlever gameview ;
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.writeObject(x);
+        out.writeObject(y);
+        out.writeObject(nord);
+        out.writeObject(est);
+        out.writeObject(sud);
+        out.writeObject(ouest);
+        out.writeObject(moving);
+
+        
+        
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        
+        x = (int)in.readObject() ;
+        y = (int)in.readObject() ;
+        
+        nord = (Bord)in.readObject();
+        est = (Bord)in.readObject();
+        sud = (Bord)in.readObject();
+        ouest = (Bord)in.readObject();
+        moving = (boolean)in.readObject();
+
+    }
+
+    private void readObjectNoData() throws ObjectStreamException{ }
+    
 
 }

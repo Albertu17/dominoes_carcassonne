@@ -13,16 +13,24 @@ public class TuileCarcassonne extends Tuile {
     
     Bord centre;
     BufferedImage image;
+    String nom ;
 
     public TuileCarcassonne(BordCarcassonne[] bords, String chemin) throws IOException {
         super(bords[0], bords[1], bords[2], bords[3]);
         this.centre = bords[4];
         image = ImageIO.read(new File(chemin));
+        setImage(chemin);
+    }
+    
+    private void setImage(String description) throws IOException{   
+        System.out.println(description);
+        image = ImageIO.read(new File("JeuCarcassonne/ImagesTuiles/Tuile-" + description + ".png"));
     }
 
     // Prend en argument une string de type VRRVV
     public TuileCarcassonne(String description) throws IOException {
-        this(stringToTile(description), "JeuCarcassonne/ImagesTuiles/Tuile-" + description + ".png");
+        this(stringToTile(description), description);
+        nom = description ;
     }
 
     // Une fonction annexe doit être créée car un appel au constructeur this() doit être la première
@@ -68,4 +76,20 @@ public class TuileCarcassonne extends Tuile {
               
               
     }
+
+    // enregistrement spécial (Serializable), pour eviter les problème et réduire la taille de sauvegarde
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.writeObject(centre);
+        out.writeObject(nom);
+        
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        centre = (Bord)in.readObject() ;
+        nom = (String)in.readObject() ;
+        setImage(nom);
+
+    }
+
+    private void readObjectNoData() throws ObjectStreamException{ }
 }
