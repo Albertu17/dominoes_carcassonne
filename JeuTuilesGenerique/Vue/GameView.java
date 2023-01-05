@@ -7,10 +7,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.io.Serializable;
 
-import javax.sound.midi.SysexMessage;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -23,10 +21,10 @@ import JeuTuilesGenerique.Modele.Tuile;
 
 public class GameView implements Serializable{
 
-    Launcher fenetreGraphique ;
+    // Launcher fenetreGraphique ;
     
     public Partie partie;
-    JPanel conteneurGlobal;
+    public JPanel conteneurGlobal;
     JPanel bandeauSup;
     JPanel conteneurTitre;
     public JLabel titre;
@@ -42,67 +40,25 @@ public class GameView implements Serializable{
     JPanel conteneurInfos;
     JPanel conteneurInfosCoup;
     JPanel conteneurPieceAJouer;
-
     JButton retourMenu ;
-    JButton quitter ;
-
     // JPanel conteneurPieceAjouerMilieu;
     // JPanel conteneurPieceAjouerHaut;
     // JPanel conteneurPieceAjouerGauche;
     // JPanel conteneurPieceAjouerDroite;
     // JPanel conteneurPieceAjouerBas;
 
-    // public GameView(){
-    //     // Fenêtre
-    //     setVisible(true);
-    //     setTitle("JEU");
-    //     Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); // Récupère taille de l'écran utilisateur.
-    //     setSize((int) size.getWidth(), (int) size.getHeight()); // Met la fenêtre en plein écran.
-    //     setDefaultCloseOperation(EXIT_ON_CLOSE);
+    public GameView(Partie partie){
 
-    // }
-    
-    public GameView(){}
-
-    public GameView(Launcher f){ fenetreGraphique = f ; }
-    public void setFenetre(Launcher f){ fenetreGraphique = f ;}
-    public void setPartie(Partie partie) {this.partie = partie;}
-    public Partie getPartie() {return partie;}
-
-    public void setGameView () {
-
-        
-
+        this.partie = partie;
         // JPanel conteneurGlobal
         conteneurGlobal = new JPanel();
         conteneurGlobal.setLayout(new BorderLayout());
-        fenetreGraphique.getContentPane().add(conteneurGlobal);
 
         // JPanel BandeauSup (nom du jeu + 2 boutons)
         bandeauSup = new JPanel();
         bandeauSup.setLayout(new BoxLayout(bandeauSup, BoxLayout.LINE_AXIS));
         bandeauSup.setBorder(BorderFactory.createEmptyBorder(20,0,10,0));
         conteneurGlobal.add(bandeauSup, BorderLayout.PAGE_START);
-
-        // Bouton quiter, retour 
-            quitter = new ButtonImage("croix.png", new Rectangle(40,40, 0, 0 )); 
-            retourMenu = new ButtonImage("retour50p.png", new Rectangle(40,40, 0, 0 ));
-            bandeauSup.add(quitter);
-            bandeauSup.add(retourMenu);
-
-            // action bouton 
-
-            quitter.addActionListener(event -> {
-                partie.save();
-                System.exit(0);
-            });
-
-            retourMenu.addActionListener(event -> {
-                partie.save() ;
-                conteneurGlobal.setVisible(false);
-                new Menu(fenetreGraphique) ;
-            });
-
 
             // JPanel conteneurTitre et JLabel titre
             conteneurTitre = new JPanel();
@@ -120,7 +76,6 @@ public class GameView implements Serializable{
             sauvegarder = new JButton("save");
             conteneurBoutons.add(sauvegarder);
 
-           
             // ajout de l'action de sauvegarder :
                 sauvegarder.addActionListener(event -> {
                     partie.save() ;
@@ -183,7 +138,6 @@ public class GameView implements Serializable{
                 conteneurInfosCoup.add(new JButton("Turn"));
                 Tuile t = partie.aJouer;
                 // t.setPreferredSize(new Dimension(20,20));
-                t.setBackground(Color.green);
                 conteneurInfosCoup.add(t);
                 t.setEnvironnement(this);
                 // conteneurPieceAJouer.add(new JPanel(), BorderLayout.LINE_START);
@@ -192,6 +146,8 @@ public class GameView implements Serializable{
             gbc.weightx = 1;
             coeur.add(conteneurInfos, gbc);
     }
+
+    public Partie getPartie() {return partie;}
 
     // Affiche visuellement la tuile qui est à jouer aux coordonnées indiquées.
     public void updateGrille(Tuile t, int x, int y) {

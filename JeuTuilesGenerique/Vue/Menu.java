@@ -1,19 +1,17 @@
 package JeuTuilesGenerique.Vue;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Rectangle;
+import java.awt.*;
 import  java.awt.event.FocusEvent ;
 import  java.awt.event.FocusListener;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-import javax.swing.BoxLayout;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -24,16 +22,18 @@ import JeuCarcassonne.PartieCarcassonne;
 import JeuCarcassonne.VueCarcassonne;
 import JeuDominos.PartieDominos;
 import JeuDominos.VueDominos ;
+import JeuTuilesGenerique.Modele.Joueurs;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 
 public class Menu implements Serializable{
     
-    GameView vuePartie ;
-    Launcher pane ;
+    // GameView vuePartie ;
+    Launcher launcher;
+    String nomPartie;
     JPanel container ;
-    private int widthFrame ; 
-    private int heightFrame ; 
-    private boolean carcassonneBoolean ;
+    private int widthFrame; 
+    private int heightFrame; 
+    private boolean carcassonneBoolean;
 
     // toutes les interfaces du menu
     SelectGame selectGame ;
@@ -41,29 +41,51 @@ public class Menu implements Serializable{
     ManagePlayer managePlayer ;
 
 
-    public Menu(Launcher f){
-        pane = f ;
-
-        widthFrame = pane.getWidth() ;
-        heightFrame = pane.getHeight() ;
+    public Menu(Launcher launcher){
+        this.launcher = launcher;
+        widthFrame = launcher.getWidth() ;
+        heightFrame = launcher.getHeight() ;
 
         container = new JPanel() ;
         container.setVisible(true);
         container.setLayout(null);
-        pane.getContentPane().add(container);
+        launcher.getContentPane().add(container);
 
         if (selectGame == null)  selectGame = new SelectGame() ;
     }
 
 
-    public void play(){
-        vuePartie.setFenetre(pane);
-        vuePartie.setGameView();
-    }
+    // public void play(){
+    //     vuePartie.setFenetre(pane); // TODO effacer
+    //     vuePartie.setGameView();
+    // }
 
 
     // Objet avec des définition spécial
 
+    class ButtonImage extends JButton{
+
+        ButtonImage(String NameImage){
+            this(NameImage, new Rectangle(15,15, 50 , 50)) ;
+        }
+
+        ButtonImage(String NameImage, Rectangle d){
+
+            try {
+                Image img;
+                img = ImageIO.read(getClass().getResource("Image/" + NameImage));
+                this.setIcon(new ImageIcon(img));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            this.setBounds(d);
+            this.setOpaque(false);
+            this.setContentAreaFilled(false);
+            this.setBorderPainted(false);
+            this.setVisible(true);
+            container.add(this) ; 
+        }
+    }
 
     private class FocusPlaceholder implements FocusListener{
         JTextField field ; 
@@ -99,7 +121,7 @@ public class Menu implements Serializable{
 
     class SelectGame implements Serializable{
         
-        // JLabel indication ;
+        // JButtons
         JButton carcassonne ;
         JButton domino ;
 
@@ -111,22 +133,15 @@ public class Menu implements Serializable{
 
             // fermer le jeu
             fermer = new ButtonImage("croix.png") ;
-            container.add(fermer); 
             
             fermer.addActionListener(event -> {
                 System.exit(0);
             });
 
             
-            // initialisation Button
-
-            carcassonne = new JButton() ;
-            domino = new JButton() ;
-
-
-            // texte
-            carcassonne.setText("Carcassonne");
-            domino.setText("Domino");
+            // initialisation JButtons
+            carcassonne = new JButton("Carcassonne") ;
+            domino = new JButton("Domino") ;
 
 
             // définition de la taille
@@ -181,11 +196,12 @@ public class Menu implements Serializable{
     }
 
     class SelectSave implements Serializable{
+
         JTextField newGame ;
 
         JPanel conteneurSelectionPartie ;
-        JButton lancerlaPartie1 ;
-        JButton lancerlaPartie2 ;
+        JButton chargerNouvellePartie ;
+        JButton chargerPartieSauvegardee ;
         JComboBox<String> listsaveComboBox  ;
         
         String[] listtouteSauvegarde  ;
@@ -200,7 +216,6 @@ public class Menu implements Serializable{
 
             // set button retour
             retour = new ButtonImage("retour50p.png") ;
-            container.add(retour) ;
             
             retour.addActionListener(event -> {
                 previousInterfaceMenu() ;
@@ -210,8 +225,8 @@ public class Menu implements Serializable{
 
             // autre fonction
             newGame = new JTextField() ;
-            lancerlaPartie1 = new JButton();
-            lancerlaPartie2 = new JButton();
+            chargerNouvellePartie = new JButton();
+            chargerPartieSauvegardee = new JButton();
 
             newGame.setText("Rentrer le nom de la nouvelle partie");
             newGame.setForeground(Color.GRAY) ;
@@ -219,9 +234,8 @@ public class Menu implements Serializable{
             newGame.setPreferredSize(newGame.getMinimumSize());
 
 
-            lancerlaPartie1.setText("Charger la partie");
-            lancerlaPartie2.setText("Charger la partie");
-
+            chargerNouvellePartie.setText("Charger la partie");
+            chargerPartieSauvegardee.setText("Charger la partie");
 
             conteneurSelectionPartie = new JPanel() ;
 
@@ -254,13 +268,13 @@ public class Menu implements Serializable{
                 c.gridwidth = 1;
                 c.gridx = 5;
                 c.gridy = 0;
-                conteneurSelectionPartie.add(lancerlaPartie1, c);
+                conteneurSelectionPartie.add(chargerNouvellePartie, c);
 
             
                 c.gridwidth = 1;
                 c.gridx = 5;
                 c.gridy = 2;
-                conteneurSelectionPartie.add(lancerlaPartie2, c);
+                conteneurSelectionPartie.add(chargerPartieSauvegardee, c);
             
            
             // placement indication
@@ -281,36 +295,29 @@ public class Menu implements Serializable{
 
             newGame.setVisible(true);
             listsaveComboBox.setVisible(true);
-            lancerlaPartie1.setVisible(true);
-            lancerlaPartie2.setVisible(true);
+            chargerNouvellePartie.setVisible(true);
+            chargerPartieSauvegardee.setVisible(true);
 
             // action 
             
             
-            lancerlaPartie1.addActionListener(event -> {
+            chargerNouvellePartie.addActionListener(event -> {
                 if (isFree(newGame.getText())){
-                    if (carcassonneBoolean){
-                        vuePartie = new VueCarcassonne( new PartieCarcassonne(newGame.getText())) ;
-                    }else{
-                        vuePartie = new VueDominos(new PartieDominos(newGame.getText())) ;
-
-                    }
+                    nomPartie = newGame.getText();
                     nextInterfaceMenu() ;
-                
-                }else{
+                } else {
                     newGame.setText("Nom déjà utilisé");
                     newGame.setForeground(Color.GRAY);
-                } 
-
+                }
             });
 
-            lancerlaPartie2.addActionListener(event -> {
+            chargerPartieSauvegardee.addActionListener(event -> {
                 if (listsaveComboBox.getSelectedItem() != null ){
                     try {
                         final FileInputStream fichier = new FileInputStream("Sauvegarde/"+ (carcassonneBoolean? "Carcassonne/" : "Domino/" ) + listsaveComboBox.getSelectedItem());
                         ObjectInputStream obj = new ObjectInputStream(fichier) ;
-                        if (carcassonneBoolean) vuePartie = new VueCarcassonne((PartieCarcassonne) obj.readObject()) ;
-                        else vuePartie = new VueDominos((PartieDominos) obj.readObject()) ;
+                        if (carcassonneBoolean) launcher.launchRunningGame((PartieCarcassonne) obj.readObject()) ;
+                        else launcher.launchRunningGame((PartieDominos) obj.readObject()) ;
                         obj.close();
                         nextInterfaceMenu();
                     } catch (Exception e) {
@@ -321,10 +328,6 @@ public class Menu implements Serializable{
             });
 
             newGame.addFocusListener(new FocusPlaceholder(newGame, aide));
-
-           
-
-
             changevisibility(true);
         }
 
@@ -334,7 +337,6 @@ public class Menu implements Serializable{
             }
             for (String string : aide) {
                 if (string.equals(nom)) return false ;
-                
             }
             return true ;
         }
@@ -385,19 +387,113 @@ public class Menu implements Serializable{
     }
 
 
-
-
-    
-    
     class ManagePlayer implements Serializable{
 
-        private class ConteneurAddPlayer extends JPanel{
+        ButtonImage retour ;
+        ConteneurAddPlayer conteneurAddPlayer ;
+        JPanel dispPlayer;
+        Joueurs joueurs;
+        JPanel panelmanage ;
+        JLabel IndicationAjout ;
+        JLabel IndicationPresent ;
+
+        // ButtonImage play ;
+        JButton play ;
+
+        ManagePlayer(){
+            joueurs = new Joueurs();
+            // bouton retour
+                retour = new ButtonImage("retour50p.png") ;
+                retour.addActionListener(event -> {
+                    previousInterfaceMenu() ;
+                });
+
+            // Barre ajout de joueur :
+                conteneurAddPlayer= new ConteneurAddPlayer() ;
+                conteneurAddPlayer.setVisible(true);
+                container.add(conteneurAddPlayer) ;
+               
+                conteneurAddPlayer.setSize(widthFrame/3, 100);
+                conteneurAddPlayer.setLocation(widthFrame/2 -conteneurAddPlayer.getWidth()/2, heightFrame/4);
+                
+                // conteneurAddPlayer.nom.setSize(100, conteneurAddPlayer.IA.getWidth());
+                // conteneurAddPlayer.nom.setPreferredSize(new Dimension( 100, conteneurAddPlayer.IA.getWidth()));
+                
+            // les joueurs déjà présents :
+                dispPlayer = new JPanel() ;
+                dispPlayer.setLayout(new BoxLayout(dispPlayer, BoxLayout.PAGE_AXIS));
+                
+                for (Joueur joueur : joueurs.getList()){
+                    dispPlayer.add(new ConteneurPlayer(joueur)) ;
+                }
+
+                dispPlayer.setSize(widthFrame/3, 300);
+                dispPlayer.setLocation(widthFrame/2 -dispPlayer.getWidth()/2, heightFrame/2);
+                
+                dispPlayer.setVisible(true);
+                container.add(dispPlayer) ;
+                
+                
+            // Texte d'aide :
+                IndicationAjout = new JLabel("Ajouter un nouveau joueur :") ;
+                IndicationPresent = new JLabel("Liste des joueurs de la partie (min:2, max:6) : ") ;
+                
+                IndicationAjout.setSize(widthFrame/3, 100);
+                IndicationAjout.setLocation(widthFrame/2 -IndicationAjout.getWidth()/2, heightFrame/4-100);
+                
+                IndicationPresent.setSize(widthFrame/3, 100);
+                IndicationPresent.setLocation(widthFrame/2 -IndicationPresent.getWidth()/2, heightFrame/2-100);
+
+                container.add(IndicationAjout) ;
+                container.add(IndicationPresent) ;
+
+            // Boutton play :
+                    play = new ButtonImage("play.png", new Rectangle(50, 50, widthFrame-50 , heightFrame/2  )) ;
+                    // play = new JButton("play");  
+                
+                    play.setSize(50,50);
+                    play.setLocation((widthFrame*5 )/6, heightFrame/2  );
+                    container.add(play) ;
+
+                    play.addActionListener(event -> {
+                        if (joueurs.nbJoueurs() >= 2){
+                            container.setVisible(false);
+                            changevisibility(false);
+                            if (carcassonneBoolean)
+                                try { launcher.launchCarcassonne(joueurs, nomPartie);
+                                } catch (IOException e) { System.out.println("Impossible de lancer Carcassonne, pioche non constituée"); }
+                            else launcher.launchDominos(joueurs, nomPartie);
+                        }
+                    });
+
+            changevisibility(true);
+        }
+        
+        
+        public void previousInterfaceMenu(){
+            changevisibility(false);
+            // vuePartie.getPartie().save();
+            selectSave = new SelectSave() ;
+        }
+    
+
+        public void changevisibility(boolean visibility){
+            dispPlayer.setVisible(visibility);
+            conteneurAddPlayer.setVisible(visibility);
+            retour.setVisible(visibility);
+            IndicationAjout.setVisible(visibility);
+            IndicationPresent.setVisible(visibility);
+            play.setVisible(visibility);
+        }
+
+        private class ConteneurAddPlayer extends JPanel {
+
             JButton add;
             JTextField nom ;
             JButton IA ;
             boolean isIA ;
 
-            String[] aide = new String[]{"Nom déjà utilisé", "Le nombre maximun de joueur est atteint !", "Entrer le nom du joueur"} ;
+            String[] aide = new String[]{"Nom déjà utilisé", "Le nombre maximun de joueurs est atteint !", "Entrer le nom du joueur"} ;
 
             ConteneurAddPlayer(){
 
@@ -405,14 +501,12 @@ public class Menu implements Serializable{
                 IA  = new JButton("IA") ;
                 isIA = false ;
                 setColor();
-                
 
                 nom = new JTextField("Entrer le nom du joueur") ;
                 nom.setForeground(Color.GRAY);
 
                 nom.setMinimumSize(new Dimension(240, 20));
                 nom.setPreferredSize(nom.getMinimumSize());
-
 
                 add = new JButton("+") ;
 
@@ -424,15 +518,15 @@ public class Menu implements Serializable{
                 });
 
                 add.addActionListener(event -> {
-                    if (vuePartie.getPartie().getJoueurs().nomLibre(nom.getText())){
-                        if (vuePartie.getPartie().getJoueurs().addPlayer(nom.getText(), isIA, false)){
-                            dispPlayer.add( new ConteneurPlayer(vuePartie.getPartie().getJoueurs().getLast())) ;
+                    if (NameFree()){
+                        if (joueurs.addPlayer(nom.getText(), isIA, false)){
+                            dispPlayer.add( new ConteneurPlayer(joueurs.getLast())) ;
                             dispPlayer.revalidate();
                             dispPlayer.repaint();
                             nom.setText("Entrer le nom du joueur") ;
                             nom.setForeground(Color.GRAY);
                         }else{
-                            nom.setText("Le nombre maximun de joueur est atteint !");
+                            nom.setText("Le nombre maximun de joueurs est atteint !");
                             nom.setForeground(Color.GRAY);
                         }
                     }else{
@@ -441,10 +535,9 @@ public class Menu implements Serializable{
                     }
                 });
 
-                // permet l'effacement du texte pré-écrit lorsque on passe sur le texte
+                // permet l'effacement du texte pré-écrit lorsqu'on passe sur le texte
                 nom.addFocusListener(new FocusPlaceholder(nom, aide));
 
-    
                 // placer
                 setLayout(new FlowLayout()) ;
 
@@ -452,31 +545,40 @@ public class Menu implements Serializable{
                 add(nom) ;
                 add(add) ;
                 
-
                 // rendre visible 
                 IA.setVisible(true);
                 nom.setVisible(true);
                 add.setVisible(true);
                 setVisible(true );
+            }
+
+            private void setColor(){
+                Color color =  isIA ? Color.GREEN : Color.RED ;
+                IA.setBackground(color) ;
+            }
+
+            private boolean NameFree(){
+                String name = nom.getText() ;
+                if (name.equals("")) return false ;
+                
+                for (Joueur jo : joueurs.getList()) {
+                    if (name.equals(jo.getName())) return false ;
+                }
+                
+                return true ;
+            }
+
         }
-
-        private void setColor(){
-            Color color =  isIA ? Color.GREEN : Color.RED ;
-            IA.setBackground(color) ;
-        }
-
         
+        private class ConteneurPlayer extends JPanel {
 
-    }
-        
-        private class ConteneurPlayer extends JPanel{
             JButton remove;
             JLabel nom ;
             JButton IA ;
 
             ConteneurPlayer(Joueur joueur){
 
-                // définir les J
+                // définir les JElements
                 IA  = new JButton("IA") ;
                 setColor(joueur.isIA()) ;
 
@@ -492,7 +594,7 @@ public class Menu implements Serializable{
                 });
 
                 remove.addActionListener(event -> {
-                    vuePartie.getPartie().getJoueurs().getList().remove(joueur) ;
+                    joueurs.getList().remove(joueur) ;
                     dispPlayer.remove(this);
                     dispPlayer.revalidate();
                     dispPlayer.repaint();
@@ -517,110 +619,6 @@ public class Menu implements Serializable{
                 Color color =  IA_IsON ? Color.GREEN : Color.RED ;
                 IA.setBackground(color) ;
             }
-        }
-
-        
-        ButtonImage retour ;
-        ConteneurAddPlayer conteneurAddPlayer ;
-        JPanel dispPlayer;
-
-        JPanel panelmanage ;
-        JLabel IndicationAjout ;
-        JLabel IndicationPresent ;
-
-        // ButtonImage play ;
-        JButton play ;
-    
-
-        ManagePlayer(){
-
-            // bouton retour
-                retour = new ButtonImage("retour50p.png") ;
-                container.add(retour) ;
-                    
-                retour.addActionListener(event -> {
-                    previousInterfaceMenu() ;
-                });
-
-            
-            
-            
-            // Barre ajout de joueur :
-                conteneurAddPlayer= new ConteneurAddPlayer() ;
-                conteneurAddPlayer.setVisible(true);
-                container.add(conteneurAddPlayer) ;
-               
-                conteneurAddPlayer.setSize(widthFrame/3, 100);
-                conteneurAddPlayer.setLocation(widthFrame/2 -conteneurAddPlayer.getWidth()/2, heightFrame/4);
-                
-                // conteneurAddPlayer.nom.setSize(100, conteneurAddPlayer.IA.getWidth());
-                // conteneurAddPlayer.nom.setPreferredSize(new Dimension( 100, conteneurAddPlayer.IA.getWidth()));
-                
-            // les joueurs deja present :
-                dispPlayer = new JPanel() ;
-                dispPlayer.setLayout(new BoxLayout(dispPlayer, BoxLayout.PAGE_AXIS));
-                
-                for (Joueur joueur : vuePartie.getPartie().getJoueurs().getList()){
-                    dispPlayer.add( new ConteneurPlayer(joueur)) ;
-                }
-
-                
-                dispPlayer.setSize(widthFrame/3, 300);
-                dispPlayer.setLocation(widthFrame/2 -dispPlayer.getWidth()/2, heightFrame/2);
-                
-                dispPlayer.setVisible(true);
-                container.add(dispPlayer) ;
-                
-                
-                
-            // Texte d'aide :
-                IndicationAjout = new JLabel("Ajouter un nouveau joueur :") ;
-                IndicationPresent = new JLabel("Liste des joueurs de la partie (min:2, max:6) : ") ;
-                
-                IndicationAjout.setSize(widthFrame/3, 100);
-                IndicationAjout.setLocation(widthFrame/2 -IndicationAjout.getWidth()/2, heightFrame/4-100);
-                
-                IndicationPresent.setSize(widthFrame/3, 100);
-                IndicationPresent.setLocation(widthFrame/2 -IndicationPresent.getWidth()/2, heightFrame/2-100);
-
-                container.add(IndicationAjout) ;
-                container.add(IndicationPresent) ;
-
-            // Boutton play :
-                    play = new ButtonImage("play.png", new Rectangle(50, 50, widthFrame-50 , heightFrame/2  )) ;
-                    container.add(play) ;
-                
-                    play.setSize(50,50);
-                    play.setLocation((widthFrame*5 )/6, heightFrame/2  );
-                    
-
-                    play.addActionListener(event -> {
-                        if (vuePartie.getPartie().getJoueurs().nbJoueurs() >= 2){
-                            container.setVisible(false);
-                            changevisibility(false);
-                            play() ;
-                        }
-                    });
-
-            changevisibility(true);
-        }
-        
-        
-        public void previousInterfaceMenu(){
-            changevisibility(false);
-            vuePartie.getPartie().save();
-            selectSave = new SelectSave() ;
-            
-        }
-    
-
-        public void changevisibility(boolean visibility){
-            dispPlayer.setVisible(visibility);
-            conteneurAddPlayer.setVisible(visibility);
-            retour.setVisible(visibility);
-            IndicationAjout.setVisible(visibility);
-            IndicationPresent.setVisible(visibility);
-            play.setVisible(visibility);
         }
     }
 }

@@ -32,6 +32,5 @@ public class PiocheCarcassonne extends Pioche{
         addSeveralTimes(new TuileCarcassonne("VVCVV"), 3);
         addSeveralTimes(new TuileCarcassonne("VVRVV"), 1);
         addSeveralTimes(new TuileCarcassonne("VVVVVb"), 1);
-        
     }
 }

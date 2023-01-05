@@ -6,14 +6,8 @@ import JeuTuilesGenerique.Vue.GameView;
 public class VueCarcassonne extends GameView{
 
     public VueCarcassonne(Partie partie) {
-        this.partie = partie;
-
-        // TODO Ajouter spécificités conteneurInfos
-    }
-
-    public void setGameView(){
-        super.setGameView();
-
+        super(partie);
         super.titre.setText("Jeu de Carcassonne");
+        // TODO Ajouter spécificités conteneurInfos
     }
 }

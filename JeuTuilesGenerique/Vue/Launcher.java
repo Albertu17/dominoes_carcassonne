@@ -9,7 +9,7 @@ import JeuDominos.PartieDominos;
 import JeuDominos.PiocheDominos;
 import JeuDominos.VueDominos;
 import JeuTuilesGenerique.Modele.Joueurs;
-import JeuTuilesGenerique.Modele.Pioche;
+import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Plateau;
 
 import java.awt.* ;
@@ -21,11 +21,11 @@ public class Launcher extends JFrame{
         setVisible(true);
         setTitle("JEU");
         
-        setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        // setExtendedState(JFrame.MAXIMIZED_BOTH); 
         // setUndecorated(true);
 
-        // Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); // Récupère taille de l'écran utilisateur.
-        // setSize((int) size.getWidth(), (int) size.getHeight()); // Met la fenêtre en plein écran.
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); // Récupère taille de l'écran utilisateur.
+        setSize((int) size.getWidth(), (int) size.getHeight()); // Met la fenêtre en plein écran.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -35,16 +35,22 @@ public class Launcher extends JFrame{
         // launchCarcassonne ou launchDomino.
     }
 
+    public void launchRunningGame(Partie partie) {
+        GameView vue;
+        if (partie instanceof PartieCarcassonne) vue = new VueCarcassonne(partie);
+        else vue = new VueDominos(partie);
+        getContentPane().add(vue.conteneurGlobal);
+    }
+
     public void launchCarcassonne(Joueurs joueurs, String nomPartie) throws IOException {
         Plateau plateau = new Plateau(5, 5);
         PiocheCarcassonne piocheC = new PiocheCarcassonne();
         PartieCarcassonne partieC = new PartieCarcassonne(joueurs, plateau, piocheC, nomPartie);
         VueCarcassonne vueC = new VueCarcassonne(partieC);
         getContentPane().add(vueC.conteneurGlobal);
-        // vueC.setFenetre(new Launcher()) ;
     }
 
-    public void launchDominos(Joueurs joueurs, String nomPartie) throws IOException {
+    public void launchDominos(Joueurs joueurs, String nomPartie) {
         Plateau plateau = new Plateau(5, 5);
         PiocheDominos piocheD = new PiocheDominos(true);
         PartieDominos partieD = new PartieDominos(joueurs, plateau, piocheD, nomPartie);
@@ -52,30 +58,13 @@ public class Launcher extends JFrame{
         getContentPane().add(vueD.conteneurGlobal);
     }
 
-
-
-    // ancienne fonction au cas ou :
-                // public static void initialisation() {
-                //     Pioche pioche = new Pioche(72);
-                //     Joueurs joueurs = new Joueurs(2);
-                //     Plateau plateau = new Plateau(5,5);
-                //     Partie partie = new Partie(joueurs, plateau, pioche, "test");
-                //     GameView gV = new GameView(new Fenetre());
-                //     gV.setPartie(partie);
-                //     gV.setGameView();
-                // }
-
-                // public static  void launchWithoutMenu(){
-                //     GameView pane = new GameView(new Fenetre()) ;
-                //     PartieCarcassonne partie = new PartieCarcassonne("TestCarcassonne") ;
-                //     partie.getJoueurs().addPlayer("Pierre", false, true);
-                //     partie.getJoueurs().addPlayer("Damiens", false, true);
-                //     pane.setPartie(partie);
-                //     pane.setGameView();
-                // }
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        // new Launcher().launch();
         Launcher l = new Launcher();
-        l.launch();
+        l.createWinwow();
+        Joueurs j = new Joueurs();
+        j.addPlayer(j.new Joueur("Bob", false, false));
+        j.addPlayer(j.new Joueur("Paul", false, false));
+        l.launchDominos(j, "p5");
     }
 }
