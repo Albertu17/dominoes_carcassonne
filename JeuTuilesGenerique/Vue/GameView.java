@@ -42,7 +42,7 @@ public class GameView implements Serializable{
     JPanel conteneurInfosCoup;
     JPanel conteneurPieceAJouer;
     JButton retourMenu ;
-    JButton quitter ;;
+    JButton quitter ;
     // JPanel conteneurPieceAjouerMilieu;
     // JPanel conteneurPieceAjouerHaut;
     // JPanel conteneurPieceAjouerGauche;
@@ -127,14 +127,14 @@ public class GameView implements Serializable{
 
             // JPanel grille
             grille = new JPanel();
-            grille.setLayout(new GridLayout(partie.plateau.hauteur, partie.plateau.largeur, -1, -1));
+            grille.setLayout(new GridLayout(partie.plateau.hauteur-2, partie.plateau.largeur-2, -1, -1));
             grille.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
             gbc.weightx = 3; // Grandit 3 fois plus vite qu'un weigthx = 1.
             coeur.add(grille, gbc);
 
             // Remplissage de la grille avec tuiles du plateau.
-            for (int i = 0; i < (partie.plateau.hauteur); i++) {
-                for (int j = 0; j < partie.plateau.largeur; j++) {
+            for (int i = 1; i < (partie.plateau.hauteur - 1); i++) {
+                for (int j = 1; j < partie.plateau.largeur - 1; j++) {
                     grille.add(partie.plateau.plateau[i][j]);
                     // Dès qu'une tuile est ajoutée au GUI, on lui définit son environnement (GameView)
                     // et ses coordonnées si c'est une tuile de la grille.

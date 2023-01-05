@@ -76,16 +76,15 @@ public class Partie implements Serializable {
     public void TourIA(Joueur j){
         int ptsIA = RecursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ;
         if (ptsIA != 0 ) j.addScore(ptsIA);
-
     }
 
     public int RecursiveIA(int x, int y, List<Tuile> list){
         if (list.contains(plateau.plateau[x][y])) return 0 ;
 
-        // pour ne pas tester 2 fois la meme tuile et donc faire ne boucle infini
+        // pour ne pas tester 2 fois la meme tuile et donc faire une boucle infinie
         list.add(plateau.plateau[x][y]) ;
 
-        // si on peu placer à cette place
+        // si on peut placer à cette place
         for (int i = 0 ; i < 4 ; i++){
             int pos = jouer(x, y) ;
             if (pos != 0) return pos ;
@@ -104,8 +103,6 @@ public class Partie implements Serializable {
             if (d != 0) return d ;
         }
         return 0 ;
-
-       
     }
 
 
@@ -113,7 +110,7 @@ public class Partie implements Serializable {
         return pioche.pioche.isEmpty();
     }
 
-    //  a redéfinir dans chaque variante du jeu
+    // à redéfinir dans chaque variante du jeu
     public int nbPoint(int x, int y){
         return 0 ;
     }

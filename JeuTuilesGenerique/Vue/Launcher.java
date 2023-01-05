@@ -46,7 +46,7 @@ public class Launcher extends JFrame{
     }
 
     public void launchCarcassonne(Joueurs joueurs, String nomPartie) throws IOException {
-        Plateau plateau = new Plateau(5, 5);
+        Plateau plateau = new Plateau();
         PiocheCarcassonne piocheC = new PiocheCarcassonne();
         PartieCarcassonne partieC = new PartieCarcassonne(joueurs, plateau, piocheC, nomPartie);
         VueCarcassonne vueC = new VueCarcassonne(partieC);
@@ -54,7 +54,7 @@ public class Launcher extends JFrame{
     }
 
     public void launchDominos(Joueurs joueurs, String nomPartie) {
-        Plateau plateau = new Plateau(5, 5);
+        Plateau plateau = new Plateau();
         PiocheDominos piocheD = new PiocheDominos(true);
         PartieDominos partieD = new PartieDominos(joueurs, plateau, piocheD, nomPartie);
         VueDominos vueD = new VueDominos(partieD);
@@ -62,12 +62,12 @@ public class Launcher extends JFrame{
     }
 
     public static void main(String[] args) throws IOException {
-        new Launcher().launch();
-        // Launcher l = new Launcher();
-        // l.createWinwow();
-        // Joueurs j = new Joueurs();
-        // j.addPlayer(j.new Joueur("Bob", false, false));
-        // j.addPlayer(j.new Joueur("Paul", false, false));
-        // l.launchDominos(j, "p5");
+        // new Launcher().launch();
+        Launcher l = new Launcher();
+        l.createWinwow();
+        Joueurs j = new Joueurs();
+        j.addPlayer(j.new Joueur("Bob", false, false));
+        j.addPlayer(j.new Joueur("Paul", false, false));
+        l.launchDominos(j, "p5");
     }
 }
