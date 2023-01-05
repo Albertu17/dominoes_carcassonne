@@ -132,9 +132,9 @@ public class GameView implements Serializable{
             gbc.weightx = 3; // Grandit 3 fois plus vite qu'un weigthx = 1.
             coeur.add(grille, gbc);
 
-            // Remplissage de la grille avec tuiles du plateau.
+            // Remplissage de la grille avec tuiles non-extérieures du plateau.
             for (int i = 1; i < (partie.plateau.hauteur - 1); i++) {
-                for (int j = 1; j < partie.plateau.largeur - 1; j++) {
+                for (int j = 1; j < (partie.plateau.largeur - 1); j++) {
                     grille.add(partie.plateau.plateau[i][j]);
                     // Dès qu'une tuile est ajoutée au GUI, on lui définit son environnement (GameView)
                     // et ses coordonnées si c'est une tuile de la grille.

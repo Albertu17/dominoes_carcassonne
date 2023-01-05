@@ -86,7 +86,7 @@ public class Tuile extends JPanel implements MouseInputListener {
     // Lorsque la souris passe sur une tuile de la grille, sa bordure devient verte si la tuile à jouer est
     // plaçable à cet endroit, sinon sa bordure devient rouge.
     public void mouseEntered(MouseEvent e) {
-        if (environnement.partie.aJouer != this) {
+        if (environnement.partie.aJouer.equals(this)) {
             if (environnement.partie.check(x, y)) setBorder(BorderFactory.createLineBorder(Color.GREEN));
             else setBorder(BorderFactory.createLineBorder(Color.RED));
         }

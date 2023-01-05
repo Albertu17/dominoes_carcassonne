@@ -9,11 +9,11 @@ public class Plateau implements Serializable{
     public int hauteur;
     public int largeur;
     
-    public Plateau (int lignes, int colonnes) {
-        this.hauteur =  lignes;
-        this.largeur =  colonnes;
+    public Plateau () {
+        hauteur =  7;
+        largeur =  7;
         // On remplit le plateau de tuiles vides à l'initialisation.
-        plateau = newplateauFullTuileVide(lignes, colonnes) ;
+        plateau = newplateauFullTuileVide(hauteur, largeur) ;
         
     }
 
@@ -32,7 +32,7 @@ public class Plateau implements Serializable{
     
     public void add(Tuile tuile, int x, int y) {
         
-        if (x== 1 ){
+        if (x == 1 ){
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length+1, plateau.length) ;
             
@@ -41,7 +41,6 @@ public class Plateau implements Serializable{
                     plateau[i+1][j] = tab[i][j] ; 
                 }
             }
-
             x = x+1;
         }
         else if ( x == plateau.length-2  ){
@@ -53,7 +52,6 @@ public class Plateau implements Serializable{
                     plateau[i][j] = tab[i][j] ; 
                 }
             }
-
         }
 
         if ( y==1  ){
@@ -82,9 +80,6 @@ public class Plateau implements Serializable{
         
         // ajout sur le plateau
         plateau[x][y] = tuile ;
-
-        
-
     }
 
 }

@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import java.awt.Graphics;
 
 public class TuileCarcassonne extends Tuile {
     
@@ -57,5 +58,14 @@ public class TuileCarcassonne extends Tuile {
             else bords[i+1] = new BordCarcassonne(String.valueOf(description.charAt(i)));
         }
         return bords;
+    }
+
+    // Rajoute l'image récupérée sur la tuile, sans même qu'on ait à appeler cette fonction.
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, this);  
+        // g.drawImage(image, 0, 0, image.getWidth(), image.getHeight());
+              
+              
     }
 }

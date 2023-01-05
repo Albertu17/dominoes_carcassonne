@@ -29,7 +29,7 @@ public class Partie implements Serializable {
     public Partie(String nomPartie){
         joueurs = new Joueurs() ;
         this.nomPartie = nomPartie ;
-        plateau = new Plateau(5,5);
+        plateau = new Plateau();
     }
 
     public void unePartie() {
