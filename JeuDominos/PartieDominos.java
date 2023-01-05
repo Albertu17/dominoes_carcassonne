@@ -1,7 +1,5 @@
 package JeuDominos;
 
-import java.nio.file.FileStore;
-
 import JeuTuilesGenerique.Modele.*;
 
 public class PartieDominos extends Partie {
@@ -15,6 +13,8 @@ public class PartieDominos extends Partie {
         pioche = new PiocheDominos(false);
         nouvelleTuileAjouer();
     }
+
+    // Pour DominoTerminal
     public PartieDominos(String nomPartie, boolean GUI){
         super(nomPartie) ;
         pioche = new PiocheDominos(GUI);

@@ -36,4 +36,8 @@ public class Pioche implements Serializable{
             add(tuile);
         }
     }
+
+    public boolean isEmpty() {
+        return pioche.isEmpty();
+    }
 }
