@@ -75,7 +75,6 @@ public class TuileCarcassonne extends Tuile {
 
     // Rajoute l'image récupérée sur la tuile, sans même qu'on ait à appeler cette fonction.
     protected void paintComponent(Graphics g) {
-
         resizeImage();
         super.paintComponent(g);
         g.drawImage(image, 0, 0, this);
@@ -84,8 +83,8 @@ public class TuileCarcassonne extends Tuile {
 
     // permet d'adapter l'image à la taille de la tuille
     public void resizeImage(){
-        int newH = Math.max(100, this.getHeight());
-        int newW = Math.max(this.getWidth(), 50) ;
+        int newH = Math.max(10, this.getHeight());
+        int newW = Math.max(this.getWidth(), 10) ;
         Image tmp = image.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
         image = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
@@ -97,7 +96,7 @@ public class TuileCarcassonne extends Tuile {
     // tourner l'image dans le GUI
     public void Rotate(boolean sensHoraire){
         super.Rotate(sensHoraire);
-        
+
     }
 
     // enregistrement spécial (Serializable), pour eviter les problème et réduire la taille de sauvegarde
