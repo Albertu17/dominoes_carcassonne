@@ -30,9 +30,11 @@ public class Plateau implements Serializable{
         return plateau ;
     }
     
-    public void add(Tuile tuile, int x, int y) {
-        
-        if (x == 1 ){
+    public boolean add(Tuile tuile, int x, int y) {
+        boolean aggrandissement = false;
+        if (x == 1){
+            largeur++;
+            aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length+1, plateau.length) ;
             
@@ -43,7 +45,9 @@ public class Plateau implements Serializable{
             }
             x = x+1;
         }
-        else if ( x == plateau.length-2  ){
+        else if (x == plateau.length - 2){
+            largeur++;
+            aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length+1, plateau.length) ;
             
@@ -53,8 +57,9 @@ public class Plateau implements Serializable{
                 }
             }
         }
-
         if ( y==1  ){
+            hauteur++;
+            aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length, plateau.length+1) ;
             
@@ -63,10 +68,11 @@ public class Plateau implements Serializable{
                     plateau[i][j+1] = tab[i][j] ; 
                 }
             }
-
             y = y +1 ;
         }
         else if ( y == plateau[0].length-2 ){
+            hauteur++;
+            aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length, plateau.length+1) ;
             
@@ -75,11 +81,10 @@ public class Plateau implements Serializable{
                     plateau[i][j] = tab[i][j] ; 
                 }
             }
-
         }
         
         // ajout sur le plateau
         plateau[x][y] = tuile ;
+        return aggrandissement;
     }
-
 }

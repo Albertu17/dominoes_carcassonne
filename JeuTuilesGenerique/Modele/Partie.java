@@ -9,6 +9,7 @@ import java.util.List;
 
 import JeuCarcassonne.PartieCarcassonne;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
+import JeuTuilesGenerique.Vue.GameView;
 
 public class Partie implements Serializable {
 
@@ -17,13 +18,16 @@ public class Partie implements Serializable {
     public Pioche pioche;
     public Tuile aJouer;
     public String nomPartie ;
+    public GameView gui;
 
     public Partie(Joueurs joueurs, Plateau plateau, Pioche pioche, String nomPartie) {
         this.joueurs = joueurs;
         this.plateau = plateau;
         this.pioche = pioche;
         this.nomPartie = nomPartie;
-        unePartie();
+        premiereTuile();
+        nouvelleTuileAjouer();
+        joueurs.nextJoueurAuTrait();
     }
 
     public Partie(String nomPartie){
@@ -32,9 +36,8 @@ public class Partie implements Serializable {
         plateau = new Plateau();
     }
 
-    public void unePartie() {
-        premiereTuile();
-        nouvelleTuileAjouer();
+    public void setGui(GameView gui) {
+        this.gui = gui;
     }
 
     public void premiereTuile() {
@@ -64,14 +67,18 @@ public class Partie implements Serializable {
         return true;
     }
 
-    // Vérifie si une tuile est plaçable et la place le cas échéant.
-    public int jouer(int x, int y) {
+    // Vérifie si une tuile est plaçable, la place le cas échéant et prépare le tour suivant.
+    public void jouer(int x, int y) {
         if (check(x, y)) { 
-            int pts = this.nbPoint(x, y) ;
-           plateau.add(aJouer, x, y) ;
-           return pts;
+            // aggrandit le plateau si la tuile est placée en bordure de la grille du GUI.
+            if (plateau.add(aJouer, x, y)) gui.repaintGrille();
+            else gui.updateGrille(aJouer, x, y);
+            joueurs.joueurAuTrait().addScore(nbPoint(x, y));
+            joueurs.nextJoueurAuTrait();
+            gui.repaintPanelJoueurs();
+            nouvelleTuileAjouer();
+            // gui.repaintTuileAJouer(); // TODO fonction dans GUI
         }
-        return 0 ;
     }
     public void TourIA(Joueur j){
         int ptsIA = RecursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ;
@@ -86,7 +93,7 @@ public class Partie implements Serializable {
 
         // si on peut placer à cette place
         for (int i = 0 ; i < 4 ; i++){
-            int pos = jouer(x, y) ;
+            int pos = 0;//jouer(x, y) ; // TODO demander Thib but
             if (pos != 0) return pos ;
             aJouer.Rotate(true);
         }

@@ -70,7 +70,26 @@ public class Joueurs implements Serializable{
         for (Joueur j: players) {
             if (j.auTrait) return j;
         }
-        return new Joueur(null, false, false);
+        return null;
+    }
+
+    public Joueur getSuivant(Joueur joueur) {
+        for(int i = 0; i < players.size(); i++) {
+            if (players.get(i).equals(joueur)) {
+                if (i == players.size()-1) return players.get(0);
+                return players.get(i+1);
+            }
+        }
+        return null;
+    }
+
+    public void nextJoueurAuTrait() {
+        Joueur joueurAuTrait = joueurAuTrait();
+        if (joueurAuTrait == null) players.get(0).setAuTrait(true);
+        else {
+            joueurAuTrait.setAuTrait(false);
+            getSuivant(joueurAuTrait).setAuTrait(true);
+        }
     }
 
     public class Joueur implements Serializable{
@@ -94,7 +113,7 @@ public class Joueurs implements Serializable{
     
         public int getScore() {return score;}
     
-        public void addScore(int ajouter) {score += ajouter;}
+        public void addScore(int ajout) {score += ajout;}
     
         public String getName() {return nom;}
     
@@ -117,12 +136,8 @@ public class Joueurs implements Serializable{
                 setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 nomEtPoints = new JLabel();
                 add(nomEtPoints);
-                nomEtPoints.setText(Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
-            }
-
-            public void update() {
                 if (Joueur.this.auTrait) nomEtPoints.setText("--> " + Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
-                else nomEtPoints.setText("--> " + Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
+                else nomEtPoints.setText(Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
             }
         }
     }
