@@ -6,8 +6,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import JeuCarcassonne.PartieCarcassonne;
-import JeuCarcassonne.TuileCarcassonne;
-import JeuDominos.TuileDomino;
 
 public class Partie implements Serializable {
 
@@ -22,6 +20,7 @@ public class Partie implements Serializable {
         this.plateau = plateau;
         this.pioche = pioche;
         this.nomPartie = nomPartie;
+        unePartie();
     }
 
     public Partie(String nomPartie){
@@ -31,7 +30,12 @@ public class Partie implements Serializable {
     }
 
     public void unePartie() {
+        premiereTuile();
         nouvelleTuileAjouer();
+    }
+
+    public void premiereTuile() {
+        plateau.plateau[(int)plateau.hauteur/2][(int)plateau.largeur/2] = pioche.pickOne();
     }
 
     public void nouvelleTuileAjouer() {

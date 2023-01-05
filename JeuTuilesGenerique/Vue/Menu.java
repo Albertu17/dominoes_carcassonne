@@ -19,9 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import JeuCarcassonne.PartieCarcassonne;
-import JeuCarcassonne.VueCarcassonne;
 import JeuDominos.PartieDominos;
-import JeuDominos.VueDominos ;
 import JeuTuilesGenerique.Modele.Joueurs;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 
@@ -53,13 +51,6 @@ public class Menu implements Serializable{
 
         if (selectGame == null)  selectGame = new SelectGame() ;
     }
-
-
-    // public void play(){
-    //     vuePartie.setFenetre(pane); // TODO effacer
-    //     vuePartie.setGameView();
-    // }
-
 
     // Objet avec des définition spécial
 

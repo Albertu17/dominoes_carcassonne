@@ -66,19 +66,30 @@ public class Joueurs implements Serializable{
         return true ;
     }
 
+    public Joueur joueurAuTrait() {
+        for (Joueur j: players) {
+            if (j.auTrait) return j;
+        }
+        return new Joueur(null, false, false);
+    }
+
     public class Joueur implements Serializable{
 
         public int score ;
         public final String nom ;
         private int NbrPion ;
         private boolean IA ;  
-    
+        boolean auTrait;
     
         public Joueur(String nom, boolean IA, boolean Pion){
             this.nom = nom ;
             score = 0 ;
             NbrPion = Pion ? 5 :0  ; // à voir le nombre de Pion
             this.IA = IA ;
+        }
+
+        public void setAuTrait(boolean auTrait) {
+            this.auTrait = auTrait;
         }
     
         public int getScore() {return score;}
@@ -99,10 +110,18 @@ public class Joueurs implements Serializable{
         public void setIA(boolean IA){this.IA = IA ;}
 
         public class PanelJoueur extends JPanel {
-    
+            
+            JLabel nomEtPoints;
+
             public PanelJoueur() {
-                this.add(new JLabel(Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts"));
                 this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                nomEtPoints = new JLabel();
+                nomEtPoints.setText(Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
+            }
+
+            public void update() {
+                if (Joueur.this.auTrait) nomEtPoints.setText("--> " + Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
+                else nomEtPoints.setText("--> " + Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
             }
         }
     }

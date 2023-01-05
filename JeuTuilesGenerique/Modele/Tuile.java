@@ -61,8 +61,8 @@ public class Tuile extends JPanel implements MouseInputListener {
 
     // Mouse clicked = mouse pressed and released
     public void mouseClicked(MouseEvent e) {
-        if (environnement.partie.aJouer != this && environnement.partie.check(environnement.partie.aJouer, x, y)) {
-            environnement.partie.jouer(environnement.partie.aJouer, x, y);
+        if (environnement.partie.aJouer != this && environnement.partie.check(x, y)) {
+            environnement.partie.jouer(x, y);
             environnement.updateGrille(environnement.partie.aJouer, x, y);
             environnement.updateTuileAJouer();
         }  
@@ -87,7 +87,7 @@ public class Tuile extends JPanel implements MouseInputListener {
     // plaçable à cet endroit, sinon sa bordure devient rouge.
     public void mouseEntered(MouseEvent e) {
         if (environnement.partie.aJouer != this) {
-            if (environnement.partie.check(environnement.partie.aJouer, x, y)) setBorder(BorderFactory.createLineBorder(Color.GREEN));
+            if (environnement.partie.check(x, y)) setBorder(BorderFactory.createLineBorder(Color.GREEN));
             else setBorder(BorderFactory.createLineBorder(Color.RED));
         }
     }
