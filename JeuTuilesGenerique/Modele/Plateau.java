@@ -30,7 +30,7 @@ public class Plateau implements Serializable{
     
     public void add(Tuile tuile, int x, int y) {
         
-        if (x== 0 || y==0 || x == plateau.length || y == plateau[0].length ){
+        if (x== 1 || y==1 || x == plateau.length-2 || y == plateau[0].length-2 ){
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length+2, plateau.length+2) ;
             
