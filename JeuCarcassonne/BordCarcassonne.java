@@ -7,6 +7,19 @@ import JeuTuilesGenerique.Modele.Bord;
 public class BordCarcassonne extends Bord{
     
     Structure structure;
+    boolean pion ;
+
+    public boolean isPion() {
+        return pion;
+    }
+
+    public void setPion(boolean pion) {
+        this.pion = pion;
+    }
+
+    public Structure getStructure() {
+        return structure;
+    }
 
     public Structure getStructure() {
         return structure;

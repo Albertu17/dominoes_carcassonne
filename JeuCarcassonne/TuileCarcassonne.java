@@ -11,22 +11,112 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 
 public class TuileCarcassonne extends Tuile {
     
     Bord centre;
     transient BufferedImage image;
     String nom ;
+    Pion pion ;
     // permet de retrouver la rotation initiale quand on recharge une partie
     int rotation = 0 ;
+    private class Pion extends JPanel{
+        
+        // protected void paintComponent( Graphics g ){
+        //     setBackground(Color.BLUE);
+        //     g.fillOval( 20, 20, 75, 75 );
+        // }
+
+
+
+        public void ajusterTaille(Tuile t){
+            Point p  = t.getLocation() ;
+            int HeightTuile = t.getHeight() ;
+            int WidthTuile = t.getWidth() ;
+            
+            System.out.println(((TuileCarcassonne)t).nom);
+            System.out.println(HeightTuile);
+            System.out.println(t.getSize());
+            setPreferredSize(new Dimension(WidthTuile/10, HeightTuile/10));
+            setMinimumSize(getPreferredSize());
+
+        }
+
+        public void ajusterPositionnement(Tuile t){
+            Point p  = t.getLocation() ;
+            int HeightTuile = t.getHeight() ;
+            int WidthTuile = t.getWidth() ;
+            // System.out.println(((TuileCarcassonne)t).nom);
+            // System.out.println(p);
+
+            setLocation(new Point ((int) p.getX() + HeightTuile/2, (int)p.getY()+30));
+            setMinimumSize(getPreferredSize());
+        }
+    }
+
+
+    
+
+    // Une fonction annexe doit être créée car un appel au constructeur this() doit être la première
+    // ligne d'un autre constructeur.
+    public static BordCarcassonne[] stringToTile(String description) {
+        BordCarcassonne[] bords = new BordCarcassonne[5];
+        if (description.contains("b")) {
+            switch (description.indexOf("b")) {
+                case 1:
+                    bords[0] = new BordCarcassonne(description.substring(0, 1));
+                    description = description.substring(2);
+                    break;
+                case 2:
+                    bords[1] = new BordCarcassonne(description.substring(1, 2));
+                    description = description.substring(0, 0) + description.substring(3);
+                    break; 
+                case 3:
+                    bords[2] = new BordCarcassonne(description.substring(2, 3));
+                    description = description.substring(0, 1) + description.substring(4);
+                    break;
+                case 4:
+                    bords[3] = new BordCarcassonne(description.substring(3, 4));
+                    description = description.substring(0, 2) + description.substring(5);
+                    break;
+                case 5:
+                    bords[4] = new BordCarcassonne(description.substring(4, 5));
+                    description = description.substring(0, 3);
+                    break;                                                                               
+            }
+        }
+        for (int i = 0; i < description.length(); i++) {
+            if (bords[i] == null) bords[i] = new BordCarcassonne(String.valueOf(description.charAt(i)));
+            else bords[i+1] = new BordCarcassonne(String.valueOf(description.charAt(i)));
+        }
+        return bords;
+    }
+
 
     public TuileCarcassonne(BordCarcassonne[] bords, String chemin) throws IOException {
         super(bords[0], bords[1], bords[2], bords[3]);
         this.centre = bords[4];
         setImage(chemin);
+
+        setLayout(new  BorderLayout());
+        // setLayout(null);
+
+        // p = new Pion();
+        // this.add(p, BorderLayout.NORTH) ;
+        // // this.add(new JPanel());
+        // // this.add(p) ;
+        // p.setVisible(true);
+        // // p.ajusterTaille(this);
+        // // p.ajusterPositionnement(this);
+        
+        // p.repaint();
     }
 
     // Prend en argument une string de type VRRVV
