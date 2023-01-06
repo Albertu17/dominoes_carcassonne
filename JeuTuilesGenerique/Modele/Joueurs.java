@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.*;
@@ -140,17 +141,24 @@ public class Joueurs implements Serializable{
 
         public class PanelJoueur extends JPanel {
             
+            JPanel conteneurHaut;
             JLabel nom;
             JLabel points;
+            JPanel conteneurBas;
 
             public PanelJoueur() {
                 setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 // setBackground(Joueur.this.couleur);
-                setLayout(new GridLayout(2,2));
+                setLayout(new GridLayout(2,1));
+                conteneurHaut = new JPanel();
+                conteneurHaut.setLayout(new BoxLayout(conteneurHaut, BoxLayout.LINE_AXIS));
                 nom = new JLabel();
                 points = new JLabel();
-                add(nom);
-                add(points);
+                conteneurHaut.add(nom);
+                conteneurHaut.add(points);
+                conteneurBas = new JPanel();
+                add(conteneurHaut);
+                add(conteneurBas);
                 if (Joueur.this.auTrait) nom.setText("--> " + Joueur.this.getName());
                 else nom.setText(Joueur.this.getName());
                 points.setText(String.valueOf(Joueur.this.getScore()) + "pts");
