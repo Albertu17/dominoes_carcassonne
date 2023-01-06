@@ -101,7 +101,6 @@ public class Partie implements Serializable {
             joueurs.joueurAuTrait().addScore(nbPoint(x, y));
 
             plateau.add(aJouer, x, y) ;
-            joueurs.nextJoueurAuTrait();
 
             return true ; //besoin du boolean pour l'IA
         }
