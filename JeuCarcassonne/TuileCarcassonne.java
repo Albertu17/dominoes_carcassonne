@@ -98,6 +98,7 @@ public class TuileCarcassonne extends Tuile {
             ((BordCarcassonne)bord).setPion(true);
             removeBoutonPlacagePion();
             placerPion();
+            environnement.getPartie().getJoueurs().joueurAuTrait().enleverUnPiont();
             environnement.getPartie().tourSuivant();
         });
 

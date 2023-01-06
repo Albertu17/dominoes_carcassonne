@@ -131,6 +131,9 @@ public class Joueurs implements Serializable{
         public int getNbrPion() {
             return NbrPion;
         }
+        public void enleverUnPiont(){
+            NbrPion--;
+        }
     
         public void setNbrPion(int nbrPion) {
             NbrPion = nbrPion;
