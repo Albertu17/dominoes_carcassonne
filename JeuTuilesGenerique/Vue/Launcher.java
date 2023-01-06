@@ -75,14 +75,14 @@ public class Launcher extends JFrame{
 
             // Lancer une partie Dominos nommée "partieDominos1" contenant deux joueurs, Pierre et Paul.
                 // Joueurs j1 = new Joueurs();
-                // j1.addPlayer(j1.new Joueur("Pierre", false, false));
-                // j1.addPlayer(j1.new Joueur("Paul", false, false));
+                // j1.addPlayer(j1.new Joueur("Pierre", true));
+                // j1.addPlayer(j1.new Joueur("Paul", false));
                 // l.launchDominos(j1, "partieDominos1");
 
             // Lancer une partie Carcassonne nommée "partieCarcassonne1" contenant deux joueurs,
             // Bob et Jacques.
                 Joueurs j2 = new Joueurs();
-                j2.addPlayer(j2.new Joueur("Bob", false));
+                j2.addPlayer(j2.new Joueur("Bob", true));
                 j2.addPlayer(j2.new Joueur("Jacques", false));
                 l.launchCarcassonne(j2, "partieCarcassone1");
     }
