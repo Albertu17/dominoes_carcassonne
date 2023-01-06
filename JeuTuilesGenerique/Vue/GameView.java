@@ -229,37 +229,11 @@ public class GameView implements Serializable{
 
                     conteneurInfos.setPreferredSize(conteneurInfos.getSize());
                     conteneurInfos.setMaximumSize(conteneurInfos.getPreferredSize());
-
-
-
-            // TODO rechanger plus atrd quand ça sera implanter
-            // Tuile t = partie.aJouer;
-            // partie.aJouer = partie.pioche.pickOne();
-            // // t.setPreferredSize(new Dimension(20,20));
-            // conteneurInfosCoup.add(partie.aJouer);
-            // partie.aJouer.setEnvironnement(this);
-            // // conteneurPieceAJouer.add(new JPanel(), BorderLayout.LINE_START);
-            // conteneurInfos.add(conteneurInfosCoup);
-                // // TODO bon visuel de conteneurInfosCoup
-                // // JPanel conteneurInfosCoup
-                // conteneurInfosCoup = new JPanel();
-                // conteneurInfosCoup.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                // conteneurInfosCoup.setLayout(new BoxLayout(conteneurInfosCoup, BoxLayout.PAGE_AXIS));
-                // conteneurInfosCoup.add(new JButton("Turn"));
-                // // TODO rechanger plus atrd quand ça sera implanter
-                // // Tuile t = partie.aJouer;
-                // Tuile t = partie.pioche.pickOne();
-                // // t.setPreferredSize(new Dimension(20,20));
-                // conteneurInfosCoup.add(t);
-                // t.setEnvironnement(this);
-                // // conteneurPieceAJouer.add(new JPanel(), BorderLayout.LINE_START);
-                // conteneurInfos.add(conteneurInfosCoup);
     }
 
     public Partie getPartie() {return partie;}
-
-    public void setLauncher(Launcher l){ fenetre = l ; }
-    public Launcher getLauncher(){return fenetre ; }
+    public void setLauncher(Launcher l) {fenetre = l;}
+    public Launcher getLauncher() {return fenetre;}
 
     // Affiche visuellement la tuile qui est à jouer aux coordonnées indiquées.
     public void updateGrille(Tuile t, int x, int y) {
@@ -292,8 +266,8 @@ public class GameView implements Serializable{
         conteneurInfos.removeAll();
         for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
             conteneurInfos.add(partie.joueurs.players.get(i).new PanelJoueur());
-            grille.repaint(); // Repeint GUI.
-            grille.revalidate(); // Revalide GUI.
+            conteneurInfos.repaint(); // Repeint GUI.
+            conteneurInfos.revalidate(); // Revalide GUI.
         }
     }
 
@@ -301,13 +275,13 @@ public class GameView implements Serializable{
         conteneurTuileAJouer.removeAll();
         conteneurTuileAJouer.add(partie.aJouer);
         partie.aJouer.setEnvironnement(this);
-        grille.repaint(); // Repeint GUI.
-        grille.revalidate(); // Revalide GUI.
+        conteneurTuileAJouer.repaint(); // Repeint GUI.
+        conteneurTuileAJouer.revalidate(); // Revalide GUI.
     }
 
     public void updateTuilesRestantes() {
         tuilesRestantes.setText(String.valueOf(partie.pioche.pioche.size()));
-        grille.repaint(); // Repeint GUI.
-        grille.revalidate(); // Revalide GUI.
+        conteneurInfosCoupDroite.repaint(); // Repeint GUI.
+        conteneurInfosCoupDroite.revalidate(); // Revalide GUI.
     }
 }

@@ -72,7 +72,7 @@ public class Launcher extends JFrame{
         Joueurs j = new Joueurs();
         j.addPlayer(j.new Joueur("Bob", false, false));
         j.addPlayer(j.new Joueur("Paul", false, false));
-        l.launchDominos(j, "p5");
-        // l.launchCarcassonne(j, "p5");
+        // l.launchDominos(j, "p5");
+        l.launchCarcassonne(j, "p5");
     }
 }
