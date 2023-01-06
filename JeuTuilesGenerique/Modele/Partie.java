@@ -112,7 +112,7 @@ public class Partie implements Serializable {
             } 
         } ;
         // delay en milisencond
-        (new Timer()).schedule(finDeTourIA , 500);
+        (new Timer()).schedule(finDeTourIA , 2000);
     }
     
     
@@ -128,15 +128,13 @@ public class Partie implements Serializable {
 
     }
 
-
     // prend en fonction de joueur au trait
     public void TourIA(){
-        // attention ne pas mettre à jour si gui == null, ça veut dire que on joue une partie domino sur le terminal
-    
-        if ( ( ! RecursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ) && gui != null) tourSuivant();
+        // condition gui != null car tourSuivant pas compatible avec DominoTerminal
+        if ((!recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>())) && gui != null) tourSuivant();
     }
 
-    public boolean RecursiveIA(int x, int y, List<Tuile> list){
+    public boolean recursiveIA(int x, int y, List<Tuile> list){
         if (list.contains(plateau.plateau[x][y])) return false ;
 
         // pour ne pas tester 2 fois la meme tuile et donc faire une boucle infinie
@@ -151,25 +149,18 @@ public class Partie implements Serializable {
                     return true ;
                 }
             }
-            else {
-                if (jouerTerminal(x, y)) return true ;
-            }
+            else if (jouerTerminal(x, y)) return true ;
             aJouer.rotate(true);
         }
 
         // recursif sur tuille adjacentes :
         if (x!= 1 && y!=1 && x != plateau.plateau.length-2 && y != plateau.plateau[0].length-2 ){
-            if (RecursiveIA(x-1, y, list) ) return true;
-            
-            if (RecursiveIA(x+1, y, list)) return true;
-            
-            if (RecursiveIA(x, y-1, list)) return true ;
-            
-            if (RecursiveIA(x, y+1, list)) return true;
-            
+            if (recursiveIA(x-1, y, list) ) return true;
+            if (recursiveIA(x+1, y, list)) return true;
+            if (recursiveIA(x, y-1, list)) return true ;
+            if (recursiveIA(x, y+1, list)) return true;
         }
         return false  ;
-        
     }
 
 
