@@ -512,7 +512,7 @@ public class Menu implements Serializable{
 
                 add.addActionListener(event -> {
                     if (NameFree()){
-                        if (joueurs.addPlayer(nom.getText(), isIA, false)){
+                        if (joueurs.addPlayer(nom.getText(), isIA)){
                             dispPlayer.add( new ConteneurPlayer(joueurs.getLast())) ;
                             dispPlayer.revalidate();
                             dispPlayer.repaint();

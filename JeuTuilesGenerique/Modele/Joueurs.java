@@ -13,9 +13,12 @@ public class Joueurs implements Serializable{
     
     public List<Joueur> players ; 
     private static int nombreMaximalDeJoueur = 5 ;
+    private static int index = 0;
+    Color[] couleurs;
 
     public Joueurs(){
         players = new ArrayList<Joueur>() ;
+        couleurs = new Color[]{Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.ORANGE};
     }
 
     public Joueurs (int nbJoueurs) {
@@ -31,7 +34,7 @@ public class Joueurs implements Serializable{
         return players.size();
     }
 
-    public boolean addPlayer(String nom, boolean IA, boolean Pion){
+    public boolean addPlayer(String nom, boolean IA){
         if (players.size() <= nombreMaximalDeJoueur ){
             players.add(new Joueur( nom,  IA)) ;
             return true ;
@@ -99,12 +102,15 @@ public class Joueurs implements Serializable{
         private int NbrPion ;
         private boolean IA ;  
         boolean auTrait;
+        Color couleur;
     
         public Joueur(String nom, boolean IA){
             this.nom = nom ;
             score = 0 ;
             NbrPion = 0 ;
             this.IA = IA ;
+            couleur = Joueurs.this.couleurs[Joueurs.index];
+            Joueurs.index++;
         }
 
         public void setAuTrait(boolean auTrait) {
@@ -134,6 +140,7 @@ public class Joueurs implements Serializable{
 
             public PanelJoueur() {
                 setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                setBackground(couleur);
                 nomEtPoints = new JLabel();
                 add(nomEtPoints);
                 if (Joueur.this.auTrait) nomEtPoints.setText("--> " + Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
