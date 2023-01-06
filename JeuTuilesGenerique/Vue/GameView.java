@@ -26,6 +26,9 @@ public class GameView implements Serializable{
     // Launcher fenetreGraphique ;
     
     public Partie partie;
+    Launcher fenetre ;
+    
+
     public JPanel conteneurGlobal;
     JPanel bandeauSup;
     JPanel conteneurTitre;
@@ -91,6 +94,8 @@ public class GameView implements Serializable{
             });
             retourMenu.addActionListener(event -> {
                 partie.save() ;
+                fenetre.removeAll();
+                new Menu(fenetre) ;
                 // conteneurGlobal.setVisible(false);
                 // new Menu(conteneurGlobal.getRootPane()) ; // TODO décommenter ?
             });
@@ -308,5 +313,13 @@ public class GameView implements Serializable{
         tuilesRestantes.setText(String.valueOf(partie.pioche.pioche.size()));
         grille.repaint(); // Repeint GUI.
         grille.revalidate(); // Revalide GUI.
+    }
+
+    public void setFenetre(Launcher fenetre) {
+        this.fenetre = fenetre;
+    }
+
+    public Launcher getFenetre() {
+        return fenetre;
     }
 }
