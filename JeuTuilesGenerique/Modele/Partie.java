@@ -12,6 +12,7 @@ import java.util.TimerTask;
 import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import JeuCarcassonne.PartieCarcassonne;
+import JeuCarcassonne.TuileCarcassonne;
 import JeuCarcassonne.VueCarcassonne;
 import JeuTuilesGenerique.Vue.GameView;
 
@@ -102,17 +103,17 @@ public class Partie implements Serializable {
         gui.getRotationGauche().setEnabled(false);
         gui.getDefausser().setEnabled(false);
 
-        // lancement d'un thread timer (en background) pour ne pas bloquer l'interface
-        TimerTask finDeTourIA = new TimerTask(){
-            public void run() {
-                gui.getRotationDroite().setEnabled(true);
-                gui.getRotationGauche().setEnabled(true);
-                gui.getDefausser().setEnabled(true);
-                TourIA();
-            } 
-        } ;
-        // delay en milisencond
-        (new Timer()).schedule(finDeTourIA , 2000);
+        gui.getRotationDroite().setEnabled(true);
+        gui.getRotationGauche().setEnabled(true);
+        gui.getDefausser().setEnabled(true);
+        TourIA();
+        // // lancement d'un thread timer (en background) pour ne pas bloquer l'interface
+        // TimerTask finDeTourIA = new TimerTask(){
+        //     public void run() {
+        //     } 
+        // } ;
+        // // delay en milisencond
+        // (new Timer()).schedule(finDeTourIA , 2000);
     }
     
     
@@ -145,12 +146,19 @@ public class Partie implements Serializable {
             // permet de gérer l'appel de fonction par  raport au mod de jeu
             if (gui != null){
                 if (check(x, y)){
+                    if (aJouer instanceof TuileCarcassonne) ((TuileCarcassonne)aJouer).rotateOnlyPicture();
                     jouer(x, y) ;
                     return true ;
+                }else{
+                    aJouer.rotateOnlyBordCarca(true);
+                }
+            }else{
+                if (jouerTerminal(x, y)){
+                    return true ;
+                }else{
+                    aJouer.rotate(true);
                 }
             }
-            else if (jouerTerminal(x, y)) return true ;
-            aJouer.rotate(true);
         }
 
         // recursif sur tuille adjacentes :

@@ -15,6 +15,7 @@ import java.io.ObjectStreamException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 import JeuTuilesGenerique.Modele.Bord;
 import JeuTuilesGenerique.Modele.Tuile;
@@ -223,6 +224,10 @@ public class TuileCarcassonne extends Tuile {
         resizeImage();
 
     }
+    public void rotateOnlyBordCarca(boolean sensHoraire){
+        super.rotate(sensHoraire);
+        memoireRotate(sensHoraire);
+    }
 
     private void memoireRotate(boolean sensHoraire){
         if (sensHoraire) rotation += 1 ;
@@ -230,6 +235,14 @@ public class TuileCarcassonne extends Tuile {
         // permet de garder l'entier entre 0 et 3
         rotation+= 4 ;
         rotation = rotation%4 ;
+    }
+    public void rotateOnlyPicture(){
+        int holdrota = rotation ;
+        // permet de mettre l'image dans la rotation avant enregistrement
+        for (int i = 0 ; i < holdrota ; i++){
+            rotate(true);
+        }
+        rotation = holdrota ;
     }
 
     // enregistrement spécial (Serializable), pour eviter les problème et réduire la taille de sauvegarde
@@ -240,14 +253,10 @@ public class TuileCarcassonne extends Tuile {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         setImage(nom);
-        int holdrota = rotation ;
         // rend l'image carrée avant de la tourner
         this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
-        // permet de mettre l'image dans la rotation avant enregistrement
-        for (int i = 0 ; i < holdrota ; i++){
-            rotate(true);
-        }
-        rotation = holdrota ;
+        
+        rotateOnlyPicture();
     }
 
     private void readObjectNoData() throws ObjectStreamException{ }

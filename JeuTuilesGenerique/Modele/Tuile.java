@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import JeuCarcassonne.TuileCarcassonne;
 import JeuTuilesGenerique.Vue.GameView;
 
 public class Tuile extends JPanel implements MouseInputListener {
@@ -49,6 +50,15 @@ public class Tuile extends JPanel implements MouseInputListener {
             ouest = tmp;
         }
     }
+    // renvoie vers une fonction de carcassonne
+    public void rotateOnlyBordCarca(boolean sensHoraire){
+        if (this instanceof TuileCarcassonne){
+            rotateOnlyBordCarca(sensHoraire);
+        }else{
+            rotate(sensHoraire);
+        }
+    }
+
 
     public void setEnvironnement(GameView environnement) {
         this.environnement = environnement;
