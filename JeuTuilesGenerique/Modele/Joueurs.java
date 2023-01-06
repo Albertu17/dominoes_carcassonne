@@ -116,6 +116,10 @@ public class Joueurs implements Serializable{
         public void setAuTrait(boolean auTrait) {
             this.auTrait = auTrait;
         }
+
+        public Color getCouleur() {
+            return couleur;
+        }
     
         public int getScore() {return score;}
     
@@ -140,7 +144,7 @@ public class Joueurs implements Serializable{
 
             public PanelJoueur() {
                 setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                setBackground(couleur);
+                setBackground(Joueur.this.couleur);
                 nomEtPoints = new JLabel();
                 add(nomEtPoints);
                 if (Joueur.this.auTrait) nomEtPoints.setText("--> " + Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
