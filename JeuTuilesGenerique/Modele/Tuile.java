@@ -15,7 +15,7 @@ import JeuTuilesGenerique.Vue.GameView;
 
 public class Tuile extends JPanel implements MouseInputListener {
 
-    GameView environnement;
+    transient GameView environnement;
     int x, y;
     public Bord nord;
     public Bord est;
@@ -98,31 +98,7 @@ public class Tuile extends JPanel implements MouseInputListener {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
-    // enregistrement spécial pour enlever gameview ;
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.writeObject(x);
-        out.writeObject(y);
-        out.writeObject(nord);
-        out.writeObject(est);
-        out.writeObject(sud);
-        out.writeObject(ouest);
-        out.writeObject(moving);
-    }
-
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        
-        x = (int)in.readObject() ;
-        y = (int)in.readObject() ;
-        
-        nord = (Bord)in.readObject();
-        est = (Bord)in.readObject();
-        sud = (Bord)in.readObject();
-        ouest = (Bord)in.readObject();
-        moving = (boolean)in.readObject();
-
-    }
-
-    private void readObjectNoData() throws ObjectStreamException{ }
+    
     
 
 }
