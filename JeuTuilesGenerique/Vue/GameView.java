@@ -255,6 +255,7 @@ public class GameView implements Serializable{
 
     // Enlève toutes les tuiles de la grille et les remet suivant celles se trouvant dans le plateau.
     public void repaintGrille() {
+        conteneurGrille.removeAll();
         grille = new JPanel();
         grille.setLayout(new GridLayout(partie.plateau.hauteur-2, partie.plateau.largeur-2, -1, -1));
         conteneurGrille.add(grille);
