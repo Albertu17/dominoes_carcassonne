@@ -112,7 +112,7 @@ public class Partie implements Serializable {
             } 
         } ;
         // delay en milisencond
-        (new Timer()).schedule(finDeTourIA , 2000);
+        (new Timer()).schedule(finDeTourIA , 500);
     }
     
     
@@ -131,7 +131,9 @@ public class Partie implements Serializable {
 
     // prend en fonction de joueur au trait
     public void TourIA(){
-        RecursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ;
+        // attention ne pas mettre à jour si gui == null, ça veut dire que on joue une partie domino sur le terminal
+    
+        if ( ( ! RecursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ) && gui != null) tourSuivant();
     }
 
     public boolean RecursiveIA(int x, int y, List<Tuile> list){
@@ -168,9 +170,6 @@ public class Partie implements Serializable {
         }
         return false  ;
         
-        // TODO besoin de mettre ici next() joueurs au trait au cas où la tuille n'ets pas plaçable ;
-        // plus mettre a jour le GUI
-        // attention ne pas mettre à jour si gui == null, ça veut dire que on joue une partie domino sur le terminal
     }
 
 
