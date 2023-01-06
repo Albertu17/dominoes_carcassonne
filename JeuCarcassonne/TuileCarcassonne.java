@@ -19,7 +19,7 @@ import java.awt.Image;
 public class TuileCarcassonne extends Tuile {
     
     Bord centre;
-    BufferedImage image;
+    transient BufferedImage image;
     String nom ;
 
     // permet de retrouver la rotation initial quand on recharge une partie ;
@@ -127,16 +127,11 @@ public class TuileCarcassonne extends Tuile {
 
     // enregistrement spécial (Serializable), pour eviter les problème et réduire la taille de sauvegarde
     private void writeObject(ObjectOutputStream out) throws IOException {
-        out.writeObject(centre);
-        out.writeObject(nom);
-        out.writeObject(rotation);
-        
+        out.defaultWriteObject();
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        centre = (Bord)in.readObject() ;
-        nom = (String)in.readObject() ;
-        rotation =  (int)in.readObject() ;
+        in.defaultReadObject();
         setImage(nom);
 
         // permet de mettre l'image dans la rotation avant enregistrement
@@ -144,10 +139,6 @@ public class TuileCarcassonne extends Tuile {
             Rotate(true);
         }
 
-    }
-
-    public TuileCarcassonne clone(){
-        return (TuileCarcassonne) super.clone();
     }
 
     private void readObjectNoData() throws ObjectStreamException{ }
