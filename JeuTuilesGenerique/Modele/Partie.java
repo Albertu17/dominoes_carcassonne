@@ -10,7 +10,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import JeuCarcassonne.PartieCarcassonne;
-import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 import JeuTuilesGenerique.Vue.GameView;
 
 public class Partie implements Serializable {
@@ -147,7 +146,7 @@ public class Partie implements Serializable {
             else {
                 if (jouerTerminal(x, y)) return true ;
             }
-            aJouer.Rotate(true);
+            aJouer.rotate(true);
         }
 
         // recursif sur tuille adjacentes :

@@ -2,7 +2,6 @@ package JeuCarcassonne;
 
 import JeuTuilesGenerique.Modele.Bord;
 import JeuTuilesGenerique.Modele.Tuile;
-import JeuTuilesGenerique.Vue.GameView;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,25 +20,23 @@ public class TuileCarcassonne extends Tuile {
     Bord centre;
     transient BufferedImage image;
     String nom ;
-
-    // permet de retrouver la rotation initial quand on recharge une partie ;
+    // permet de retrouver la rotation initiale quand on recharge une partie
     int rotation = 0 ;
-
 
     public TuileCarcassonne(BordCarcassonne[] bords, String chemin) throws IOException {
         super(bords[0], bords[1], bords[2], bords[3]);
         this.centre = bords[4];
         setImage(chemin);
     }
-    
-    private void setImage(String description) throws IOException{   
-        image = ImageIO.read(new File("JeuCarcassonne/ImagesTuiles/Tuile-" + description + ".png"));
-    }
 
     // Prend en argument une string de type VRRVV
     public TuileCarcassonne(String description) throws IOException {
         this(stringToTile(description), description);
         nom = description ;
+    }
+    
+    private void setImage(String description) throws IOException{   
+        image = ImageIO.read(new File("JeuCarcassonne/ImagesTuiles/Tuile-" + description + ".png"));
     }
 
     // Une fonction annexe doit être créée car un appel au constructeur this() doit être la première
@@ -49,24 +46,24 @@ public class TuileCarcassonne extends Tuile {
         if (description.contains("b")) {
             switch (description.indexOf("b")) {
                 case 1:
-                    bords[0] = new BordCarcassonne(description.substring(0, 1));
+                    bords[0] = new BordCarcassonne(description.substring(0, 2));
                     description = description.substring(2);
                     break;
                 case 2:
-                    bords[1] = new BordCarcassonne(description.substring(1, 2));
-                    description = description.substring(0, 0) + description.substring(3);
+                    bords[1] = new BordCarcassonne(description.substring(1, 3));
+                    description = description.substring(0, 1) + description.substring(3);
                     break; 
                 case 3:
-                    bords[2] = new BordCarcassonne(description.substring(2, 3));
-                    description = description.substring(0, 1) + description.substring(4);
+                    bords[2] = new BordCarcassonne(description.substring(2, 4));
+                    description = description.substring(0, 2) + description.substring(4);
                     break;
                 case 4:
-                    bords[3] = new BordCarcassonne(description.substring(3, 4));
-                    description = description.substring(0, 2) + description.substring(5);
+                    bords[3] = new BordCarcassonne(description.substring(3, 5));
+                    description = description.substring(0, 3) + description.substring(5);
                     break;
                 case 5:
-                    bords[4] = new BordCarcassonne(description.substring(4, 5));
-                    description = description.substring(0, 3);
+                    bords[4] = new BordCarcassonne(description.substring(4, 6));
+                    description = description.substring(0, 4);
                     break;                                                                               
             }
         }
@@ -88,10 +85,8 @@ public class TuileCarcassonne extends Tuile {
         g.drawImage(image, 0, 0, this);
     }
 
-
     // permet d'adapter l'image à la taille de la tuille
     public void resizeImage(){
-        
         int newHeigh = Math.max(10, this.getHeight());
         int newWidth = Math.max(this.getWidth(), 10) ;
         Image temp = image.getScaledInstance(newWidth, newHeigh, Image.SCALE_SMOOTH);
@@ -99,21 +94,16 @@ public class TuileCarcassonne extends Tuile {
         Graphics2D g2d = image.createGraphics();
         g2d.drawImage(temp, 0, 0, null);
         g2d.dispose();
-
         repaint();
-
     }
 
-
-
-
     // tourner l'image dans le GUI
-    public void Rotate(boolean sensHoraire){
+    public void rotate(boolean sensHoraire){
         // tourne les bords
-        super.Rotate(sensHoraire);
+        super.rotate(sensHoraire);
 
         // pour la sauvegarde
-        MemoireRotate(sensHoraire);
+        memoireRotate(sensHoraire);
 
         int newHeigh = image.getWidth();
         int newWidth = image.getHeight();
@@ -128,7 +118,7 @@ public class TuileCarcassonne extends Tuile {
 
     }
 
-    private void MemoireRotate(boolean sensHoraire){
+    private void memoireRotate(boolean sensHoraire){
         if (sensHoraire) rotation += 1 ;
         else rotation -= 1 ;
         // permet de garder l'entier entre 0 et 3
@@ -145,12 +135,10 @@ public class TuileCarcassonne extends Tuile {
         setImage(nom);
         // rend l'image carrée avant de la tourner
         this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
-
         // permet de mettre l'image dans la rotation avant enregistrement
         for (int i = 0 ; i < rotation ; i++){
-            Rotate(true);
+            rotate(true);
         }
-
     }
 
     private void readObjectNoData() throws ObjectStreamException{ }

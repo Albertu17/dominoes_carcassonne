@@ -31,7 +31,8 @@ public class Pioche implements Serializable{
 
     public void addSeveralTimes(Tuile tuile, int n) {
         for (int i = 0; i < n; i++) {
-            add(tuile);
+            add(tuile.clone()); // Important de cloner la tuile car on ne doit ajouter à la pioche
+            // que des objets différents, et pas plusieurs fois le même.
         }
     }
 

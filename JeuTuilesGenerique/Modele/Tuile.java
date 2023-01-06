@@ -2,10 +2,6 @@ package JeuTuilesGenerique.Modele;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -13,7 +9,7 @@ import javax.swing.event.MouseInputListener;
 
 import JeuTuilesGenerique.Vue.GameView;
 
-public class Tuile extends JPanel implements MouseInputListener {
+public class Tuile extends JPanel implements MouseInputListener, Cloneable {
 
     protected transient GameView environnement;
     int x, y; // Coordonnées de la tuile dans le plateau où elle sera placée.
@@ -85,6 +81,7 @@ public class Tuile extends JPanel implements MouseInputListener {
     }
 
     public void mouseMoved(MouseEvent e) {}
+
     // Lorsque la souris passe sur une tuile de la grille, sa bordure devient verte si la tuile à jouer est
     // plaçable à cet endroit, sinon sa bordure devient rouge.
     public void mouseEntered(MouseEvent e) {
@@ -98,7 +95,11 @@ public class Tuile extends JPanel implements MouseInputListener {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
-    
-    
-
+    public Tuile clone() {
+        try {
+            return (Tuile) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException(e);
+        }
+    }
 }

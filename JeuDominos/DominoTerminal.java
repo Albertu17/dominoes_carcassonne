@@ -79,11 +79,11 @@ public class DominoTerminal {
             System.out.println("Tourner à gauche ou droite (G/D), défausser (jeter), placer (placer)");
             switch (sc.next()){
                 case "G" :
-                    partie.aJouer.Rotate(false);
+                    partie.aJouer.rotate(false);
                     break ;
                 
                 case "D" :
-                    partie.aJouer.Rotate(true);
+                    partie.aJouer.rotate(true);
                     break;
 
                 case "jeter" :

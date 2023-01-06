@@ -16,7 +16,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.lang.Object;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -206,10 +205,10 @@ public class GameView implements Serializable{
                             rotationDroite = new JButton("Rotation à droite");
                             rotationGauche = new JButton("Rotation à gauche");
                             rotationDroite.addActionListener(event -> {
-                                partie.aJouer.Rotate(true) ;
+                                partie.aJouer.rotate(true) ;
                             });
                             rotationGauche.addActionListener(event -> {
-                                partie.aJouer.Rotate(false) ;
+                                partie.aJouer.rotate(false) ;
                             });
                             conteneurButtonsRotate.add(rotationGauche);
                             conteneurButtonsRotate.add(rotationDroite);
@@ -248,6 +247,7 @@ public class GameView implements Serializable{
         grille.remove((x-1)*(partie.plateau.largeur-2)+(y-1)); // Enlève tuile vide.
         grille.add(t, (x-1)*(partie.plateau.largeur-2)+(y-1)); // Remplace par la tuile jouée.
         t.setCoordonnées(x, y);
+        t.setEnvironnement(this);
         grille.repaint(); // Repeint GUI.
         grille.revalidate(); // Revalide GUI.
     }

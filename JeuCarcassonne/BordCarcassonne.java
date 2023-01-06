@@ -2,7 +2,6 @@ package JeuCarcassonne;
 
 import java.io.Serializable;
 
-import JeuDominos.BordDomino;
 import JeuTuilesGenerique.Modele.Bord;
 
 public class BordCarcassonne extends Bord{
