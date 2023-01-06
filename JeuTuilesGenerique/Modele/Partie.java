@@ -105,7 +105,7 @@ public class Partie implements Serializable {
 
 
     // prend en fonction de joueur au trait
-    public void TourIA(Joueur j){
+    public void TourIA(){
         RecursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ;
     }
 
