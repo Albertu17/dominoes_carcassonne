@@ -15,7 +15,7 @@ import JeuTuilesGenerique.Vue.GameView;
 
 public class Tuile extends JPanel implements MouseInputListener {
 
-    transient GameView environnement;
+    protected transient GameView environnement;
     int x, y;
     public Bord nord;
     public Bord est;

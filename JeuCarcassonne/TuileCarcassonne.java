@@ -79,6 +79,10 @@ public class TuileCarcassonne extends Tuile {
 
     // Rajoute l'image récupérée sur la tuile, sans même qu'on ait à appeler cette fonction.
     protected void paintComponent(Graphics g) {
+        // rend l'image carré si elle est est dans la partie droite de l'écran
+        if (environnement.getPartie().aJouer.equals(this)){
+            this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
+        }
         resizeImage();
         super.paintComponent(g);
         g.drawImage(image, 0, 0, this);
@@ -87,6 +91,7 @@ public class TuileCarcassonne extends Tuile {
 
     // permet d'adapter l'image à la taille de la tuille
     public void resizeImage(){
+        
         int newHeigh = Math.max(10, this.getHeight());
         int newWidth = Math.max(this.getWidth(), 10) ;
         Image temp = image.getScaledInstance(newWidth, newHeigh, Image.SCALE_SMOOTH);
@@ -100,24 +105,26 @@ public class TuileCarcassonne extends Tuile {
     }
 
 
+
+
     // tourner l'image dans le GUI
     public void Rotate(boolean sensHoraire){
         // tourne les bords
         super.Rotate(sensHoraire);
 
-        // pour le GUI
+        // pour la sauvegarde
         MemoireRotate(sensHoraire);
 
         int newHeigh = image.getWidth();
         int newWidth = image.getHeight();
         int typeOfImage = image.getType();
 
-        BufferedImage temp = new BufferedImage(newWidth, newHeigh, typeOfImage);
+        BufferedImage temp = new BufferedImage(newHeigh, newWidth, typeOfImage);
         Graphics2D graphics2D = temp.createGraphics();
         graphics2D.rotate( sensHoraire ? Math.PI/2 : - Math.PI/2,  newHeigh / 2, newWidth / 2);
         graphics2D.drawImage(image, null, 0, 0);
         image = temp ;
-        repaint();
+        resizeImage();
 
     }
 
@@ -136,6 +143,8 @@ public class TuileCarcassonne extends Tuile {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         setImage(nom);
+        // rend l'image carrée avant de la tourner
+        this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
 
         // permet de mettre l'image dans la rotation avant enregistrement
         for (int i = 0 ; i < rotation ; i++){

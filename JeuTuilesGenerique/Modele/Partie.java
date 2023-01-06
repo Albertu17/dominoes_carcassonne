@@ -79,13 +79,13 @@ public class Partie implements Serializable {
             if (plateau.add(aJouer, x, y)) gui.repaintGrille();
             else gui.updateGrille(aJouer, x, y);
             
-            auSuivant() ;
+            tourSuivant() ;
             return true ; //besoin du boolean pour l'IA
         }
         return false ;
     }
 
-    public void auSuivant(){
+    public void tourSuivant(){
         joueurs.nextJoueurAuTrait();
         gui.updatePanelJoueurs();
         nouvelleTuileAjouer();

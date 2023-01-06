@@ -47,10 +47,9 @@ public class DominoTerminal {
 
     public void ajoutertoutJoueur(){
         // ajout de 2 jours minimun
-        // TODO a remettre apres developpement
-        // for (int i = 0; i < 2; i++) {
-        //     ajoutJoueur();
-        // }
+        for (int i = 0; i < 2; i++) {
+            ajoutJoueur();
+        }
 
         // Joueur en plus max 6
         while(partie.getJoueurs().nbJoueurs() <=6){
@@ -143,7 +142,6 @@ public class DominoTerminal {
         public static void main(String[] args) {
             DominoTerminal  d1 = new DominoTerminal() ;
             
-            d1.addPrePlayer();
             d1.JeuDomino();
         }
 
