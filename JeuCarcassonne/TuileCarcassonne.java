@@ -212,6 +212,8 @@ public class TuileCarcassonne extends Tuile {
         // pour la sauvegarde
         memoireRotate(sensHoraire);
 
+        System.out.println("photo touner");
+
         int newHeigh = image.getWidth();
         int newWidth = image.getHeight();
         int typeOfImage = image.getType();
