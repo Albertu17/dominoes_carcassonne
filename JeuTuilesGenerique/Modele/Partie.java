@@ -84,6 +84,7 @@ public class Partie implements Serializable {
                 ((VueCarcassonne)gui).demanderSiPosePion();
                 return ;
             }
+            if (joueurs.joueurAuTrait().isIA()) return ;
             tourSuivant() ;
         }
     }
@@ -132,7 +133,8 @@ public class Partie implements Serializable {
     // prend en fonction de joueur au trait
     public void TourIA(){
         // condition gui != null car tourSuivant pas compatible avec DominoTerminal
-        if ((!recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>())) && gui != null) tourSuivant();
+        recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>());
+        if (gui != null) tourSuivant();
     }
 
     public boolean recursiveIA(int x, int y, List<Tuile> list){
