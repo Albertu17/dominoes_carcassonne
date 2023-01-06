@@ -198,8 +198,9 @@ public class TuileCarcassonne extends Tuile {
 
     // permet d'adapter l'image à la taille de la tuille
     public void resizeImage(){
-        int newHeigh = Math.max(10, this.getHeight());
-        int newWidth = Math.max(this.getWidth(), 10) ;
+        System.out.println();
+        int newHeigh = Math.max(100, this.getHeight());
+        int newWidth = Math.max(this.getWidth(), 100) ;
         Image temp = image.getScaledInstance(newWidth, newHeigh, Image.SCALE_SMOOTH);
         image = new BufferedImage(newWidth, newHeigh, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();

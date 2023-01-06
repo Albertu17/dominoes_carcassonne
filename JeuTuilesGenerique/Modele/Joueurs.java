@@ -38,6 +38,7 @@ public class Joueurs implements Serializable{
     public boolean addPlayer(String nom, boolean IA){
         if (players.size() <= nombreMaximalDeJoueur ){
             players.add(new Joueur( nom,  IA)) ;
+            index = players.size()-1 ; // change pas ça sinon ça peut faire des conflits dans le menu
             return true ;
         }
         return false ;
@@ -111,7 +112,6 @@ public class Joueurs implements Serializable{
             NbrPion = 0 ;
             this.IA = IA ;
             couleur = Joueurs.this.couleurs[Joueurs.index];
-            Joueurs.index++;
         }
 
         public void setAuTrait(boolean auTrait) {
@@ -164,13 +164,13 @@ public class Joueurs implements Serializable{
                 add(conteneurBas);
                 if (Joueur.this.auTrait) nom.setText("--> " + Joueur.this.getName());
                 else nom.setText(Joueur.this.getName());
-                points.setText(String.valueOf(Joueur.this.getScore()) + "pts");
+                points.setText(String.valueOf("    " +Joueur.this.getScore()) + "pts");
             }
 
             public void updatePanel() {
                 if (Joueur.this.auTrait) nom.setText("--> " + Joueur.this.getName());
                 else nom.setText(Joueur.this.getName());
-                points.setText(String.valueOf(Joueur.this.getScore()) + "pts");
+                points.setText(String.valueOf("    " +Joueur.this.getScore()) + "pts");
                 revalidate();
                 repaint();
             }
