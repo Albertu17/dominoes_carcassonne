@@ -35,7 +35,7 @@ public class Tuile extends JPanel implements MouseInputListener, Cloneable {
     }
 
     // true --> tourner dans le sens Horaire
-    public void Rotate(boolean sensHoraire){
+    public void rotate(boolean sensHoraire){
         Bord tmp = nord;
         if ( sensHoraire) {
             nord = ouest;

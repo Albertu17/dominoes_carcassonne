@@ -41,8 +41,8 @@ public class TuileDomino extends Tuile  {
         repaint();
     }
 
-    public void Rotate(boolean sensHoraire){
-        super.Rotate(sensHoraire);
+    public void rotate(boolean sensHoraire){
+        super.rotate(sensHoraire);
         updateLayout();
     }
 

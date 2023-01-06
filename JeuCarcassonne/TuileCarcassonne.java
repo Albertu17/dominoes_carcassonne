@@ -154,9 +154,9 @@ public class TuileCarcassonne extends Tuile {
     }
 
     // tourner l'image dans le GUI
-    public void Rotate(boolean sensHoraire){
+    public void rotate(boolean sensHoraire){
         // tourne les bords
-        super.Rotate(sensHoraire);
+        super.rotate(sensHoraire);
 
         // pour la sauvegarde
         memoireRotate(sensHoraire);
@@ -193,7 +193,7 @@ public class TuileCarcassonne extends Tuile {
         this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
         // permet de mettre l'image dans la rotation avant enregistrement
         for (int i = 0 ; i < rotation ; i++){
-            Rotate(true);
+            rotate(true);
         }
     }
 
