@@ -1,9 +1,10 @@
 package JeuCarcassonne;
 
-import JeuTuilesGenerique.Modele.Bord;
-import JeuTuilesGenerique.Modele.Tuile;
-import JeuTuilesGenerique.Vue.GameView;
-
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,16 +13,11 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectStreamException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.event.SwingPropertyChangeSupport;
-import javax.swing.* ;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.*;
+import JeuTuilesGenerique.Modele.Bord;
+import JeuTuilesGenerique.Modele.Tuile;
 
 public class TuileCarcassonne extends Tuile {
     
@@ -29,6 +25,7 @@ public class TuileCarcassonne extends Tuile {
     transient BufferedImage image;
     String nom ;
     Pion pion ;
+    boolean choixPion = false ;
     // permet de retrouver la rotation initiale quand on recharge une partie
     int rotation = 0 ;
     private class Pion extends JPanel{
@@ -99,7 +96,7 @@ public class TuileCarcassonne extends Tuile {
         b.addActionListener(event ->{
             System.out.println();
             ((BordCarcassonne)bord).setPion(true);
-            this.removeAll();
+            removeBoutonPlacagePion();
             placerPion();
             environnement.getPartie().tourSuivant();
         });
@@ -107,6 +104,7 @@ public class TuileCarcassonne extends Tuile {
     }
 
     public void BoutonsAjouterPion(){
+        choixPion = true ;
         resizeImage();
         setLayout(new  GridLayout(3,3));
         
@@ -120,11 +118,11 @@ public class TuileCarcassonne extends Tuile {
         newPanelInsivisble();
         newBoutonPlacerPion(sud);
         newPanelInsivisble();
-
     }
 
     public void removeBoutonPlacagePion(){
         this.removeAll();
+        choixPion = false ;
     }
 
     
@@ -184,7 +182,7 @@ public class TuileCarcassonne extends Tuile {
     // Rajoute l'image récupérée sur la tuile, sans même qu'on ait à appeler cette fonction.
     protected void paintComponent(Graphics g) {
         // rend l'image carré si elle est est dans la partie droite de l'écran
-        if (environnement.getPartie().aJouer.equals(this)){
+        if (environnement.getPartie().aJouer.equals(this) && ! choixPion){
             this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
         }
         resizeImage();
