@@ -95,7 +95,7 @@ public class TuileCarcassonne extends Tuile {
         g2d.drawImage(temp, 0, 0, null);
         g2d.dispose();
 
-        paintComponents(g2d);
+        repaint();
 
     }
 
@@ -112,7 +112,7 @@ public class TuileCarcassonne extends Tuile {
         int newWidth = image.getHeight();
         int typeOfImage = image.getType();
 
-        BufferedImage temp = new BufferedImage(newHeigh, newWidth, typeOfImage);
+        BufferedImage temp = new BufferedImage(newWidth, newHeigh, typeOfImage);
         Graphics2D graphics2D = temp.createGraphics();
         graphics2D.rotate( sensHoraire ? Math.PI/2 : - Math.PI/2,  newHeigh / 2, newWidth / 2);
         graphics2D.drawImage(image, null, 0, 0);
