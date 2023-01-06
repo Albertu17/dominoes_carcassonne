@@ -12,8 +12,8 @@ public class DominoTerminal {
 
     // pour test
     void addPrePlayer(){
-        partie.getJoueurs().addPlayer("Pierre", true, false) ;
-        partie.getJoueurs().addPlayer("Mathieu", false, false) ;
+        partie.getJoueurs().addPlayer("Pierre", true) ;
+        partie.getJoueurs().addPlayer("Mathieu", false) ;
     }
 
     
