@@ -166,10 +166,8 @@ public class GameView implements Serializable{
                 // JPanel conteneurInfosCoup
                 conteneurInfosCoup = new JPanel();
                 conteneurInfosCoup.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                conteneurInfosCoup.setLayout(new GridBagLayout());
+                conteneurInfosCoup.setLayout(new GridLayout(1, 3));
                 conteneurInfos.add(conteneurInfosCoup);
-                GridBagConstraints gbc2 = new GridBagConstraints();
-                gbc2.fill = GridBagConstraints.BOTH;
 
                     // JPanel conteneurInfosCoupGauche et JButtons defausser
                     conteneurInfosCoupGauche = new JPanel();
@@ -180,30 +178,28 @@ public class GameView implements Serializable{
                         // TODO au tour du suivant
                     });            
                     conteneurInfosCoupGauche.add(defausser);
-                    gbc2.weighty = 1;
-                    gbc2.anchor = GridBagConstraints.LINE_START;
-                    conteneurInfosCoup.add(conteneurInfosCoupGauche, gbc2);
+                    conteneurInfosCoup.add(conteneurInfosCoupGauche);
             
                     // JPanel conteneurInfosCoupMilieu
                     conteneurInfosCoupMilieu = new JPanel();
                     conteneurInfosCoupMilieu.setLayout(new BorderLayout());
                     conteneurInfosCoupMilieu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                    gbc2.weighty = 3;
-                    gbc2.anchor = GridBagConstraints.CENTER;
-                    conteneurInfosCoup.add(conteneurInfosCoupMilieu, gbc2);
+                    conteneurInfosCoup.add(conteneurInfosCoupMilieu);
+
+                    // JPanel vides servant de bords
+                    conteneurInfosCoupMilieuBordureGauche = new JPanel();
+                    conteneurInfosCoupMilieuBordureHaut = new JPanel();
+                    conteneurInfosCoupMilieuBordureDroit = new JPanel();
+                    conteneurInfosCoupMilieuBordureBas = new JPanel();
+                    conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuBordureGauche, BorderLayout.LINE_START);
+                    conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuBordureHaut, BorderLayout.PAGE_START);
+                    conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuBordureDroit, BorderLayout.LINE_END);
+                    conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuBordureBas, BorderLayout.PAGE_END);
 
                         // JPanel JPanel conteneurInfosCoupMilieuCentre
                         conteneurInfosCoupMilieuCentre = new JPanel();
                         conteneurInfosCoupMilieuCentre.setLayout(new BoxLayout(conteneurInfosCoupMilieuCentre, BoxLayout.PAGE_AXIS));
-                        JPanel conteneurInfosCoupMilieuCentreBordureGauche = new JPanel();
-                        JPanel conteneurInfosCoupMilieuCentreBordureHaut = new JPanel();
-                        JPanel conteneurInfosCoupMilieuCentreBordureDroite = new JPanel();
-                        JPanel conteneurInfosCoupMilieuCentreBordureBas = new JPanel();
                         conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentre, BorderLayout.CENTER);
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentreBordureGauche, BorderLayout.LINE_START);
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentreBordureHaut, BorderLayout.PAGE_START);
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentreBordureDroite, BorderLayout.LINE_END);
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentreBordureBas, BorderLayout.PAGE_END);
 
                             // JPanel conteneurButtonsRotate et JButtons rotationDroite et rotationGauche
                             conteneurButtonsRotate = new JPanel() ;
@@ -216,8 +212,8 @@ public class GameView implements Serializable{
                             rotationGauche.addActionListener(event -> {
                                 partie.aJouer.Rotate(false) ;
                             });
-                            conteneurButtonsRotate.add(rotationDroite);
                             conteneurButtonsRotate.add(rotationGauche);
+                            conteneurButtonsRotate.add(rotationDroite);
                             conteneurInfosCoupMilieuCentre.add(conteneurButtonsRotate); 
 
                             // JPanel conteneurTuileAJouer
@@ -233,9 +229,7 @@ public class GameView implements Serializable{
                     tuilesRestantes = new JLabel();
                     updateTuilesRestantes();
                     conteneurInfosCoupDroite.add(tuilesRestantes);
-                    gbc2.weighty = 1;
-                    gbc2.anchor = GridBagConstraints.LINE_END;
-                    conteneurInfosCoup.add(conteneurInfosCoupDroite, gbc2);
+                    conteneurInfosCoup.add(conteneurInfosCoupDroite);
 
 
 
@@ -303,7 +297,7 @@ public class GameView implements Serializable{
 
     public void repaintTuileAJouer() {
         conteneurTuileAJouer.removeAll();
-        conteneurTuileAJouer.add(partie.aJouer.clone());
+        conteneurTuileAJouer.add(partie.aJouer);
         partie.aJouer.setEnvironnement(this);
         grille.repaint(); // Repeint GUI.
         grille.revalidate(); // Revalide GUI.
