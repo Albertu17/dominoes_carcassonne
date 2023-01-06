@@ -144,7 +144,7 @@ public class Joueurs implements Serializable{
 
             public PanelJoueur() {
                 setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                setBackground(Joueur.this.couleur);
+                // setBackground(Joueur.this.couleur);
                 nomEtPoints = new JLabel();
                 add(nomEtPoints);
                 if (Joueur.this.auTrait) nomEtPoints.setText("--> " + Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
