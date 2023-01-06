@@ -142,5 +142,9 @@ public class TuileCarcassonne extends Tuile {
 
     }
 
+    public TuileCarcassonne clone(){
+        return (TuileCarcassonne) super.clone();
+    }
+
     private void readObjectNoData() throws ObjectStreamException{ }
 }

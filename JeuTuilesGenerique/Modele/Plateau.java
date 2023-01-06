@@ -31,6 +31,7 @@ public class Plateau implements Serializable{
     }
     
     public boolean add(Tuile tuile, int x, int y) {
+        tuile.setCoordonnées(x, y);
         boolean aggrandissement = false;
         if (x == 1){
             aggrandissement = true;
