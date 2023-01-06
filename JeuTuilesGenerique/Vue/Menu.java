@@ -429,7 +429,7 @@ public class Menu implements Serializable{
                 
             // Texte d'aide :
                 IndicationAjout = new JLabel("Ajouter un nouveau joueur :") ;
-                IndicationPresent = new JLabel("Liste des joueurs de la partie (min:2, max:6) : ") ;
+                IndicationPresent = new JLabel("Liste des joueurs de la partie (min:2, max:5) : ") ;
                 
                 IndicationAjout.setSize(widthFrame/3, 100);
                 IndicationAjout.setLocation(widthFrame/2 -IndicationAjout.getWidth()/2, heightFrame/4-100);
