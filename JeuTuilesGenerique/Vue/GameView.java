@@ -251,13 +251,6 @@ public class GameView implements Serializable{
 
                     conteneurInfos.setPreferredSize(conteneurInfos.getSize());
                     conteneurInfos.setMaximumSize(conteneurInfos.getPreferredSize());
-
-
-
-                    // si premier joueur IA on lance son tour
-                    if (partie.getJoueurs().joueurAuTrait().isIA()){
-                        partie.TourIA(); ;
-                    }   
     }
 
     public Partie getPartie() {return partie;}

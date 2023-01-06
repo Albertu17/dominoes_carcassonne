@@ -103,7 +103,7 @@ public class Joueurs implements Serializable{
         public Joueur(String nom, boolean IA){
             this.nom = nom ;
             score = 0 ;
-            NbrPion = 0 ; // Augmenté si
+            NbrPion = 0 ;
             this.IA = IA ;
         }
 

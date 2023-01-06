@@ -28,8 +28,7 @@ public class Partie implements Serializable {
         this.pioche = pioche;
         this.nomPartie = nomPartie;
         premiereTuile();
-        nouvelleTuileAjouer();
-        joueurs.nextJoueurAuTrait();
+        tourSuivant();
     }
 
     public Partie(String nomPartie){
@@ -76,15 +75,12 @@ public class Partie implements Serializable {
             // car les coordonnées de la tuile peuvent changer si le plateau devient plus grand 
             joueurs.joueurAuTrait().addScore(nbPoint(x, y));
 
-
             // aggrandit le plateau si la tuile est placée en bordure de la grille du GUI.
             if (plateau.add(aJouer, x, y)) gui.repaintGrille();
             else gui.updateGrille(aJouer, x, y);
             
             tourSuivant() ;
-            // return true ; //besoin du boolean pour l'IA
         }
-        // return false ;
     }
 
     public void tourSuivant(){
