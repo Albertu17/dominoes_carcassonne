@@ -2,11 +2,16 @@ package JeuCarcassonne;
 
 import java.io.Serializable;
 
+import JeuDominos.BordDomino;
 import JeuTuilesGenerique.Modele.Bord;
 
 public class BordCarcassonne extends Bord{
     
     Structure structure;
+
+    public Structure getStructure() {
+        return structure;
+    }
 
     public BordCarcassonne(Structure structure) {
         this.structure = structure;
@@ -32,8 +37,8 @@ public class BordCarcassonne extends Bord{
         }
     }
 
-    public boolean estCompatibleAvec(BordCarcassonne bD) {
-        if (bD == null || (bD.structure.getClass().equals(structure.getClass()))) return true;
+    public boolean estCompatibleAvec(Bord bD) {
+        if (bD == null || (bD.getStructure().getClass().equals(structure.getClass()))) return true;
         return false;
     }
 
