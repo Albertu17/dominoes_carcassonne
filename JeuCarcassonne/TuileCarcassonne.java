@@ -64,48 +64,14 @@ public class TuileCarcassonne extends Tuile {
 
     
 
-    // Une fonction annexe doit être créée car un appel au constructeur this() doit être la première
-    // ligne d'un autre constructeur.
-    public static BordCarcassonne[] stringToTile(String description) {
-        BordCarcassonne[] bords = new BordCarcassonne[5];
-        if (description.contains("b")) {
-            switch (description.indexOf("b")) {
-                case 1:
-                    bords[0] = new BordCarcassonne(description.substring(0, 1));
-                    description = description.substring(2);
-                    break;
-                case 2:
-                    bords[1] = new BordCarcassonne(description.substring(1, 2));
-                    description = description.substring(0, 0) + description.substring(3);
-                    break; 
-                case 3:
-                    bords[2] = new BordCarcassonne(description.substring(2, 3));
-                    description = description.substring(0, 1) + description.substring(4);
-                    break;
-                case 4:
-                    bords[3] = new BordCarcassonne(description.substring(3, 4));
-                    description = description.substring(0, 2) + description.substring(5);
-                    break;
-                case 5:
-                    bords[4] = new BordCarcassonne(description.substring(4, 5));
-                    description = description.substring(0, 3);
-                    break;                                                                               
-            }
-        }
-        for (int i = 0; i < description.length(); i++) {
-            if (bords[i] == null) bords[i] = new BordCarcassonne(String.valueOf(description.charAt(i)));
-            else bords[i+1] = new BordCarcassonne(String.valueOf(description.charAt(i)));
-        }
-        return bords;
-    }
-
+    
 
     public TuileCarcassonne(BordCarcassonne[] bords, String chemin) throws IOException {
         super(bords[0], bords[1], bords[2], bords[3]);
         this.centre = bords[4];
         setImage(chemin);
 
-        setLayout(new  BorderLayout());
+        // setLayout(new  BorderLayout());
         // setLayout(null);
 
         // p = new Pion();
@@ -188,9 +154,9 @@ public class TuileCarcassonne extends Tuile {
     }
 
     // tourner l'image dans le GUI
-    public void rotate(boolean sensHoraire){
+    public void Rotate(boolean sensHoraire){
         // tourne les bords
-        super.rotate(sensHoraire);
+        super.Rotate(sensHoraire);
 
         // pour la sauvegarde
         memoireRotate(sensHoraire);
@@ -227,7 +193,7 @@ public class TuileCarcassonne extends Tuile {
         this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
         // permet de mettre l'image dans la rotation avant enregistrement
         for (int i = 0 ; i < rotation ; i++){
-            rotate(true);
+            Rotate(true);
         }
     }
 
