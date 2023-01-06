@@ -27,7 +27,7 @@ public class TuileCarcassonne extends Tuile {
     Pion pion ;
     boolean choixPion = false ;
     // permet de retrouver la rotation initiale quand on recharge une partie
-    int rotation = 0 ;
+    int rotation ;
     private class Pion extends JPanel{
         Color color ;
 
@@ -129,6 +129,7 @@ public class TuileCarcassonne extends Tuile {
 
     public TuileCarcassonne(BordCarcassonne[] bords, String chemin) throws IOException {
         super(bords[0], bords[1], bords[2], bords[3]);
+        rotation = 0 ;
         this.centre = bords[4];
         setImage(chemin);
     }
@@ -227,7 +228,10 @@ public class TuileCarcassonne extends Tuile {
         if (sensHoraire) rotation += 1 ;
         else rotation -= 1 ;
         // permet de garder l'entier entre 0 et 3
+        rotation+= 4 ;
         rotation = rotation%4 ;
+
+        System.out.println(rotation);
     }
 
     // enregistrement spécial (Serializable), pour eviter les problème et réduire la taille de sauvegarde
@@ -238,12 +242,14 @@ public class TuileCarcassonne extends Tuile {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         setImage(nom);
+        int holdrota = rotation ;
         // rend l'image carrée avant de la tourner
         this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
         // permet de mettre l'image dans la rotation avant enregistrement
-        for (int i = 0 ; i < rotation ; i++){
+        for (int i = 0 ; i < holdrota ; i++){
             rotate(true);
         }
+        rotation = holdrota ;
     }
 
     private void readObjectNoData() throws ObjectStreamException{ }
