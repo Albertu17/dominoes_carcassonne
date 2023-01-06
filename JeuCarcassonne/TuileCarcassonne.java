@@ -230,8 +230,6 @@ public class TuileCarcassonne extends Tuile {
         // permet de garder l'entier entre 0 et 3
         rotation+= 4 ;
         rotation = rotation%4 ;
-
-        System.out.println(rotation);
     }
 
     // enregistrement spécial (Serializable), pour eviter les problème et réduire la taille de sauvegarde
