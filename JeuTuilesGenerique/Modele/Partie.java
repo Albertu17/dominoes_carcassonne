@@ -103,16 +103,16 @@ public class Partie implements Serializable {
         gui.getDefausser().setEnabled(false);
 
         // lancement d'un thread timer (en background) pour ne pas bloquer l'interface
-        TimerTask finDeTourIA = new TimerTask(){
-            public void run() {
-                gui.getRotationDroite().setEnabled(true);
-                gui.getRotationGauche().setEnabled(true);
-                gui.getDefausser().setEnabled(true);
-                TourIA();
-            } 
-        } ;
-        // delay en milisencond
-        (new Timer()).schedule(finDeTourIA , 2000);
+        gui.getRotationDroite().setEnabled(true);
+        gui.getRotationGauche().setEnabled(true);
+        gui.getDefausser().setEnabled(true);
+        TourIA();
+        // TimerTask finDeTourIA = new TimerTask(){
+        //     public void run() {
+        //     } 
+        // } ;
+        // // delay en milisencond
+        // (new Timer()).schedule(finDeTourIA , 2000);
     }
     
     
