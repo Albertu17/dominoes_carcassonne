@@ -6,11 +6,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.swing.plaf.synth.SynthToolTipUI;
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import JeuCarcassonne.PartieCarcassonne;
 import JeuCarcassonne.TuileCarcassonne;

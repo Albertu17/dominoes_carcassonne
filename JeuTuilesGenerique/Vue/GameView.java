@@ -227,6 +227,7 @@ public class GameView implements Serializable{
                     conteneurInfosCoupDroite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     tuilesRestantes = new JLabel();
                     conteneurInfosCoupDroite.add(tuilesRestantes, BorderLayout.CENTER);
+                    tuilesRestantes.setHorizontalAlignment(0);
                     conteneurInfosCoup.add(conteneurInfosCoupDroite);
 
                     conteneurInfos.setPreferredSize(conteneurInfos.getSize());
@@ -304,8 +305,8 @@ public class GameView implements Serializable{
         for (Joueur j: partie.joueurs.players) {
             if (vainqueur == null || j.score > vainqueur.score) vainqueur = j;
         }
-        // TODO mettre en gras
         winMessage = new JLabel("Le vainqueur est " + vainqueur.nom + " avec " + String.valueOf(vainqueur.score) + " points !");
+        winMessage.setFont(new Font("Arial", Font.BOLD, 16));
         conteneurInfosCoup.add(winMessage, BorderLayout.CENTER);
         winMessage.setHorizontalAlignment(0);
         conteneurInfosCoup.revalidate();

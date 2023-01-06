@@ -157,6 +157,8 @@ public class Joueurs implements Serializable{
                 conteneurHaut.setLayout(new BoxLayout(conteneurHaut, BoxLayout.LINE_AXIS));
                 nom = new JLabel();
                 points = new JLabel();
+                nom.setFont(new Font("Arial", Font.BOLD, 20));
+                points.setFont(new Font("Arial", Font.BOLD, 20));
                 conteneurHaut.add(nom);
                 conteneurHaut.add(points);
                 conteneurBas = new JPanel();
