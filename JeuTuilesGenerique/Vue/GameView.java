@@ -43,7 +43,7 @@ public class GameView implements Serializable{
     JPanel grille;
     JPanel conteneurInfos;
     JPanel conteneurInfosCoup;
-    JPanel conteneurTuileAJouer;
+    protected JPanel conteneurTuileAJouer;
     JButton retourMenu ;
     JButton quitter ;
     JButton defausser ;

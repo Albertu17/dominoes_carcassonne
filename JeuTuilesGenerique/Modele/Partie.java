@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 import JeuCarcassonne.PartieCarcassonne;
+import JeuCarcassonne.VueCarcassonne;
 import JeuTuilesGenerique.Vue.GameView;
 
 public class Partie implements Serializable {
@@ -76,7 +79,10 @@ public class Partie implements Serializable {
             // aggrandit le plateau si la tuile est placée en bordure de la grille du GUI.
             if (plateau.add(aJouer, x, y)) gui.repaintGrille();
             else gui.updateGrille(aJouer, x, y);
-            
+            if( ! joueurs.joueurAuTrait().isIA() && this instanceof PartieCarcassonne){
+                ((VueCarcassonne)gui).demanderSiPosePion();
+                return ;
+            }
             tourSuivant() ;
         }
     }
