@@ -244,6 +244,7 @@ public class GameView implements Serializable{
 
     // Affiche visuellement la tuile qui est à jouer aux coordonnées indiquées.
     public void updateGrille(Tuile t, int x, int y) {
+        // On ajuste les coordonnées du plateau à celles du gridLayout.
         grille.remove((x-1)*(partie.plateau.largeur-2)+(y-1)); // Enlève tuile vide.
         grille.add(t, (x-1)*(partie.plateau.largeur-2)+(y-1)); // Remplace par la tuile jouée.
         t.setCoordonnées(x, y);

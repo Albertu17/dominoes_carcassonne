@@ -28,7 +28,6 @@ public class Partie implements Serializable {
         this.pioche = pioche;
         this.nomPartie = nomPartie;
         premiereTuile();
-        nouvelleTuileAjouer();
     }
 
     public Partie(String nomPartie){
@@ -117,9 +116,7 @@ public class Partie implements Serializable {
             // l'appel de nbPoints à besoin d'etre mis avant l'ajout de la tuile au plateau.
             // car les coordonnées de la tuile peuvent changer si le plateau devient plus grand 
             joueurs.joueurAuTrait().addScore(nbPoint(x, y));
-
-            plateau.add(aJouer, x, y) ;
-
+            plateau.add(aJouer, x, y);
             return true ; //besoin du boolean pour l'IA
         }
         return false ;

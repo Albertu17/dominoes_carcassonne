@@ -16,7 +16,7 @@ import JeuTuilesGenerique.Vue.GameView;
 public class Tuile extends JPanel implements MouseInputListener {
 
     protected transient GameView environnement;
-    int x, y;
+    int x, y; // Coordonnées de la tuile dans le plateau où elle sera placée.
     public Bord nord;
     public Bord est;
     public Bord sud;

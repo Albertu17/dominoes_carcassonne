@@ -21,6 +21,7 @@ public class PiocheCarcassonne extends Pioche{
         addSeveralTimes(new TuileCarcassonne("VbRRVR"), 2); // TODO Ville aussi au centre
         addSeveralTimes(new TuileCarcassonne("VbVCVV"), 1);
         addSeveralTimes(new TuileCarcassonne("VbVRVV"), 1);
+        addSeveralTimes(new TuileCarcassonne("VbVVVV"), 1);
         addSeveralTimes(new TuileCarcassonne("VCCCC"), 5);
         addSeveralTimes(new TuileCarcassonne("VCCVV"), 3);
         addSeveralTimes(new TuileCarcassonne("VCRRR"), 3);
@@ -31,6 +32,5 @@ public class PiocheCarcassonne extends Pioche{
         addSeveralTimes(new TuileCarcassonne("VVCCC"), 2);
         addSeveralTimes(new TuileCarcassonne("VVCVV"), 3);
         addSeveralTimes(new TuileCarcassonne("VVRVV"), 1);
-        addSeveralTimes(new TuileCarcassonne("VVVVVb"), 1);
     }
 }
