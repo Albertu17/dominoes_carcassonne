@@ -21,10 +21,6 @@ public class BordCarcassonne extends Bord{
         return structure;
     }
 
-    public Structure getStructure() {
-        return structure;
-    }
-
     public BordCarcassonne(Structure structure) {
         this.structure = structure;
     }
