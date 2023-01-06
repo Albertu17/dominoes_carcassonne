@@ -28,7 +28,7 @@ public class Partie implements Serializable {
         this.pioche = pioche;
         this.nomPartie = nomPartie;
         premiereTuile();
-        tourSuivant();
+        nouvelleTuileAjouer();
     }
 
     public Partie(String nomPartie){
@@ -89,21 +89,18 @@ public class Partie implements Serializable {
         nouvelleTuileAjouer();
         gui.repaintTuileAJouer();
         gui.updateTuilesRestantes();
-        
         if(joueurs.joueurAuTrait().isIA()) gestionTourIA();
     }
 
     public void gestionTourIA(){
-        // empeche le joueur de jouer à la place de l'IA
+        // empêche le joueur de jouer à la place de l'IA
         gui.getRotationDroite().setEnabled(false);
         gui.getRotationGauche().setEnabled(false);
         gui.getDefausser().setEnabled(false);
 
         // lancement d'un thread timer (en background) pour ne pas bloquer l'interface
-
         TimerTask findeTourIA = new TimerTask(){
             public void run() {
-
                 gui.getRotationDroite().setEnabled(true);
                 gui.getRotationGauche().setEnabled(true);
                 gui.getDefausser().setEnabled(true);

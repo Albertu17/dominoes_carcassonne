@@ -20,9 +20,7 @@ public class Pioche implements Serializable{
 
     // Renvoie un élément de la pioche, ou null si cette dernière est vide.
     public Tuile pickOne(){
-        if (! pioche.isEmpty()){
-            return pioche.remove(0) ;
-        }
+        if (!pioche.isEmpty()) return pioche.remove(0);
         return null ;
     }
 

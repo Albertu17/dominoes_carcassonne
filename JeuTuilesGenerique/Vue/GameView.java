@@ -26,8 +26,6 @@ import JeuTuilesGenerique.Modele.Joueurs.Joueur.PanelJoueur;
 
 public class GameView implements Serializable{
 
-    // Launcher fenetreGraphique ;
-    
     public Partie partie;
     Launcher fenetre ;
     public JPanel conteneurGlobal;
@@ -50,20 +48,8 @@ public class GameView implements Serializable{
     JButton retourMenu ;
     JButton quitter ;
     JButton defausser ;
-    public JButton getDefausser() {
-        return defausser;
-    }
-
     JButton rotationDroite ;
-    public JButton getRotationDroite() {
-        return rotationDroite;
-    }
-
     JButton rotationGauche ;
-    public JButton getRotationGauche() {
-        return rotationGauche;
-    }
-
     JPanel conteneurButtonsRotate ;
     JPanel conteneurInfosCoupMilieu;
     JPanel conteneurInfosCoupMilieuBordureGauche;
@@ -75,11 +61,6 @@ public class GameView implements Serializable{
     JLabel tuilesRestantes;
     JPanel conteneurInfosCoupMilieuCentre;
     public List<PanelJoueur> panelJoueurs;
-    // JPanel conteneurPieceAjouerMilieu;
-    // JPanel conteneurPieceAjouerHaut;
-    // JPanel conteneurPieceAjouerGauche;
-    // JPanel conteneurPieceAjouerDroite;
-    // JPanel conteneurPieceAjouerBas;
 
     public GameView(Partie partie){
 
@@ -237,7 +218,6 @@ public class GameView implements Serializable{
                             // JPanel conteneurTuileAJouer
                             conteneurTuileAJouer = new JPanel();
                             conteneurTuileAJouer.setLayout(new BoxLayout(conteneurTuileAJouer, BoxLayout.X_AXIS));
-                            repaintTuileAJouer();
                             conteneurInfosCoupMilieuCentre.add(conteneurTuileAJouer); 
 
                     // JPanel conteneurInfosCoupDroite et JLabel tuiles restantes
@@ -245,17 +225,22 @@ public class GameView implements Serializable{
                     conteneurInfosCoupDroite.setLayout(new BorderLayout());
                     conteneurInfosCoupDroite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     tuilesRestantes = new JLabel();
-                    updateTuilesRestantes();
                     conteneurInfosCoupDroite.add(tuilesRestantes, BorderLayout.CENTER);
                     conteneurInfosCoup.add(conteneurInfosCoupDroite);
 
                     conteneurInfos.setPreferredSize(conteneurInfos.getSize());
                     conteneurInfos.setMaximumSize(conteneurInfos.getPreferredSize());
+        
+        // Lorsque le GUI est prêt, on lance la partie
+        partie.tourSuivant();
     }
 
     public Partie getPartie() {return partie;}
     public void setLauncher(Launcher l) {fenetre = l;}
     public Launcher getLauncher() {return fenetre;}
+    public JButton getDefausser() {return defausser;}
+    public JButton getRotationDroite() {return rotationDroite;}
+    public JButton getRotationGauche() {return rotationGauche;}
 
     // Affiche visuellement la tuile qui est à jouer aux coordonnées indiquées.
     public void updateGrille(Tuile t, int x, int y) {
