@@ -25,7 +25,6 @@ public class GameView implements Serializable{
     // Launcher fenetreGraphique ;
     
     public Partie partie;
-    Launcher fenetre ;
     public JPanel conteneurGlobal;
     JPanel bandeauSup;
     JPanel conteneurTitre;
@@ -84,8 +83,8 @@ public class GameView implements Serializable{
 
             retourMenu.addActionListener(event -> {
                 partie.save() ;
-                fenetre.removeAll() ;
-                new Menu(fenetre) ;
+                // conteneurGlobal.setVisible(false);
+                // new Menu(conteneurGlobal.getRootPane()) ;
             });
 
             // JPanel conteneurTitre et JLabel titre
@@ -216,9 +215,6 @@ public class GameView implements Serializable{
     }
 
     public Partie getPartie() {return partie;}
-
-    public void setLauncher(Launcher l){ fenetre = l ; }
-    public Launcher getLauncher(){return fenetre ; }
 
     // Affiche visuellement la tuile qui est à jouer aux coordonnées indiquées.
     public void updateGrille(Tuile t, int x, int y) {

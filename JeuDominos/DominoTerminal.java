@@ -14,6 +14,7 @@ public class DominoTerminal {
     Scanner sc ;
 
     // pour test
+    public static int mark = 1 ;
     void addPrePlayer(){
         partie.getJoueurs().addPlayer("Pierre", true, false) ;
         partie.getJoueurs().addPlayer("Mathieu", false, false) ;
@@ -24,6 +25,28 @@ public class DominoTerminal {
         sc = new Scanner(System.in) ;
         partie = new PartieDominos("", false) ;
     }
+
+    // void DominoTerminalRandom(){
+    //     // juste dans le but de tester la fonction print 
+    //     plat  = new Plateau(9, 8) ;
+    //     PiocheDominos sac = new PiocheDominos(false);
+    //     Tuile t = sac.pickOne();
+    //     plat.add(t, 0, 0) ;
+    //     while ((t = sac.pickOne()) != null){
+    //         if (Math.random() > .5){
+    //             plat.add(t, -1, 0) ;
+    //         }else{
+    //             plat.add(t, 0, -1) ;
+    //         }
+    //     }
+    // }
+
+    public void marker(){
+        System.out.println("#" + String.valueOf(mark++));
+    }
+
+    public void resetmarker(){ mark = 1 ;}
+
     
 
     public void ajoutJoueur(){
@@ -66,14 +89,14 @@ public class DominoTerminal {
         }
     }
 
-    public void TourJoueur(){
+    public void TourJoueur(Joueur j){
 
         boolean continuer = true ;
         clearTerminal();
         printPlateau();
         ScoreBoard();
         System.out.println();
-        System.out.println("C'est au tour de " + partie.getJoueurs().joueurAuTrait().getName()+"." );
+        System.out.println("C'est au tour de " + j.getName()+"." );
         System.out.println();
         System.out.println("Choisi quoi faire :");
         
@@ -95,7 +118,7 @@ public class DominoTerminal {
                     break ;
                 default :
                     
-                    continuer = ! placer() ;
+                    continuer = ! placer(j) ;
 
                     if (continuer) System.out.println("Placement impossible ici");
                     break ;
@@ -104,18 +127,33 @@ public class DominoTerminal {
             }
         }
 
-
     }
 
-    public boolean placer(){
+    public boolean placer(Joueur j){
         System.out.println();
         System.out.println("Renseigner vos coordonnnées (x,y)");
         String[] coord  =  sc.next().split(",") ;
         int x = Integer.valueOf( coord[0] ) ;
         int y = Integer.valueOf( coord[1] ) ;
 
-        return partie.jouerTerminal(x, y) ; 
+        int pts = 0;//partie.jouer( x, y) ; // TODO demander Thib but
 
+        j.addScore(pts);
+
+        return pts != 0 ;
+
+
+
+    }
+
+    public void ScoreBoard(){
+        System.out.println();
+        System.out.println("       Scrore :");
+        for (Joueur j : partie.getJoueurs().getList()) {
+            System.out.println("  " + j.getName() + " : " + j.getScore() + " pts.");
+        }
+        System.out.println();
+        System.out.println();
     }
     
     
@@ -123,19 +161,18 @@ public class DominoTerminal {
         ajoutertoutJoueur();
         
         // fait jouer les joueur tour à tour
-        
-        partie.getJoueurs().nextJoueurAuTrait();
-        while( ! partie.partieFinie()){
-            partie.aJouer = partie.getPioche().pickOne() ;
+        int tour = 0;
+        while( (partie.aJouer = (TuileDomino)partie.getPioche().pickOne()) != null){
+            if (tour >= partie.getJoueurs().nbJoueurs() ) tour = 0 ;
 
-            if (partie.getJoueurs().joueurAuTrait() .isIA()){
-                partie.TourIA();
-                System.out.println("L'IA a jouer ! ");
+            if (partie.getJoueurs().getPlayers(tour).isIA()){
+                // action baser sur l'IA
+                // TODO placer action de l'IA
+                partie.TourIA(partie.getJoueurs().getPlayers(tour));
             }else{
-                TourJoueur();
+                TourJoueur(partie.getJoueurs().getPlayers(tour));
             }
-            
-            partie.getJoueurs().nextJoueurAuTrait();
+            tour++ ;
         }
         
     
@@ -150,40 +187,30 @@ public class DominoTerminal {
             d1.JeuDomino();
         }
 
-    public void ScoreBoard(){
-        System.out.println();
-        System.out.println("                Score :");
-        for (Joueur j : partie.getJoueurs().getList()) {
-            System.out.println("             " + j.getName() + " : " + j.getScore() + " pts.");
+        public String[] StringTabTuille(TuileDomino act){
+            String[] AffichesTuiles = new String[]{"", "", "", "", ""} ;
+
+             // affichage haut 1
+                AffichesTuiles[0] += "* " ;
+                for (int nombre : act.nord.getNumeros()) {
+                    AffichesTuiles[0] += nombre + " " ;
+                }
+                AffichesTuiles[0] += "*" ;
+            // affichage bas 5 :
+                AffichesTuiles[4] += "* " ;
+                for (int nombre : act.sud.getNumeros()) {
+                    AffichesTuiles[4] += nombre + " " ;
+                }
+                AffichesTuiles[4] += "*" ;
+
+
+            // affichage ligne 2,3,4 :
+                AffichesTuiles[1] += act.ouest.getNumeros()[0] + " ".repeat(7) + act.est.getNumeros()[0] ;
+                AffichesTuiles[2] += act.ouest.getNumeros()[1] + " ".repeat(3) + "#" + " ".repeat(3) + act.est.getNumeros()[1] ;
+                AffichesTuiles[3] += act.ouest.getNumeros()[2] + " ".repeat(7) + act.est.getNumeros()[2] ;
+
+            return AffichesTuiles ;
         }
-        System.out.println();
-        System.out.println();
-    }
-
-    public String[] StringTabTuille(TuileDomino act){
-        String[] AffichesTuiles = new String[]{"", "", "", "", ""} ;
-
-            // affichage haut 1
-            AffichesTuiles[0] += "* " ;
-            for (int nombre : act.nord.getNumeros()) {
-                AffichesTuiles[0] += nombre + " " ;
-            }
-            AffichesTuiles[0] += "*" ;
-        // affichage bas 5 :
-            AffichesTuiles[4] += "* " ;
-            for (int nombre : act.sud.getNumeros()) {
-                AffichesTuiles[4] += nombre + " " ;
-            }
-            AffichesTuiles[4] += "*" ;
-
-
-        // affichage ligne 2,3,4 :
-            AffichesTuiles[1] += act.ouest.getNumeros()[0] + " ".repeat(7) + act.est.getNumeros()[0] ;
-            AffichesTuiles[2] += act.ouest.getNumeros()[1] + " ".repeat(3) + "#" + " ".repeat(3) + act.est.getNumeros()[1] ;
-            AffichesTuiles[3] += act.ouest.getNumeros()[2] + " ".repeat(7) + act.est.getNumeros()[2] ;
-
-        return AffichesTuiles ;
-    }
     
     
     public void printTuile(TuileDomino tuile){

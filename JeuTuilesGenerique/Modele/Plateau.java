@@ -33,9 +33,10 @@ public class Plateau implements Serializable{
     public boolean add(Tuile tuile, int x, int y) {
         boolean aggrandissement = false;
         if (x == 1){
+            largeur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
-            plateau = newplateauFullTuileVide(plateau.length+1, plateau[0].length) ;
+            plateau = newplateauFullTuileVide(plateau.length+1, plateau.length) ;
             
             for (int i = 0; i < tab.length; i++){
                 for (int j = 0; j < tab[0].length ;j++){
@@ -45,9 +46,10 @@ public class Plateau implements Serializable{
             x = x+1;
         }
         else if (x == plateau.length - 2){
+            largeur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
-            plateau = newplateauFullTuileVide(plateau.length+1, plateau[0].length) ;
+            plateau = newplateauFullTuileVide(plateau.length+1, plateau.length) ;
             
             for (int i = 0; i < tab.length; i++){
                 for (int j = 0; j < tab[0].length ;j++){
@@ -56,9 +58,10 @@ public class Plateau implements Serializable{
             }
         }
         if ( y==1  ){
+            hauteur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
-            plateau = newplateauFullTuileVide(plateau.length, plateau[0].length+1) ;
+            plateau = newplateauFullTuileVide(plateau.length, plateau.length+1) ;
             
             for (int i = 0; i < tab.length; i++){
                 for (int j = 0; j < tab[0].length ;j++){
@@ -68,9 +71,10 @@ public class Plateau implements Serializable{
             y = y +1 ;
         }
         else if ( y == plateau[0].length-2 ){
+            hauteur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
-            plateau = newplateauFullTuileVide(plateau.length, plateau[0].length+1) ;
+            plateau = newplateauFullTuileVide(plateau.length, plateau.length+1) ;
             
             for (int i = 0; i < tab.length; i++){
                 for (int j = 0; j < tab[0].length ;j++){
