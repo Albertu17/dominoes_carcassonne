@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import java.lang.Object;
 
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Tuile;
@@ -41,13 +42,22 @@ public class GameView implements Serializable{
     JPanel grille;
     JPanel conteneurInfos;
     JPanel conteneurInfosCoup;
-    JPanel conteneurPieceAJouer;
+    JPanel conteneurTuileAJouer;
     JButton retourMenu ;
     JButton quitter ;
     JButton defausser ;
     JButton rotationDroite ;
     JButton rotationGauche ;
-    JPanel conteneurRotate ;
+    JPanel conteneurButtonsRotate ;
+    JPanel conteneurInfosCoupMilieu;
+    JPanel conteneurInfosCoupMilieuBordureGauche;
+    JPanel conteneurInfosCoupMilieuBordureHaut;
+    JPanel conteneurInfosCoupMilieuBordureDroit;
+    JPanel conteneurInfosCoupMilieuBordureBas;
+    JPanel conteneurInfosCoupGauche;
+    JPanel conteneurInfosCoupDroite;
+    JLabel tuilesRestantes;
+    JPanel conteneurInfosCoupMilieuCentre;
     // JPanel conteneurPieceAjouerMilieu;
     // JPanel conteneurPieceAjouerHaut;
     // JPanel conteneurPieceAjouerGauche;
@@ -74,17 +84,15 @@ public class GameView implements Serializable{
             bandeauSup.add(quitter);
             bandeauSup.add(retourMenu);
 
-            // action bouton 
-
+            // actions JButtons quitter et menu 
             quitter.addActionListener(event -> {
                 partie.save();
                 System.exit(0);
             });
-
             retourMenu.addActionListener(event -> {
                 partie.save() ;
                 // conteneurGlobal.setVisible(false);
-                // new Menu(conteneurGlobal.getRootPane()) ;
+                // new Menu(conteneurGlobal.getRootPane()) ; // TODO décommenter ?
             });
 
             // JPanel conteneurTitre et JLabel titre
@@ -144,74 +152,110 @@ public class GameView implements Serializable{
             // JPanel conteneurInfos
             conteneurInfos = new JPanel();
             conteneurInfos.setLayout(new GridLayout(partie.joueurs.nbJoueurs() + 1,1,-1,-1));
+            gbc.weightx = 1;
+            coeur.add(conteneurInfos, gbc);
 
-            conteneurInfosCoup = new JPanel();
-            conteneurInfosCoup.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            conteneurInfosCoup.setLayout(new BoxLayout(conteneurInfosCoup, BoxLayout.PAGE_AXIS));
+                // Les différents PanelJoueur
+                repaintPanelJoueurs();
 
-            conteneurRotate = new JPanel() ;
-            conteneurRotate.setLayout(new FlowLayout()) ;
-            conteneurInfosCoup.add(conteneurRotate); 
+                // JPanel conteneurInfosCoup
+                conteneurInfosCoup = new JPanel();
+                conteneurInfosCoup.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                conteneurInfosCoup.setLayout(new GridBagLayout());
+                conteneurInfos.add(conteneurInfosCoup);
+                GridBagConstraints gbc2 = new GridBagConstraints();
+                gbc2.fill = GridBagConstraints.BOTH;
 
-            rotationDroite = new JButton("Rotation a droite");
-            rotationGauche = new JButton("Rotation a gauche");
-            defausser = new JButton("Jeter la tuile");
+                    // JPanel conteneurInfosCoupGauche et JButtons defausser
+                    conteneurInfosCoupGauche = new JPanel();
+                    conteneurInfosCoupGauche.setLayout(new FlowLayout());
+                    conteneurInfosCoupGauche.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    defausser = new JButton("Jeter la tuile");
+                    defausser.addActionListener(evnt -> {
+                        // TODO au tour du suivant
+                    });            
+                    conteneurInfosCoupGauche.add(defausser);
+                    gbc2.weighty = 1;
+                    gbc2.anchor = GridBagConstraints.LINE_START;
+                    conteneurInfosCoup.add(conteneurInfosCoupGauche, gbc2);
+            
+                    // JPanel conteneurInfosCoupMilieu
+                    conteneurInfosCoupMilieu = new JPanel();
+                    conteneurInfosCoupMilieu.setLayout(new BorderLayout());
+                    conteneurInfosCoupMilieu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    gbc2.weighty = 3;
+                    gbc2.anchor = GridBagConstraints.CENTER;
+                    conteneurInfosCoup.add(conteneurInfosCoupMilieu, gbc2);
 
-            // définition action
-                rotationDroite.addActionListener(event -> {
-                    partie.aJouer.Rotate(true) ;
-                });
-                
-                rotationGauche.addActionListener(event -> {
-                    partie.aJouer.Rotate(false) ;
-                });
+                        // JPanel JPanel conteneurInfosCoupMilieuCentre
+                        conteneurInfosCoupMilieuCentre = new JPanel();
+                        conteneurInfosCoupMilieuCentre.setLayout(new BoxLayout(conteneurInfosCoupMilieuCentre, BoxLayout.PAGE_AXIS));
+                        JPanel conteneurInfosCoupMilieuCentreBordureGauche = new JPanel();
+                        JPanel conteneurInfosCoupMilieuCentreBordureHaut = new JPanel();
+                        JPanel conteneurInfosCoupMilieuCentreBordureDroite = new JPanel();
+                        JPanel conteneurInfosCoupMilieuCentreBordureBas = new JPanel();
+                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentre, BorderLayout.CENTER);
+                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentreBordureGauche, BorderLayout.LINE_START);
+                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentreBordureHaut, BorderLayout.PAGE_START);
+                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentreBordureDroite, BorderLayout.LINE_END);
+                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentreBordureBas, BorderLayout.PAGE_END);
 
-                defausser.addActionListener(evnt -> {
-                    // TODO au tour du suivant
-                });
+                            // JPanel conteneurButtonsRotate et JButtons rotationDroite et rotationGauche
+                            conteneurButtonsRotate = new JPanel() ;
+                            conteneurButtonsRotate.setLayout(new FlowLayout());
+                            rotationDroite = new JButton("Rotation à droite");
+                            rotationGauche = new JButton("Rotation à gauche");
+                            rotationDroite.addActionListener(event -> {
+                                partie.aJouer.Rotate(true) ;
+                            });
+                            rotationGauche.addActionListener(event -> {
+                                partie.aJouer.Rotate(false) ;
+                            });
+                            conteneurButtonsRotate.add(rotationDroite);
+                            conteneurButtonsRotate.add(rotationGauche);
+                            conteneurInfosCoupMilieuCentre.add(conteneurButtonsRotate); 
 
-            // ajout
-            conteneurRotate.add(rotationGauche);
-            conteneurRotate.add(rotationDroite);
-            conteneurRotate.add(defausser) ;
+                            // JPanel conteneurTuileAJouer
+                            conteneurTuileAJouer = new JPanel();
+                            conteneurTuileAJouer.setLayout(new BoxLayout(conteneurTuileAJouer, BoxLayout.X_AXIS));
+                            repaintTuileAJouer();
+                            conteneurInfosCoupMilieuCentre.add(conteneurTuileAJouer); 
 
-
-
+                    // JPanel conteneurInfosCoupDroite et JLabel tuiles restantes
+                    conteneurInfosCoupDroite = new JPanel();
+                    conteneurInfosCoupDroite.setLayout(new FlowLayout());
+                    conteneurInfosCoupDroite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    tuilesRestantes = new JLabel();
+                    updateTuilesRestantes();
+                    conteneurInfosCoupDroite.add(tuilesRestantes);
+                    gbc2.weighty = 1;
+                    gbc2.anchor = GridBagConstraints.LINE_END;
+                    conteneurInfosCoup.add(conteneurInfosCoupDroite, gbc2);
 
 
 
             // TODO rechanger plus atrd quand ça sera implanter
             // Tuile t = partie.aJouer;
-            partie.aJouer = partie.pioche.pickOne();
-            // t.setPreferredSize(new Dimension(20,20));
-            conteneurInfosCoup.add(partie.aJouer);
-            partie.aJouer.setEnvironnement(this);
-            // conteneurPieceAJouer.add(new JPanel(), BorderLayout.LINE_START);
-            conteneurInfos.add(conteneurInfosCoup);
-
-
-                // Les différents PanelJoueur
-                for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
-                    conteneurInfos.add(partie.joueurs.players.get(i).new PanelJoueur());
-                }
-
-                // TODO bon visuel de conteneurInfosCoup
-                // JPanel conteneurInfosCoup
-                conteneurInfosCoup = new JPanel();
-                conteneurInfosCoup.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                conteneurInfosCoup.setLayout(new BoxLayout(conteneurInfosCoup, BoxLayout.PAGE_AXIS));
-                conteneurInfosCoup.add(new JButton("Turn"));
-                // TODO rechanger plus atrd quand ça sera implanter
-                // Tuile t = partie.aJouer;
-                Tuile t = partie.pioche.pickOne();
-                // t.setPreferredSize(new Dimension(20,20));
-                conteneurInfosCoup.add(t);
-                t.setEnvironnement(this);
-                // conteneurPieceAJouer.add(new JPanel(), BorderLayout.LINE_START);
-                conteneurInfos.add(conteneurInfosCoup);
-
-            gbc.weightx = 1;
-            coeur.add(conteneurInfos, gbc);
+            // partie.aJouer = partie.pioche.pickOne();
+            // // t.setPreferredSize(new Dimension(20,20));
+            // conteneurInfosCoup.add(partie.aJouer);
+            // partie.aJouer.setEnvironnement(this);
+            // // conteneurPieceAJouer.add(new JPanel(), BorderLayout.LINE_START);
+            // conteneurInfos.add(conteneurInfosCoup);
+                // // TODO bon visuel de conteneurInfosCoup
+                // // JPanel conteneurInfosCoup
+                // conteneurInfosCoup = new JPanel();
+                // conteneurInfosCoup.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                // conteneurInfosCoup.setLayout(new BoxLayout(conteneurInfosCoup, BoxLayout.PAGE_AXIS));
+                // conteneurInfosCoup.add(new JButton("Turn"));
+                // // TODO rechanger plus atrd quand ça sera implanter
+                // // Tuile t = partie.aJouer;
+                // Tuile t = partie.pioche.pickOne();
+                // // t.setPreferredSize(new Dimension(20,20));
+                // conteneurInfosCoup.add(t);
+                // t.setEnvironnement(this);
+                // // conteneurPieceAJouer.add(new JPanel(), BorderLayout.LINE_START);
+                // conteneurInfos.add(conteneurInfosCoup);
     }
 
     public Partie getPartie() {return partie;}
@@ -224,11 +268,11 @@ public class GameView implements Serializable{
         grille.revalidate(); // Revalide GUI.
     }
 
+    // Enlève toutes les tuiles de la grille et les remets suivant celles se trouvant dans le plateau.
     public void repaintGrille() {
         grille = new JPanel();
         grille.setLayout(new GridLayout(partie.plateau.hauteur-2, partie.plateau.largeur-2, -1, -1));
         conteneurGrille.add(grille);
-
         // Remplissage de la grille avec tuiles non-extérieures du plateau.
         for (int i = 1; i < (partie.plateau.hauteur - 1); i++) {
             for (int j = 1; j < (partie.plateau.largeur - 1); j++) {
@@ -239,25 +283,30 @@ public class GameView implements Serializable{
                 partie.plateau.plateau[i][j].setCoordonnées(i, j);
             }
         }
+        grille.repaint(); // Repeint GUI.
+        grille.revalidate(); // Revalide GUI.
     }
 
     public void repaintPanelJoueurs() {
+        conteneurInfos.removeAll();
         for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
-            conteneurInfos.remove(i+1);
             conteneurInfos.add(partie.joueurs.players.get(i).new PanelJoueur());
             grille.repaint(); // Repeint GUI.
             grille.revalidate(); // Revalide GUI.
         }
     }
 
-    public void repaintTuileAJouer() { // TODO écrire avec idée updateTuileAJouer
-
+    public void repaintTuileAJouer() {
+        conteneurTuileAJouer.removeAll();
+        conteneurTuileAJouer.add(partie.aJouer.clone());
+        partie.aJouer.setEnvironnement(this);
+        grille.repaint(); // Repeint GUI.
+        grille.revalidate(); // Revalide GUI.
     }
 
-    public void updateTuileAJouer() {
-        partie.nouvelleTuileAjouer();
-        Tuile t = partie.aJouer;
-        conteneurInfosCoup.add(t);
-        t.setEnvironnement(this);
+    public void updateTuilesRestantes() {
+        tuilesRestantes.setText(String.valueOf(partie.pioche.pioche.size()));
+        grille.repaint(); // Repeint GUI.
+        grille.revalidate(); // Revalide GUI.
     }
 }

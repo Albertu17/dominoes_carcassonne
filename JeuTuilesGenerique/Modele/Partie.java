@@ -81,7 +81,7 @@ public class Partie implements Serializable {
             joueurs.nextJoueurAuTrait();
             gui.repaintPanelJoueurs();
             nouvelleTuileAjouer();
-            // gui.repaintTuileAJouer(); // TODO fonction dans GUI
+            gui.repaintTuileAJouer();
             return true ; //besoin du boolean pour l'IA
         }
         return false ;
