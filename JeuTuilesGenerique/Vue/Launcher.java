@@ -38,9 +38,11 @@ public class Launcher extends JFrame{
     public void launchRunningGame(Partie partie) {
         if (partie instanceof PartieCarcassonne) {
             VueCarcassonne vueC = new VueCarcassonne(partie);
+            vueC.setLauncher(this);
             getContentPane().add(vueC.conteneurGlobal);
         } else {
             VueDominos vueD = new VueDominos(partie);
+            vueD.setLauncher(this);
             getContentPane().add(vueD.conteneurGlobal);
         }
     }
@@ -50,6 +52,7 @@ public class Launcher extends JFrame{
         PiocheCarcassonne piocheC = new PiocheCarcassonne();
         PartieCarcassonne partieC = new PartieCarcassonne(joueurs, plateau, piocheC, nomPartie);
         VueCarcassonne vueC = new VueCarcassonne(partieC);
+        vueC.setLauncher(this);
         getContentPane().add(vueC.conteneurGlobal);
     }
 
@@ -58,6 +61,7 @@ public class Launcher extends JFrame{
         PiocheDominos piocheD = new PiocheDominos(true);
         PartieDominos partieD = new PartieDominos(joueurs, plateau, piocheD, nomPartie);
         VueDominos vueD = new VueDominos(partieD);
+        vueD.setLauncher(this) ;
         getContentPane().add(vueD.conteneurGlobal);
     }
 

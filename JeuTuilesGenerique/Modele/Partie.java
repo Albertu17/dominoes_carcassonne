@@ -1,5 +1,6 @@
 package JeuTuilesGenerique.Modele;
 
+import java.beans.Transient;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -18,7 +19,7 @@ public class Partie implements Serializable {
     public Pioche pioche;
     public Tuile aJouer;
     public String nomPartie ;
-    public GameView gui;
+    public transient GameView gui;
 
     public Partie(Joueurs joueurs, Plateau plateau, Pioche pioche, String nomPartie) {
         this.joueurs = joueurs;
@@ -95,7 +96,6 @@ public class Partie implements Serializable {
             joueurs.joueurAuTrait().addScore(nbPoint(x, y));
 
             plateau.add(aJouer, x, y) ;
-            joueurs.nextJoueurAuTrait();
 
             return true ; //besoin du boolean pour l'IA
         }
@@ -105,7 +105,7 @@ public class Partie implements Serializable {
 
 
     // prend en fonction de joueur au trait
-    public void TourIA(Joueur j){
+    public void TourIA(){
         RecursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ;
     }
 
@@ -117,8 +117,13 @@ public class Partie implements Serializable {
 
         // si on peut placer à cette place
         for (int i = 0 ; i < 4 ; i++){
-            if (jouer(x, y)) return true ;
-            else aJouer.Rotate(true);
+            // test pour savoir si la demande à été faite depuis la version "texte" du domino
+            if (gui != null){
+                if (jouer(x, y)) return true ;
+            }else{
+                if (jouerTerminal(x, y)) return true ;
+            }
+            aJouer.Rotate(true);
         }
 
         // recursif sur tuille adjacentes :

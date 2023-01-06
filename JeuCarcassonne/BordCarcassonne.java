@@ -32,8 +32,8 @@ public class BordCarcassonne extends Bord{
         }
     }
 
-    public boolean estCompatibleAvec(BordCarcassonne bD) {
-        if (bD == null || (bD.structure.getClass().equals(structure.getClass()))) return true;
+    public boolean estCompatibleAvec(Bord bD) {
+        if (bD == null || (((BordCarcassonne)bD).structure.getClass().equals(structure.getClass()))) return true;
         return false;
     }
 
