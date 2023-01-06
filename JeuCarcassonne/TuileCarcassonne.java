@@ -98,6 +98,7 @@ public class TuileCarcassonne extends Tuile {
             ((BordCarcassonne)bord).setPion(true);
             removeBoutonPlacagePion();
             placerPion();
+            environnement.getPartie().getJoueurs().joueurAuTrait().enleverUnPiont();
             environnement.getPartie().tourSuivant();
         });
 
@@ -141,8 +142,12 @@ public class TuileCarcassonne extends Tuile {
         nom = description ;
     }
     
-    private void setImage(String description) throws IOException{   
-        image = ImageIO.read(new File("JeuCarcassonne/ImagesTuiles/Tuile-" + description + ".png"));
+    private void setImage(String description){  
+        try {    
+            image = ImageIO.read(new File("JeuCarcassonne/ImagesTuiles/Tuile-" + description + ".png"));
+        } catch (Exception e) {
+            System.out.println(e);
+        } 
     }
 
     // Une fonction annexe doit être créée car un appel au constructeur this() doit être la première
@@ -230,6 +235,18 @@ public class TuileCarcassonne extends Tuile {
         // permet de garder l'entier entre 0 et 3
         rotation+= 4 ;
         rotation = rotation%4 ;
+    }
+
+    public void remettreImage(){
+        setImage(nom);
+        int holdrota = rotation ;
+        // rend l'image carrée avant de la tourner
+        this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
+        // permet de mettre l'image dans la rotation avant enregistrement
+        for (int i = 0 ; i < holdrota ; i++){
+            rotate(true);
+        }
+        rotation = holdrota ;
     }
 
     // enregistrement spécial (Serializable), pour eviter les problème et réduire la taille de sauvegarde

@@ -72,7 +72,7 @@ public class Launcher extends JFrame{
         // Lancer une partie sans passer par le menu:
             Launcher l = new Launcher();
             // l.createWinwow();
-            l.launch();
+            l.launch() ;
 
             // Lancer une partie Dominos nommée "partieDominos1" contenant deux joueurs, Pierre et Paul.
                 // Joueurs j1 = new Joueurs();

@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.plaf.synth.SynthToolTipUI;
 import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import JeuCarcassonne.PartieCarcassonne;
+import JeuCarcassonne.TuileCarcassonne;
 import JeuCarcassonne.VueCarcassonne;
 import JeuTuilesGenerique.Vue.GameView;
 
@@ -79,10 +81,12 @@ public class Partie implements Serializable {
             // aggrandit le plateau si la tuile est placée en bordure de la grille du GUI.
             if (plateau.add(aJouer, x, y)) gui.repaintGrille();
             else gui.updateGrille(aJouer, x, y);
-            if( ! joueurs.joueurAuTrait().isIA() && this instanceof PartieCarcassonne){
+            if( ! joueurs.joueurAuTrait().isIA() && joueurs.joueurAuTrait().getNbrPion() != 0 && this instanceof PartieCarcassonne){
                 ((VueCarcassonne)gui).demanderSiPosePion();
                 return ;
             }
+            if (joueurs.joueurAuTrait().isIA()) return ;
+            
             tourSuivant() ;
         }
     }
@@ -103,16 +107,10 @@ public class Partie implements Serializable {
         gui.getDefausser().setEnabled(false);
 
         // lancement d'un thread timer (en background) pour ne pas bloquer l'interface
-        TimerTask finDeTourIA = new TimerTask(){
-            public void run() {
-                gui.getRotationDroite().setEnabled(true);
-                gui.getRotationGauche().setEnabled(true);
-                gui.getDefausser().setEnabled(true);
-                TourIA();
-            } 
-        } ;
-        // delay en milisencond
-        (new Timer()).schedule(finDeTourIA , 2000);
+        gui.getRotationDroite().setEnabled(true);
+        gui.getRotationGauche().setEnabled(true);
+        gui.getDefausser().setEnabled(true);
+        TourIA();
     }
     
     
@@ -130,10 +128,11 @@ public class Partie implements Serializable {
 
     // prend en fonction de joueur au trait
     public void TourIA(){
+        recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ; 
+        
         // condition gui != null car tourSuivant pas compatible avec DominoTerminal
-        if ((!recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>())) && gui != null) tourSuivant();
+        if (gui != null){tourSuivant() ;}
     }
-
     public boolean recursiveIA(int x, int y, List<Tuile> list){
         if (list.contains(plateau.plateau[x][y])) return false ;
 
@@ -145,6 +144,9 @@ public class Partie implements Serializable {
             // permet de gérer l'appel de fonction par  raport au mod de jeu
             if (gui != null){
                 if (check(x, y)){
+                    if (aJouer instanceof TuileCarcassonne){
+                        ((TuileCarcassonne)aJouer).remettreImage();
+                    }
                     jouer(x, y) ;
                     return true ;
                 }
