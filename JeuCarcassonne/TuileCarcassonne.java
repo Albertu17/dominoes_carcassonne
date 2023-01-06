@@ -12,12 +12,15 @@ import java.io.ObjectStreamException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import javax.swing.event.SwingPropertyChangeSupport;
+import javax.swing.* ;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.*;
 
 public class TuileCarcassonne extends Tuile {
     
@@ -28,41 +31,116 @@ public class TuileCarcassonne extends Tuile {
     // permet de retrouver la rotation initiale quand on recharge une partie
     int rotation = 0 ;
     private class Pion extends JPanel{
+        Color color ;
+
+        Pion(Color c){
+            setColor(c);
+        }
         
-        // protected void paintComponent( Graphics g ){
-        //     setBackground(Color.BLUE);
-        //     g.fillOval( 20, 20, 75, 75 );
-        // }
-
-
-
-        public void ajusterTaille(Tuile t){
-            Point p  = t.getLocation() ;
-            int HeightTuile = t.getHeight() ;
-            int WidthTuile = t.getWidth() ;
-            
-            System.out.println(((TuileCarcassonne)t).nom);
-            System.out.println(HeightTuile);
-            System.out.println(t.getSize());
-            setPreferredSize(new Dimension(WidthTuile/10, HeightTuile/10));
-            setMinimumSize(getPreferredSize());
-
+        protected void paintComponent( Graphics g ){
+            int rayon = Math.min(this.getWidth(),this.getHeight()) ;
+            g.setColor(color);
+            // met le pion en plein milieu de la case
+            g.fillOval( (this.getWidth() -rayon)/2 , (this.getHeight()-rayon)/2, rayon, rayon) ;
         }
 
-        public void ajusterPositionnement(Tuile t){
-            Point p  = t.getLocation() ;
-            int HeightTuile = t.getHeight() ;
-            int WidthTuile = t.getWidth() ;
-            // System.out.println(((TuileCarcassonne)t).nom);
-            // System.out.println(p);
-
-            setLocation(new Point ((int) p.getX() + HeightTuile/2, (int)p.getY()+30));
-            setMinimumSize(getPreferredSize());
+        // rend le pion un peu transparent
+        public void setColor(Color c ){
+            color = new Color(c.getRed(), c.getGreen(), c.getBlue(), 150) ;
         }
     }
 
 
-    
+    public void placerPion(){
+        int[] t = new int[9] ;
+        // if (((BordCarcassonne)nord).isPion()) t[1] = 1 ;
+        // else if (((BordCarcassonne)est).isPion()) t[5] = 1 ;
+        // else if (((BordCarcassonne)ouest).isPion()) t[3] = 1 ;
+        // else if (((BordCarcassonne)centre).isPion()) t[4] = 1 ;
+        // else if (((BordCarcassonne)sud).isPion()) t[7] = 1 ;
+        // // ferme la fonction si il n'y a pas de pion ;
+        // else return ;
+        t[1] = 1  ;
+
+
+        setLayout(new  GridLayout(3,3));
+      
+
+        // pion = new Pion(environnement.getPartie().getJoueurs().joueurAuTrait().getCouleur()); //TODO mettre ça quand l'attribut color de joueur est la 
+        pion = new Pion(Color.YELLOW) ;
+        pion.setVisible(true) ;
+
+        
+        for(int i = 0 ; i < t.length ; i++){
+            if (t[i] == 1){
+                this.add(pion) ;
+            }else{
+                // ajoute des paneaux vide et transparents qui permette d'ajuster le layout
+                newPanelInsivisble() ;
+                // JPanel p = new JPanel() ;
+                // p.setBackground(new Color(0, 0,0,0));
+                // p.setVisible(true) ;
+                // this.add(p) ;
+            }
+        }
+
+    }
+
+    private void newPanelInsivisble(){
+        JPanel p = new JPanel() ;
+        p.setBackground(new Color(0, 0,0,0));
+        p.setVisible(true) ;
+        this.add(p) ;
+    }
+
+    private void newBoutonPlacerPion(Bord bord){
+        JButton b = new JButton("") ;
+        b.setBackground(new Color(255, 255,255,50));
+        b.setVisible(true);
+        this.add(b);
+        b.addActionListener(event ->{
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println("erzer");
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            // System.out.println();
+            System.out.println();
+            ((BordCarcassonne)bord).setPion(true);
+            this.removeAll();
+            placerPion();
+        });
+
+    }
+
+    public void BoutonsAjouterPion(){
+        setLayout(new  GridLayout(3,3));
+        
+        // ajouter des boutons pour choisir ou placer le pion
+        newPanelInsivisble();
+        newBoutonPlacerPion(nord);
+        newPanelInsivisble();
+        newBoutonPlacerPion(ouest);
+        newBoutonPlacerPion(centre);
+        newBoutonPlacerPion(est);
+        newPanelInsivisble();
+        newBoutonPlacerPion(sud);
+        newPanelInsivisble();
+
+    }
 
     
 
@@ -70,20 +148,8 @@ public class TuileCarcassonne extends Tuile {
         super(bords[0], bords[1], bords[2], bords[3]);
         this.centre = bords[4];
         setImage(chemin);
-
-        // setLayout(new  BorderLayout());
-        // setLayout(null);
-
-        // p = new Pion();
-        // this.add(p, BorderLayout.NORTH) ;
-        // // this.add(new JPanel());
-        // // this.add(p) ;
-        // p.setVisible(true);
-        // // p.ajusterTaille(this);
-        // // p.ajusterPositionnement(this);
-        
-        // p.repaint();
     }
+
 
     // Prend en argument une string de type VRRVV
     public TuileCarcassonne(String description) throws IOException {
