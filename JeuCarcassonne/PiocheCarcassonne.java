@@ -2,7 +2,6 @@ package JeuCarcassonne;
 
 import java.io.IOException;
 import JeuTuilesGenerique.Modele.Pioche;
-import JeuTuilesGenerique.Modele.Tuile;
 
 public class PiocheCarcassonne extends Pioche{
 

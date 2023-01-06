@@ -103,7 +103,7 @@ public class Partie implements Serializable {
         gui.getDefausser().setEnabled(false);
 
         // lancement d'un thread timer (en background) pour ne pas bloquer l'interface
-        TimerTask findeTourIA = new TimerTask(){
+        TimerTask finDeTourIA = new TimerTask(){
             public void run() {
                 gui.getRotationDroite().setEnabled(true);
                 gui.getRotationGauche().setEnabled(true);
@@ -112,7 +112,7 @@ public class Partie implements Serializable {
             } 
         } ;
         // delay en milisencond
-        (new Timer()).schedule(findeTourIA , 2000);
+        (new Timer()).schedule(finDeTourIA , 2000);
     }
     
     

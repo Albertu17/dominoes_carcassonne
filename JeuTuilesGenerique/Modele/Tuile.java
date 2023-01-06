@@ -9,7 +9,7 @@ import javax.swing.event.MouseInputListener;
 
 import JeuTuilesGenerique.Vue.GameView;
 
-public class Tuile extends JPanel implements MouseInputListener, Cloneable {
+public class Tuile extends JPanel implements MouseInputListener {
 
     protected transient GameView environnement;
     int x, y; // Coordonnées de la tuile dans le plateau où elle sera placée.
@@ -93,13 +93,5 @@ public class Tuile extends JPanel implements MouseInputListener, Cloneable {
 
     public void mouseExited(MouseEvent e) {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    }
-
-    public Tuile clone() {
-        try {
-            return (Tuile) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new IllegalStateException(e);
-        }
     }
 }

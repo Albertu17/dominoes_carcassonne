@@ -140,20 +140,26 @@ public class Joueurs implements Serializable{
 
         public class PanelJoueur extends JPanel {
             
-            JLabel nomEtPoints;
+            JLabel nom;
+            JLabel points;
 
             public PanelJoueur() {
                 setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 // setBackground(Joueur.this.couleur);
-                nomEtPoints = new JLabel();
-                add(nomEtPoints);
-                if (Joueur.this.auTrait) nomEtPoints.setText("--> " + Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
-                else nomEtPoints.setText(Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
+                setLayout(new GridLayout(2,2));
+                nom = new JLabel();
+                points = new JLabel();
+                add(nom);
+                add(points);
+                if (Joueur.this.auTrait) nom.setText("--> " + Joueur.this.getName());
+                else nom.setText(Joueur.this.getName());
+                points.setText(String.valueOf(Joueur.this.getScore()) + "pts");
             }
 
             public void updatePanel() {
-                if (Joueur.this.auTrait) nomEtPoints.setText("--> " + Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
-                else nomEtPoints.setText(Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
+                if (Joueur.this.auTrait) nom.setText("--> " + Joueur.this.getName());
+                else nom.setText(Joueur.this.getName());
+                points.setText(String.valueOf(Joueur.this.getScore()) + "pts");
                 revalidate();
                 repaint();
             }
