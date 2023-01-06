@@ -2,6 +2,7 @@ package JeuCarcassonne;
 
 import JeuTuilesGenerique.Modele.Bord;
 import JeuTuilesGenerique.Modele.Tuile;
+import JeuTuilesGenerique.Vue.GameView;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -66,8 +67,8 @@ public class TuileCarcassonne extends Tuile {
         setLayout(new  GridLayout(3,3));
       
 
-        // pion = new Pion(environnement.getPartie().getJoueurs().joueurAuTrait().getCouleur()); //TODO mettre ça quand l'attribut color de joueur est la 
-        pion = new Pion(Color.YELLOW) ;
+        pion = new Pion(environnement.getPartie().getJoueurs().joueurAuTrait().getCouleur()); 
+        
         pion.setVisible(true) ;
 
         
@@ -122,6 +123,7 @@ public class TuileCarcassonne extends Tuile {
             ((BordCarcassonne)bord).setPion(true);
             this.removeAll();
             placerPion();
+            environnement.getPartie().tourSuivant();
         });
 
     }
@@ -140,6 +142,10 @@ public class TuileCarcassonne extends Tuile {
         newBoutonPlacerPion(sud);
         newPanelInsivisble();
 
+    }
+
+    public void removeBoutonPlacagePion(){
+        this.removeAll();
     }
 
     
