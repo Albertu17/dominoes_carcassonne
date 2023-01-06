@@ -78,14 +78,19 @@ public class Partie implements Serializable {
             // aggrandit le plateau si la tuile est placée en bordure de la grille du GUI.
             if (plateau.add(aJouer, x, y)) gui.repaintGrille();
             else gui.updateGrille(aJouer, x, y);
-            joueurs.nextJoueurAuTrait();
-            gui.updatePanelJoueurs();
-            nouvelleTuileAjouer();
-            gui.repaintTuileAJouer();
-            gui.updateTuilesRestantes();
+            
+            auSuivant() ;
             return true ; //besoin du boolean pour l'IA
         }
         return false ;
+    }
+
+    public void auSuivant(){
+        joueurs.nextJoueurAuTrait();
+        gui.updatePanelJoueurs();
+        nouvelleTuileAjouer();
+        gui.repaintTuileAJouer();
+        gui.updateTuilesRestantes();
     }
     
     
@@ -118,8 +123,14 @@ public class Partie implements Serializable {
 
         // si on peut placer à cette place
         for (int i = 0 ; i < 4 ; i++){
-            if (jouer(x, y)) return true ;
-            else aJouer.Rotate(true);
+            // permet de gérer l'appel de fonction par  raport au mod de jeu
+            if (gui != null){
+                if (jouer(x, y)) return true ;
+            }
+            else {
+                if (jouerTerminal(x, y)) return true ;
+            }
+            aJouer.Rotate(true);
         }
 
         // recursif sur tuille adjacentes :
