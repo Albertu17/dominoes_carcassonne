@@ -27,8 +27,6 @@ public class GameView implements Serializable{
     
     public Partie partie;
     Launcher fenetre ;
-    
-
     public JPanel conteneurGlobal;
     JPanel bandeauSup;
     JPanel conteneurTitre;
@@ -164,44 +162,40 @@ public class GameView implements Serializable{
                 // JPanel conteneurInfosCoup
                 conteneurInfosCoup = new JPanel();
                 conteneurInfosCoup.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                conteneurInfosCoup.setLayout(new GridBagLayout());
+                conteneurInfosCoup.setLayout(new GridLayout(1, 3));
                 conteneurInfos.add(conteneurInfosCoup);
-                GridBagConstraints gbc2 = new GridBagConstraints();
-                gbc2.fill = GridBagConstraints.BOTH;
 
                     // JPanel conteneurInfosCoupGauche et JButtons defausser
                     conteneurInfosCoupGauche = new JPanel();
-                    conteneurInfosCoupGauche.setLayout(new FlowLayout());
+                    conteneurInfosCoupGauche.setLayout(new BorderLayout());
                     conteneurInfosCoupGauche.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     defausser = new JButton("Jeter la tuile");
                     defausser.addActionListener(evnt -> {
                         // TODO au tour du suivant
                     });            
-                    conteneurInfosCoupGauche.add(defausser);
-                    gbc2.weighty = 1;
-                    gbc2.anchor = GridBagConstraints.LINE_START;
-                    conteneurInfosCoup.add(conteneurInfosCoupGauche, gbc2);
+                    conteneurInfosCoupGauche.add(defausser, BorderLayout.CENTER);
+                    conteneurInfosCoup.add(conteneurInfosCoupGauche);
             
                     // JPanel conteneurInfosCoupMilieu
                     conteneurInfosCoupMilieu = new JPanel();
                     conteneurInfosCoupMilieu.setLayout(new BorderLayout());
                     conteneurInfosCoupMilieu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                    gbc2.weighty = 3;
-                    gbc2.anchor = GridBagConstraints.CENTER;
-                    conteneurInfosCoup.add(conteneurInfosCoupMilieu, gbc2);
+                    conteneurInfosCoup.add(conteneurInfosCoupMilieu);
+
+                        // JPanel vides servant de bords
+                        conteneurInfosCoupMilieuBordureGauche = new JPanel();
+                        conteneurInfosCoupMilieuBordureHaut = new JPanel();
+                        conteneurInfosCoupMilieuBordureDroit = new JPanel();
+                        conteneurInfosCoupMilieuBordureBas = new JPanel();
+                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuBordureGauche, BorderLayout.LINE_START);
+                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuBordureHaut, BorderLayout.PAGE_START);
+                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuBordureDroit, BorderLayout.LINE_END);
+                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuBordureBas, BorderLayout.PAGE_END);
 
                         // JPanel JPanel conteneurInfosCoupMilieuCentre
                         conteneurInfosCoupMilieuCentre = new JPanel();
                         conteneurInfosCoupMilieuCentre.setLayout(new BoxLayout(conteneurInfosCoupMilieuCentre, BoxLayout.PAGE_AXIS));
-                        JPanel conteneurInfosCoupMilieuCentreBordureGauche = new JPanel();
-                        JPanel conteneurInfosCoupMilieuCentreBordureHaut = new JPanel();
-                        JPanel conteneurInfosCoupMilieuCentreBordureDroite = new JPanel();
-                        JPanel conteneurInfosCoupMilieuCentreBordureBas = new JPanel();
                         conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentre, BorderLayout.CENTER);
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentreBordureGauche, BorderLayout.LINE_START);
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentreBordureHaut, BorderLayout.PAGE_START);
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentreBordureDroite, BorderLayout.LINE_END);
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentreBordureBas, BorderLayout.PAGE_END);
 
                             // JPanel conteneurButtonsRotate et JButtons rotationDroite et rotationGauche
                             conteneurButtonsRotate = new JPanel() ;
@@ -214,8 +208,8 @@ public class GameView implements Serializable{
                             rotationGauche.addActionListener(event -> {
                                 partie.aJouer.Rotate(false) ;
                             });
-                            conteneurButtonsRotate.add(rotationDroite);
                             conteneurButtonsRotate.add(rotationGauche);
+                            conteneurButtonsRotate.add(rotationDroite);
                             conteneurInfosCoupMilieuCentre.add(conteneurButtonsRotate); 
 
                             // JPanel conteneurTuileAJouer
@@ -226,14 +220,12 @@ public class GameView implements Serializable{
 
                     // JPanel conteneurInfosCoupDroite et JLabel tuiles restantes
                     conteneurInfosCoupDroite = new JPanel();
-                    conteneurInfosCoupDroite.setLayout(new FlowLayout());
+                    conteneurInfosCoupDroite.setLayout(new BorderLayout());
                     conteneurInfosCoupDroite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     tuilesRestantes = new JLabel();
                     updateTuilesRestantes();
-                    conteneurInfosCoupDroite.add(tuilesRestantes);
-                    gbc2.weighty = 1;
-                    gbc2.anchor = GridBagConstraints.LINE_END;
-                    conteneurInfosCoup.add(conteneurInfosCoupDroite, gbc2);
+                    conteneurInfosCoupDroite.add(tuilesRestantes, BorderLayout.CENTER);
+                    conteneurInfosCoup.add(conteneurInfosCoupDroite);
 
                     conteneurInfos.setPreferredSize(conteneurInfos.getSize());
                     conteneurInfos.setMaximumSize(conteneurInfos.getPreferredSize());
@@ -265,6 +257,9 @@ public class GameView implements Serializable{
     }
 
     public Partie getPartie() {return partie;}
+
+    public void setLauncher(Launcher l){ fenetre = l ; }
+    public Launcher getLauncher(){return fenetre ; }
 
     // Affiche visuellement la tuile qui est à jouer aux coordonnées indiquées.
     public void updateGrille(Tuile t, int x, int y) {
@@ -314,13 +309,5 @@ public class GameView implements Serializable{
         tuilesRestantes.setText(String.valueOf(partie.pioche.pioche.size()));
         grille.repaint(); // Repeint GUI.
         grille.revalidate(); // Revalide GUI.
-    }
-
-    public void setFenetre(Launcher fenetre) {
-        this.fenetre = fenetre;
-    }
-
-    public Launcher getFenetre() {
-        return fenetre;
     }
 }
