@@ -54,14 +54,14 @@ public class TuileCarcassonne extends Tuile {
 
     public void placerPion(){
         int[] t = new int[9] ;
-        // if (((BordCarcassonne)nord).isPion()) t[1] = 1 ;
-        // else if (((BordCarcassonne)est).isPion()) t[5] = 1 ;
-        // else if (((BordCarcassonne)ouest).isPion()) t[3] = 1 ;
-        // else if (((BordCarcassonne)centre).isPion()) t[4] = 1 ;
-        // else if (((BordCarcassonne)sud).isPion()) t[7] = 1 ;
-        // // ferme la fonction si il n'y a pas de pion ;
-        // else return ;
-        t[1] = 1  ;
+        if (((BordCarcassonne)nord).isPion()) t[1] = 1 ;
+        else if (((BordCarcassonne)est).isPion()) t[5] = 1 ;
+        else if (((BordCarcassonne)ouest).isPion()) t[3] = 1 ;
+        else if (((BordCarcassonne)centre).isPion()) t[4] = 1 ;
+        else if (((BordCarcassonne)sud).isPion()) t[7] = 1 ;
+        // ferme la fonction si il n'y a pas de pion ;
+        else return ;
+        // t[1] = 1  ;
 
 
         setLayout(new  GridLayout(3,3));
@@ -76,12 +76,9 @@ public class TuileCarcassonne extends Tuile {
             if (t[i] == 1){
                 this.add(pion) ;
             }else{
+
                 // ajoute des paneaux vide et transparents qui permette d'ajuster le layout
                 newPanelInsivisble() ;
-                // JPanel p = new JPanel() ;
-                // p.setBackground(new Color(0, 0,0,0));
-                // p.setVisible(true) ;
-                // this.add(p) ;
             }
         }
 
@@ -100,25 +97,6 @@ public class TuileCarcassonne extends Tuile {
         b.setVisible(true);
         this.add(b);
         b.addActionListener(event ->{
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println("erzer");
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
-            // System.out.println();
             System.out.println();
             ((BordCarcassonne)bord).setPion(true);
             this.removeAll();
@@ -129,6 +107,7 @@ public class TuileCarcassonne extends Tuile {
     }
 
     public void BoutonsAjouterPion(){
+        resizeImage();
         setLayout(new  GridLayout(3,3));
         
         // ajouter des boutons pour choisir ou placer le pion
