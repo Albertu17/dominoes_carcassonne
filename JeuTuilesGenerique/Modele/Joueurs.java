@@ -38,7 +38,6 @@ public class Joueurs implements Serializable{
     public boolean addPlayer(String nom, boolean IA){
         if (players.size() <= nombreMaximalDeJoueur ){
             players.add(new Joueur( nom,  IA)) ;
-            index = players.size()-1 ; // change pas ça sinon ça peut faire des conflits dans le menu
             return true ;
         }
         return false ;
@@ -49,6 +48,11 @@ public class Joueurs implements Serializable{
             return true ;
         }
         return false ;
+    }
+
+    public int getIndex(){
+        index = index%4 ;
+        return  index++ ;
     }
 
     public Joueur getPlayers (int index) {return players.get(index);}
@@ -111,7 +115,7 @@ public class Joueurs implements Serializable{
             score = 0 ;
             NbrPion = 0 ;
             this.IA = IA ;
-            couleur = Joueurs.this.couleurs[Joueurs.index];
+            couleur = Joueurs.this.couleurs[getIndex()];
         }
 
         public void setAuTrait(boolean auTrait) {
