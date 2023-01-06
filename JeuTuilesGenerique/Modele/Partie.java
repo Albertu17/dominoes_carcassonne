@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import JeuCarcassonne.PartieCarcassonne;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
@@ -68,7 +70,7 @@ public class Partie implements Serializable {
     }
 
     // Vérifie si une tuile est plaçable, la place le cas échéant et prépare le tour suivant.
-    public boolean jouer(int x, int y) {
+    public void jouer(int x, int y) {
         if (check(x, y)) { 
             // l'appel de nbPoints à besoin d'etre mis avant l'ajout de la tuile au plateau.
             // car les coordonnées de la tuile peuvent changer si le plateau devient plus grand 
@@ -80,9 +82,9 @@ public class Partie implements Serializable {
             else gui.updateGrille(aJouer, x, y);
             
             tourSuivant() ;
-            return true ; //besoin du boolean pour l'IA
+            // return true ; //besoin du boolean pour l'IA
         }
-        return false ;
+        // return false ;
     }
 
     public void tourSuivant(){
@@ -91,6 +93,29 @@ public class Partie implements Serializable {
         nouvelleTuileAjouer();
         gui.repaintTuileAJouer();
         gui.updateTuilesRestantes();
+        
+        if(joueurs.joueurAuTrait().isIA()) gestionTourIA();
+    }
+
+    public void gestionTourIA(){
+        // empeche le joueur de jouer à la place de l'IA
+        gui.getRotationDroite().setEnabled(false);
+        gui.getRotationGauche().setEnabled(false);
+        gui.getDefausser().setEnabled(false);
+
+        // lancement d'un thread timer (en background) pour ne pas bloquer l'interface
+
+        TimerTask findeTourIA = new TimerTask(){
+            public void run() {
+
+                gui.getRotationDroite().setEnabled(true);
+                gui.getRotationGauche().setEnabled(true);
+                gui.getDefausser().setEnabled(true);
+                TourIA();
+            } 
+        } ;
+        // delay en milisencond
+        (new Timer()).schedule(findeTourIA , 2000);
     }
     
     
@@ -124,7 +149,10 @@ public class Partie implements Serializable {
         for (int i = 0 ; i < 4 ; i++){
             // permet de gérer l'appel de fonction par  raport au mod de jeu
             if (gui != null){
-                if (jouer(x, y)) return true ;
+                if (check(x, y)){
+                    jouer(x, y) ;
+                    return true ;
+                }
             }
             else {
                 if (jouerTerminal(x, y)) return true ;
