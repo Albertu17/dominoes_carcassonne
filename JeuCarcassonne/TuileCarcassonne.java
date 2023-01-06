@@ -94,6 +94,9 @@ public class TuileCarcassonne extends Tuile {
         Graphics2D g2d = image.createGraphics();
         g2d.drawImage(temp, 0, 0, null);
         g2d.dispose();
+
+        paintComponents(g2d);
+
     }
 
 
