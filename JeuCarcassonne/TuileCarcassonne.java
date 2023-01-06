@@ -90,7 +90,7 @@ public class TuileCarcassonne extends Tuile {
 
     private void newBoutonPlacerPion(Bord bord){
         JButton b = new JButton("") ;
-        b.setBackground(new Color(255, 255,255,50));
+        b.setBackground(new Color(0, 0,0,50));
         b.setVisible(true);
         this.add(b);
         b.addActionListener(event ->{
