@@ -18,14 +18,11 @@ public class TuileDomino extends Tuile  {
         ouest = new BordDomino(randNum(), randNum(), randNum());
 
         // Création du rendu visuel de la tuile domino
-        if (GUI){
-            updateLayout();
-        }
+        if (GUI){updateLayout();}
     }
     
     public void updateLayout(){
         removeAll();
-        
         setLayout(new GridLayout(5,5));
         int[] contenuCases = new int[] {-1, ((BordDomino) nord).n1, ((BordDomino) nord).n2, ((BordDomino) nord).n3, -1,
                                         ((BordDomino) ouest).n1, -1, -1, -1, ((BordDomino) est).n1, 
@@ -49,8 +46,6 @@ public class TuileDomino extends Tuile  {
         updateLayout();
     }
 
-
-
     // Renvoie un JPanel designé pour accueillir un numéro
     public JPanel caseNumero(int num) {
         JPanel caseNumero = new JPanel();
@@ -65,6 +60,10 @@ public class TuileDomino extends Tuile  {
     // Retourne un numéro pris au hasard entre 1 et 4 exclu.
     public int randNum() {
         return ThreadLocalRandom.current().nextInt(1, 4);
+    }
+
+    public TuileDomino clone(){
+        return (TuileDomino) super.clone();
     }
 }
 

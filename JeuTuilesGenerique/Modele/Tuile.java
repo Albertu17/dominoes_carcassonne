@@ -13,9 +13,9 @@ import javax.swing.event.MouseInputListener;
 
 import JeuTuilesGenerique.Vue.GameView;
 
-public class Tuile extends JPanel implements MouseInputListener {
+public class Tuile extends JPanel implements MouseInputListener, Cloneable {
 
-    GameView environnement;
+    public GameView environnement;
     int x, y;
     public Bord nord;
     public Bord est;
@@ -120,6 +120,14 @@ public class Tuile extends JPanel implements MouseInputListener {
         ouest = (Bord)in.readObject();
         moving = (boolean)in.readObject();
 
+    }
+
+    public Tuile clone(){
+        try {
+            return (Tuile) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     private void readObjectNoData() throws ObjectStreamException{ }

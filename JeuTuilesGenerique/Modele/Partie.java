@@ -77,7 +77,7 @@ public class Partie implements Serializable {
             joueurs.nextJoueurAuTrait();
             gui.repaintPanelJoueurs();
             nouvelleTuileAjouer();
-            // gui.repaintTuileAJouer(); // TODO fonction dans GUI
+            gui.repaintTuileAJouer();
         }
     }
     public void TourIA(Joueur j){
