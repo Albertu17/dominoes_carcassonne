@@ -34,6 +34,7 @@ public class Plateau implements Serializable{
         tuile.setCoordonnées(x, y);
         boolean aggrandissement = false;
         if (x == 1){
+            hauteur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length+1, plateau[0].length) ;
@@ -46,6 +47,7 @@ public class Plateau implements Serializable{
             x = x+1;
         }
         else if (x == plateau.length - 2){
+            hauteur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length+1, plateau[0].length) ;
@@ -57,6 +59,7 @@ public class Plateau implements Serializable{
             }
         }
         if ( y==1  ){
+            largeur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length, plateau[0].length+1) ;
@@ -69,6 +72,7 @@ public class Plateau implements Serializable{
             y = y +1 ;
         }
         else if ( y == plateau[0].length-2 ){
+            hauteur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length, plateau[0].length+1) ;

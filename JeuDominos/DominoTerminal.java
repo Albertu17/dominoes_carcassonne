@@ -38,8 +38,8 @@ public class DominoTerminal {
         
         System.out.println("Ce joueur est-il un humain ? (oui/non)");
         
-        Joueur j = partie.getJoueurs(). new Joueur(nom,  ! sc.next().equals("oui"), false ) ;
-        partie.getJoueurs().addPlayer(j) ;
+        Joueur j = partie.getJoueurs(). new Joueur(nom,  ! sc.next().equals("oui") ) ;
+        partie.getJoueurs().addPlayer(j);
 
         System.out.println("Creation de " + j.getName() + ", un " +(j.isIA() ? "robot" : "humain" )+ "." );
            

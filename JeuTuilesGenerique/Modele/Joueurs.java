@@ -23,7 +23,7 @@ public class Joueurs implements Serializable{
         nbJoueurs = Math.max(nbJoueurs, 2); // Nombre de joueurs min: 2.
         nbJoueurs = Math.min(nbJoueurs, 5); // Nombre de joueurs max: 5.
         for (int i = 0; i < nbJoueurs; i++) {
-            players.add( new Joueur(Character.toString(65+i), false, true) );
+            players.add( new Joueur(Character.toString(65+i), false) );
         }
     }
 
@@ -33,7 +33,7 @@ public class Joueurs implements Serializable{
 
     public boolean addPlayer(String nom, boolean IA, boolean Pion){
         if (players.size() <= nombreMaximalDeJoueur ){
-            players.add(new Joueur( nom,  IA,  Pion)) ;
+            players.add(new Joueur( nom,  IA)) ;
             return true ;
         }
         return false ;
@@ -100,10 +100,10 @@ public class Joueurs implements Serializable{
         private boolean IA ;  
         boolean auTrait;
     
-        public Joueur(String nom, boolean IA, boolean Pion){
+        public Joueur(String nom, boolean IA){
             this.nom = nom ;
             score = 0 ;
-            NbrPion = Pion ? 5 :0  ; // à voir le nombre de Pion
+            NbrPion = 0 ; // Augmenté si
             this.IA = IA ;
         }
 

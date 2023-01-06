@@ -268,6 +268,7 @@ public class GameView implements Serializable{
     public void updateGrille(Tuile t, int x, int y) {
         grille.remove((x-1)*(partie.plateau.largeur-2)+(y-1)); // Enlève tuile vide.
         grille.add(t, (x-1)*(partie.plateau.largeur-2)+(y-1)); // Remplace par la tuile jouée.
+        t.setCoordonnées(x, y);
         grille.repaint(); // Repeint GUI.
         grille.revalidate(); // Revalide GUI.
     }
