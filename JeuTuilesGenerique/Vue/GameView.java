@@ -94,10 +94,8 @@ public class GameView implements Serializable{
             });
             retourMenu.addActionListener(event -> {
                 partie.save() ;
-                fenetre.removeAll();
+                fenetre.remove(conteneurGlobal);
                 new Menu(fenetre) ;
-                // conteneurGlobal.setVisible(false);
-                // new Menu(conteneurGlobal.getRootPane()) ; // TODO décommenter ?
             });
 
             // JPanel conteneurTitre et JLabel titre
@@ -237,6 +235,9 @@ public class GameView implements Serializable{
                     gbc2.anchor = GridBagConstraints.LINE_END;
                     conteneurInfosCoup.add(conteneurInfosCoupDroite, gbc2);
 
+                    conteneurInfos.setPreferredSize(conteneurInfos.getSize());
+                    conteneurInfos.setMaximumSize(conteneurInfos.getPreferredSize());
+
 
 
             // TODO rechanger plus atrd quand ça sera implanter
@@ -303,7 +304,7 @@ public class GameView implements Serializable{
 
     public void repaintTuileAJouer() {
         conteneurTuileAJouer.removeAll();
-        conteneurTuileAJouer.add(partie.aJouer.clone());
+        conteneurTuileAJouer.add(partie.aJouer);
         partie.aJouer.setEnvironnement(this);
         grille.repaint(); // Repeint GUI.
         grille.revalidate(); // Revalide GUI.
