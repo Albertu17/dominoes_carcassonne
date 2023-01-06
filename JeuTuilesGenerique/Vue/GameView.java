@@ -21,6 +21,7 @@ import java.util.List;
 
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Tuile;
+import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur.PanelJoueur;
 
 public class GameView implements Serializable{
@@ -60,6 +61,7 @@ public class GameView implements Serializable{
     JLabel tuilesRestantes;
     JPanel conteneurInfosCoupMilieuCentre;
     public List<PanelJoueur> panelJoueurs;
+    JLabel winMessage;
 
     public GameView(Partie partie){
 
@@ -292,5 +294,21 @@ public class GameView implements Serializable{
         tuilesRestantes.setText(String.valueOf(partie.pioche.pioche.size()));
         conteneurInfosCoupDroite.repaint(); // Repeint GUI.
         conteneurInfosCoupDroite.revalidate(); // Revalide GUI.
+    }
+
+    public void winMessage() {
+        conteneurInfosCoup.removeAll();
+        conteneurInfosCoup.setLayout(new BorderLayout());
+        // TODO mettre dans une méthode Joueurs.vainqueur()
+        Joueur vainqueur = null;
+        for (Joueur j: partie.joueurs.players) {
+            if (vainqueur == null || j.score > vainqueur.score) vainqueur = j;
+        }
+        // TODO mettre en gras
+        winMessage = new JLabel("Le vainqueur est " + vainqueur.nom + " avec " + String.valueOf(vainqueur.score) + " points !");
+        conteneurInfosCoup.add(winMessage, BorderLayout.CENTER);
+        winMessage.setHorizontalAlignment(0);
+        conteneurInfosCoup.revalidate();
+        conteneurInfosCoup.repaint();
     }
 }

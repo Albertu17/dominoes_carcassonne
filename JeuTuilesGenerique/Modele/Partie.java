@@ -92,6 +92,7 @@ public class Partie implements Serializable {
     }
 
     public void tourSuivant(){
+        if (partieFinie()) {gui.winMessage(); return;}
         joueurs.nextJoueurAuTrait();
         gui.updatePanelJoueurs();
         nouvelleTuileAjouer();
