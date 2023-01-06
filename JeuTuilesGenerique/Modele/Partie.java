@@ -79,9 +79,10 @@ public class Partie implements Serializable {
             if (plateau.add(aJouer, x, y)) gui.repaintGrille();
             else gui.updateGrille(aJouer, x, y);
             joueurs.nextJoueurAuTrait();
-            gui.repaintPanelJoueurs();
+            gui.updatePanelJoueurs();
             nouvelleTuileAjouer();
             gui.repaintTuileAJouer();
+            gui.updateTuilesRestantes();
             return true ; //besoin du boolean pour l'IA
         }
         return false ;

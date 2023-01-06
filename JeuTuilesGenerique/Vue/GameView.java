@@ -17,9 +17,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.lang.Object;
+import java.util.ArrayList;
+import java.util.List;
 
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Tuile;
+import JeuTuilesGenerique.Modele.Joueurs.Joueur.PanelJoueur;
 
 public class GameView implements Serializable{
 
@@ -59,6 +62,7 @@ public class GameView implements Serializable{
     JPanel conteneurInfosCoupDroite;
     JLabel tuilesRestantes;
     JPanel conteneurInfosCoupMilieuCentre;
+    public List<PanelJoueur> panelJoueurs;
     // JPanel conteneurPieceAjouerMilieu;
     // JPanel conteneurPieceAjouerHaut;
     // JPanel conteneurPieceAjouerGauche;
@@ -157,7 +161,13 @@ public class GameView implements Serializable{
             coeur.add(conteneurInfos, gbc);
 
                 // Les différents PanelJoueur
-                repaintPanelJoueurs();
+                panelJoueurs = new ArrayList<PanelJoueur>() ;
+                PanelJoueur tmp;
+                for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
+                    tmp =  partie.joueurs.players.get(i).new PanelJoueur();
+                    conteneurInfos.add(tmp);
+                    panelJoueurs.add(tmp);
+                }
 
                 // JPanel conteneurInfosCoup
                 conteneurInfosCoup = new JPanel();
@@ -243,7 +253,7 @@ public class GameView implements Serializable{
         grille.revalidate(); // Revalide GUI.
     }
 
-    // Enlève toutes les tuiles de la grille et les remets suivant celles se trouvant dans le plateau.
+    // Enlève toutes les tuiles de la grille et les remet suivant celles se trouvant dans le plateau.
     public void repaintGrille() {
         grille = new JPanel();
         grille.setLayout(new GridLayout(partie.plateau.hauteur-2, partie.plateau.largeur-2, -1, -1));
@@ -262,13 +272,12 @@ public class GameView implements Serializable{
         grille.revalidate(); // Revalide GUI.
     }
 
-    public void repaintPanelJoueurs() {
-        conteneurInfos.removeAll();
+    public void updatePanelJoueurs() {
         for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
-            conteneurInfos.add(partie.joueurs.players.get(i).new PanelJoueur());
-            conteneurInfos.repaint(); // Repeint GUI.
-            conteneurInfos.revalidate(); // Revalide GUI.
+            panelJoueurs.get(i).updatePanel();
         }
+        conteneurInfos.repaint(); // Repeint GUI.
+        conteneurInfos.revalidate(); // Revalide GUI.
     }
 
     public void repaintTuileAJouer() {

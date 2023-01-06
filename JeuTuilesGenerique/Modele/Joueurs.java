@@ -139,6 +139,13 @@ public class Joueurs implements Serializable{
                 if (Joueur.this.auTrait) nomEtPoints.setText("--> " + Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
                 else nomEtPoints.setText(Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
             }
+
+            public void updatePanel() {
+                if (Joueur.this.auTrait) nomEtPoints.setText("--> " + Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
+                else nomEtPoints.setText(Joueur.this.getName() + " : " + String.valueOf(Joueur.this.getScore()) + "pts");
+                revalidate();
+                repaint();
+            }
         }
     }
 }
