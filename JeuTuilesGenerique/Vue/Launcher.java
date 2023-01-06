@@ -20,10 +20,6 @@ public class Launcher extends JFrame{
     public void createWinwow() {
         setVisible(true);
         setTitle("JEU");
-        
-        // setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        // setUndecorated(true);
-
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize(); // Récupère taille de l'écran utilisateur.
         setSize((int) size.getWidth(), (int) size.getHeight()); // Met la fenêtre en plein écran.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -66,13 +62,22 @@ public class Launcher extends JFrame{
     }
 
     public static void main(String[] args) throws IOException {
-        // new Launcher().launch();
-        Launcher l = new Launcher();
-        l.createWinwow();
-        Joueurs j = new Joueurs();
-        j.addPlayer(j.new Joueur("Bob", false, false));
-        j.addPlayer(j.new Joueur("Paul", false, false));
-        // l.launchDominos(j, "p5");
-        l.launchCarcassonne(j, "p5");
+        // Lancer l'intégralité de l'interface de jeu
+            new Launcher().launch();
+
+        // Lancer une partie Dominos nommée "partieDominos1" contenant deux joueurs, Pierre et Paul.
+            // Launcher l = new Launcher();
+            // l.createWinwow();
+            // Joueurs j1 = new Joueurs();
+            // j.addPlayer(j1.new Joueur("Pierre", false, false));
+            // j.addPlayer(j1.new Joueur("Paul", false, false));
+            // l.launchDominos(j1, "partieDominos1");
+
+        // Lancer une partie Carcassonne nommée "partieCarcassonne1" contenant deux joueurs,
+        // Marguerite et Marie.
+            // Joueurs j2 = new Joueurs();
+            // j.addPlayer(j2.new Joueur("Marguerite", false, false));
+            // j.addPlayer(j2.new Joueur("Marie", false, false));
+            // l.launchCarcassonne(j2, "partieCarcassone1");
     }
 }

@@ -181,7 +181,7 @@ public class GameView implements Serializable{
                     conteneurInfosCoupGauche.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     defausser = new JButton("Jeter la tuile");
                     defausser.addActionListener(evnt -> {
-                        partie.auSuivant() ;
+                        partie.tourSuivant();
                     });            
                     conteneurInfosCoupGauche.add(defausser, BorderLayout.CENTER);
                     conteneurInfosCoup.add(conteneurInfosCoupGauche);
