@@ -29,13 +29,6 @@ public class Pioche implements Serializable{
         Collections.shuffle(pioche);
     }
 
-    public void addSeveralTimes(Tuile tuile, int n) {
-        for (int i = 0; i < n; i++) {
-            add(tuile.clone()); // Important de cloner la tuile car on ne doit ajouter à la pioche
-            // que des objets différents, et pas plusieurs fois le même.
-        }
-    }
-
     public boolean isEmpty() {
         return pioche.isEmpty();
     }
