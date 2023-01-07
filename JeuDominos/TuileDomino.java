@@ -59,7 +59,7 @@ public class TuileDomino extends Tuile  {
 
     // Retourne un numéro pris au hasard entre 1 et 4 exclu.
     public int randNum() {
-        return ThreadLocalRandom.current().nextInt(1, 4);
+        return ThreadLocalRandom.current().nextInt(1, 3);
     }
 }
 

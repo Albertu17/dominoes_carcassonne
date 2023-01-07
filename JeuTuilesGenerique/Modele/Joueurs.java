@@ -42,6 +42,7 @@ public class Joueurs implements Serializable{
         }
         return false ;
     }
+
     public boolean addPlayer(Joueur playeur){
         if (players.size() <= nombreMaximalDeJoueur ){
             players.add(playeur) ;
@@ -67,11 +68,9 @@ public class Joueurs implements Serializable{
 
     public boolean nomLibre(String name){
         if (name.equals("")) return false ;
-        
-        for (Joueur jo : players) {
-            if (name.equals(jo.getName())) return false ;
+        for (Joueur joueur : players) {
+            if (name.equals(joueur.getName())) return false ;
         }
-        
         return true ;
     }
 
@@ -99,6 +98,14 @@ public class Joueurs implements Serializable{
             joueurAuTrait.setAuTrait(false);
             getSuivant(joueurAuTrait).setAuTrait(true);
         }
+    }
+
+    public Joueur vainqueur() {
+        Joueur vainqueur = null;
+        for (Joueur j: players) {
+            if (vainqueur == null || j.score > vainqueur.score) vainqueur = j;
+        }
+        return vainqueur;
     }
 
     public class Joueur implements Serializable{
@@ -135,7 +142,7 @@ public class Joueurs implements Serializable{
         public int getNbrPion() {
             return NbrPion;
         }
-        public void enleverUnPiont(){
+        public void enleverUnPion(){
             NbrPion--;
         }
     
@@ -152,6 +159,7 @@ public class Joueurs implements Serializable{
             JLabel nom;
             JLabel points;
             JPanel conteneurBas;
+            JLabel pionsRestants;
 
             public PanelJoueur() {
                 setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -166,6 +174,10 @@ public class Joueurs implements Serializable{
                 conteneurHaut.add(nom);
                 conteneurHaut.add(points);
                 conteneurBas = new JPanel();
+                conteneurBas.setLayout(new BorderLayout());
+                // Pour les jeux à pions
+                pionsRestants = new JLabel();
+                conteneurBas.add(pionsRestants, BorderLayout.CENTER);
                 add(conteneurHaut);
                 add(conteneurBas);
                 if (Joueur.this.auTrait) nom.setText("--> " + Joueur.this.getName());
@@ -177,6 +189,14 @@ public class Joueurs implements Serializable{
                 if (Joueur.this.auTrait) nom.setText("--> " + Joueur.this.getName());
                 else nom.setText(Joueur.this.getName());
                 points.setText(String.valueOf("    " +Joueur.this.getScore()) + "pts");
+                revalidate();
+                repaint();
+            }
+
+            public void affichePionsRestants() {
+                pionsRestants.setText("Pions restants : " + String.valueOf(Joueur.this.getNbrPion()));
+                conteneurBas.revalidate();
+                conteneurBas.repaint();
                 revalidate();
                 repaint();
             }

@@ -1,6 +1,7 @@
 package JeuCarcassonne;
 
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Vue.GameView;
@@ -16,19 +17,29 @@ public class VueCarcassonne extends GameView{
 
     }
 
+    public void updatePanelJoueurs() {
+        for (int i = 0; i < partie.joueurs.nbJoueurs(); i++) {
+            panelJoueurs.get(i).updatePanel();
+            panelJoueurs.get(i).affichePionsRestants();
+        }
+        conteneurInfos.repaint(); // Repeint GUI.
+        conteneurInfos.revalidate(); // Revalide GUI.
+    }
+
     public void demanderSiPosePion(){
-        ((TuileCarcassonne)partie.aJouer).BoutonsAjouterPion();
+        ((TuileCarcassonne)partie.aJouer).CheckBoxesAjouterPion();
         conteneurTuileAJouer.removeAll() ;
         // ajout du bouton ne pas poser pion
         nePasPoserPion = new JButton("Finir mon tour") ;
         nePasPoserPion.setVisible(true);
-        conteneurTuileAJouer.add(nePasPoserPion); 
-
         nePasPoserPion.addActionListener(event ->{
             ((TuileCarcassonne)partie.aJouer).removeBoutonPlacagePion();
             // au joueur d'apres
             partie.tourSuivant();
         });
+        conteneurTuileAJouer.add(nePasPoserPion); 
+        conteneurTuileAJouer.revalidate();
+        conteneurTuileAJouer.repaint();
     }
 
 }

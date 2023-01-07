@@ -3,7 +3,6 @@ package JeuCarcassonne;
 import java.util.List;
 
 import JeuTuilesGenerique.Modele.*;
-import JeuCarcassonne.TuileCarcassonne;
 
 public class PartieCarcassonne extends Partie{
 
@@ -52,8 +51,9 @@ public class PartieCarcassonne extends Partie{
         for (int i = 0; i < 4; i++)  {
             if (check(x, y)) {
                 // Spécificité Jeu Carcassonne
-                ((TuileCarcassonne)aJouer).remettreImage();
                 jouer(x, y);
+                // TODO éventuellement rappeler ou enlever cette fonction complètement
+                // ((TuileCarcassonne)aJouer).remettreImage();
                 return true;
             }
             aJouer.rotate(true);

@@ -39,10 +39,10 @@ public class GameView implements Serializable{
     JPanel bordureDroite;
     JPanel bandeauInf;
     JLabel credit;
-    JPanel coeur;
+    public JPanel coeur;
     JPanel conteneurGrille;
     JPanel grille;
-    JPanel conteneurInfos;
+    public JPanel conteneurInfos;
     JPanel conteneurInfosCoup;
     protected JPanel conteneurTuileAJouer;
     JButton retourMenu ;
@@ -132,21 +132,19 @@ public class GameView implements Serializable{
         
         // JPanel coeur
         coeur = new JPanel();
-        coeur.setLayout(new GridBagLayout());
         conteneurGlobal.add(coeur, BorderLayout.CENTER);
+        coeur.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1;
         gbc.weighty = 1;
 
             // JPanel conteneurGrille
             conteneurGrille = new JPanel();
+            gbc.weightx = 3; // Grandit 3 fois plus vite qu'un weigthx = 1.
+            coeur.add(conteneurGrille, gbc);
             conteneurGrille.setLayout(new BoxLayout(conteneurGrille, BoxLayout.X_AXIS));
             conteneurGrille.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-            // gbc.weightx = 3; // Grandit 3 fois plus vite qu'un weigthx = 1.
-            gbc.gridx = 0;
-            gbc.gridwidth = 3;
-            coeur.add(conteneurGrille, gbc);
+            conteneurGrille.setMaximumSize(conteneurGrille.getSize());
 
             // JPanel grille
             repaintGrille();
@@ -154,9 +152,7 @@ public class GameView implements Serializable{
             // JPanel conteneurInfos
             conteneurInfos = new JPanel();
             conteneurInfos.setLayout(new GridLayout(partie.joueurs.nbJoueurs() + 1,1,-1,-1));
-            // gbc.weightx = 1;
-            gbc.gridx = 3;
-            gbc.gridwidth = 1;
+            gbc.weightx = 1;
             coeur.add(conteneurInfos, gbc);
 
                 // Les différents PanelJoueur
@@ -209,8 +205,8 @@ public class GameView implements Serializable{
                             // JPanel conteneurButtonsRotate et JButtons rotationDroite et rotationGauche
                             conteneurButtonsRotate = new JPanel() ;
                             conteneurButtonsRotate.setLayout(new FlowLayout());
-                            rotationDroite = new JButton("Rotation à droite");
-                            rotationGauche = new JButton("Rotation à gauche");
+                            rotationDroite = new JButton("-->");
+                            rotationGauche = new JButton("<--");
                             rotationDroite.addActionListener(event -> {
                                 partie.aJouer.rotate(true) ;
                             });
@@ -305,11 +301,7 @@ public class GameView implements Serializable{
     public void winMessage() {
         conteneurInfosCoup.removeAll();
         conteneurInfosCoup.setLayout(new BorderLayout());
-        // TODO mettre dans une méthode Joueurs.vainqueur()
-        Joueur vainqueur = null;
-        for (Joueur j: partie.joueurs.players) {
-            if (vainqueur == null || j.score > vainqueur.score) vainqueur = j;
-        }
+        Joueur vainqueur = partie.joueurs.vainqueur();
         winMessage = new JLabel("Le vainqueur est " + vainqueur.nom + " avec " + String.valueOf(vainqueur.score) + " points !");
         winMessage.setFont(new Font("Arial", Font.BOLD, 16));
         conteneurInfosCoup.add(winMessage, BorderLayout.CENTER);

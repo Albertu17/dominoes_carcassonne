@@ -46,7 +46,7 @@ public class PartieDominos extends Partie {
         tuilesTestees.add(plateau.plateau[x][y]) ;
         // Teste si on peut passer la tuileAJouer aux coordonnées passées en argument dans les 4 sens possibles.
         for (int i = 0; i < 4; i++) {
-            if (gui != null) {
+            if (gui != null && check(x,y)) {
                 jouer(x, y);
                 return true;
             }
@@ -87,6 +87,7 @@ public class PartieDominos extends Partie {
         tourIA();
     }
 
+    // Pour DominoTerminal
     public void tourIA() {
         recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ; 
         // Pour DominoTerminal
