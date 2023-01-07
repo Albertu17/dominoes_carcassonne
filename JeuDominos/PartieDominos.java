@@ -84,6 +84,10 @@ public class PartieDominos extends Partie {
         gui.getRotationDroite().setEnabled(true);
         gui.getRotationGauche().setEnabled(true);
         gui.getDefausser().setEnabled(true);
+        tourIA();
+    }
+
+    public void tourIA() {
         recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ; 
         // Pour DominoTerminal
         if (gui != null) tourSuivant();
