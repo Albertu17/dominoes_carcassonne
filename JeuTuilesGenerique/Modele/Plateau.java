@@ -14,12 +14,9 @@ public class Plateau implements Serializable{
         largeur =  7;
         // On remplit le plateau de tuiles vides à l'initialisation.
         plateau = newplateauFullTuileVide(hauteur, largeur) ;
-        
     }
 
     private Tuile[][] newplateauFullTuileVide(int hauteur, int largeur){
-        this.hauteur = hauteur ;
-        this.largeur = largeur ;
         plateau = new Tuile[hauteur][largeur];
         // On remplit le plateau de tuiles vides à l'initialisation.
         for (int i = 0; i < (hauteur); i++) {
@@ -38,7 +35,6 @@ public class Plateau implements Serializable{
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length+1, plateau[0].length) ;
-            
             for (int i = 0; i < tab.length; i++){
                 for (int j = 0; j < tab[0].length ;j++){
                     plateau[i+1][j] = tab[i][j] ; 
@@ -46,19 +42,18 @@ public class Plateau implements Serializable{
             }
             x = x+1;
         }
-        else if (x == plateau.length - 2){
+        else if (x == hauteur-2){
             hauteur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length+1, plateau[0].length) ;
-            
             for (int i = 0; i < tab.length; i++){
                 for (int j = 0; j < tab[0].length ;j++){
                     plateau[i][j] = tab[i][j] ; 
                 }
             }
         }
-        if ( y==1  ){
+        if (y == 1){
             largeur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
@@ -71,8 +66,8 @@ public class Plateau implements Serializable{
             }
             y = y +1 ;
         }
-        else if ( y == plateau[0].length-2 ){
-            hauteur++;
+        else if (y == largeur-2){
+            largeur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length, plateau[0].length+1) ;
@@ -83,7 +78,6 @@ public class Plateau implements Serializable{
                 }
             }
         }
-        
         // ajout sur le plateau
         plateau[x][y] = tuile ;
         return aggrandissement;

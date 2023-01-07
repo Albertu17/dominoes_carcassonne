@@ -133,16 +133,19 @@ public class GameView implements Serializable{
         // JPanel coeur
         coeur = new JPanel();
         coeur.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.weighty = 1;
-        gbc.fill = GridBagConstraints.BOTH;
         conteneurGlobal.add(coeur, BorderLayout.CENTER);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
 
             // JPanel conteneurGrille
             conteneurGrille = new JPanel();
             conteneurGrille.setLayout(new BoxLayout(conteneurGrille, BoxLayout.X_AXIS));
             conteneurGrille.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-            gbc.weightx = 3; // Grandit 3 fois plus vite qu'un weigthx = 1.
+            // gbc.weightx = 3; // Grandit 3 fois plus vite qu'un weigthx = 1.
+            gbc.gridx = 0;
+            gbc.gridwidth = 3;
             coeur.add(conteneurGrille, gbc);
 
             // JPanel grille
@@ -151,7 +154,9 @@ public class GameView implements Serializable{
             // JPanel conteneurInfos
             conteneurInfos = new JPanel();
             conteneurInfos.setLayout(new GridLayout(partie.joueurs.nbJoueurs() + 1,1,-1,-1));
-            gbc.weightx = 1;
+            // gbc.weightx = 1;
+            gbc.gridx = 3;
+            gbc.gridwidth = 1;
             coeur.add(conteneurInfos, gbc);
 
                 // Les différents PanelJoueur
@@ -166,7 +171,7 @@ public class GameView implements Serializable{
                 // JPanel conteneurInfosCoup
                 conteneurInfosCoup = new JPanel();
                 conteneurInfosCoup.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                conteneurInfosCoup.setLayout(new GridLayout(1, 3));
+                conteneurInfosCoup.setLayout(new BoxLayout(conteneurInfosCoup, BoxLayout.LINE_AXIS));
                 conteneurInfos.add(conteneurInfosCoup);
 
                     // JPanel conteneurInfosCoupGauche et JButtons defausser

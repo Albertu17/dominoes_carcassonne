@@ -67,11 +67,11 @@ public class Launcher extends JFrame{
 
     public static void main(String[] args) throws IOException {
         // Lancer l'intégralité de l'interface de jeu
-            new Launcher().launch();
+            // new Launcher().launch();
 
         // Lancer une partie sans passer par le menu:
-            // Launcher l = new Launcher();
-            // l.createWinwow();
+            Launcher l = new Launcher();
+            l.createWinwow();
 
             // Lancer une partie Dominos nommée "partieDominos1" contenant deux joueurs, Pierre et Paul.
                 // Joueurs j1 = new Joueurs();
@@ -81,9 +81,9 @@ public class Launcher extends JFrame{
 
             // Lancer une partie Carcassonne nommée "partieCarcassonne1" contenant deux joueurs,
             // Bob et Jacques.
-                // Joueurs j2 = new Joueurs();
-                // j2.addPlayer(j2.new Joueur("Bob", true));
-                // j2.addPlayer(j2.new Joueur("Jacques", false));
-                // l.launchCarcassonne(j2, "partieCarcassone1");
+                Joueurs j2 = new Joueurs();
+                j2.addPlayer(j2.new Joueur("Bob", true));
+                j2.addPlayer(j2.new Joueur("Jacques", false));
+                l.launchCarcassonne(j2, "partieCarcassone1");
     }
 }

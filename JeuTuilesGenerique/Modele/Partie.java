@@ -7,9 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import JeuCarcassonne.PartieCarcassonne;
-import JeuCarcassonne.TuileCarcassonne;
-import JeuCarcassonne.VueCarcassonne;
 import JeuTuilesGenerique.Vue.GameView;
 
 public class Partie implements Serializable {
@@ -69,20 +66,14 @@ public class Partie implements Serializable {
     // Vérifie si une tuile est plaçable, la place le cas échéant et prépare le tour suivant.
     public void jouer(int x, int y) {
         if (check(x, y)) { 
-            // l'appel de nbPoints à besoin d'etre mis avant l'ajout de la tuile au plateau.
-            // car les coordonnées de la tuile peuvent changer si le plateau devient plus grand 
-            joueurs.joueurAuTrait().addScore(nbPoint(x, y));
+            // l'appel de nbPoints à besoin d'être mis avant l'ajout de la tuile au plateau
+            // car les coordonnées de la tuile peuvent changer si le plateau devient plus grand.
+            joueurs.joueurAuTrait().addScore(nbPoints(x, y));
 
             // aggrandit le plateau si la tuile est placée en bordure de la grille du GUI.
             if (plateau.add(aJouer, x, y)) gui.repaintGrille();
             else gui.updateGrille(aJouer, x, y);
-            if( ! joueurs.joueurAuTrait().isIA() && joueurs.joueurAuTrait().getNbrPion() != 0 && this instanceof PartieCarcassonne){
-                ((VueCarcassonne)gui).demanderSiPosePion();
-                return ;
-            }
-            if (joueurs.joueurAuTrait().isIA()) return ;
-            
-            tourSuivant() ;
+            if (!joueurs.joueurAuTrait().isIA()) tourSuivant() ;
         }
     }
 
@@ -106,69 +97,38 @@ public class Partie implements Serializable {
         gui.getRotationDroite().setEnabled(true);
         gui.getRotationGauche().setEnabled(true);
         gui.getDefausser().setEnabled(true);
-        TourIA();
-    }
-    
-    
-    public boolean jouerTerminal(int x, int y){
-        if (check(x, y)) { 
-            // l'appel de nbPoints à besoin d'etre mis avant l'ajout de la tuile au plateau.
-            // car les coordonnées de la tuile peuvent changer si le plateau devient plus grand 
-            joueurs.joueurAuTrait().addScore(nbPoint(x, y));
-            plateau.add(aJouer, x, y);
-            return true ; //besoin du boolean pour l'IA
-        }
-        return false ;
-
-    }
-
-    // prend en fonction de joueur au trait
-    public void TourIA(){
         recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ; 
-        
-        // condition gui != null car tourSuivant pas compatible avec DominoTerminal
-        if (gui != null){tourSuivant() ;}
+        tourSuivant();
     }
-    public boolean recursiveIA(int x, int y, List<Tuile> list){
-        if (list.contains(plateau.plateau[x][y])) return false ;
 
-        // pour ne pas tester 2 fois la meme tuile et donc faire une boucle infinie
-        list.add(plateau.plateau[x][y]) ;
-
-        // si on peut placer à cette place
-        for (int i = 0 ; i < 4 ; i++){
-            // permet de gérer l'appel de fonction par  raport au mod de jeu
-            if (gui != null){
-                if (check(x, y)){
-                    if (aJouer instanceof TuileCarcassonne){
-                        ((TuileCarcassonne)aJouer).remettreImage();
-                    }
-                    jouer(x, y) ;
-                    return true ;
-                }
+    public boolean recursiveIA (int x, int y, List<Tuile> tuilesTestees) {
+        if (tuilesTestees.contains(plateau.plateau[x][y])) return false ;
+        // Pour ne pas tester 2 fois la même tuile et donc tomber dans une boucle infinie.
+        tuilesTestees.add(plateau.plateau[x][y]) ;
+        // Teste si on peut passer la tuileAJouer aux coordonnées passées en argument dans les 4 sens possibles.
+        for (int i = 0; i < 4; i++)  {
+            if (check(x, y)) {
+                // TODO compare nbPoints pour choisir meilleure option puis update recursiveIA de PartieDominos et PartieCarcassonne.
+                jouer(x, y);
+                return true;
             }
-            else if (jouerTerminal(x, y)) return true ;
             aJouer.rotate(true);
         }
-
-        // recursif sur tuille adjacentes :
-        if (x!= 1 && y!=1 && x != plateau.plateau.length-2 && y != plateau.plateau[0].length-2 ){
-            if (recursiveIA(x-1, y, list) ) return true;
-            if (recursiveIA(x+1, y, list)) return true;
-            if (recursiveIA(x, y-1, list)) return true ;
-            if (recursiveIA(x, y+1, list)) return true;
-        }
-        return false  ;
+        // recursif sur tuiles adjacentes :
+        if (x != 1 && recursiveIA(x-1, y, tuilesTestees)) return true;
+        if (x != plateau.hauteur-2 && recursiveIA(x+1, y, tuilesTestees)) return true;
+        if (y != 1 && recursiveIA(x, y-1, tuilesTestees)) return true;
+        if (y != plateau.largeur-2 && recursiveIA(x, y+1, tuilesTestees)) return true;
+        return false;
     }
-
 
     public boolean partieFinie() {
         return pioche.pioche.isEmpty();
     }
 
     // à redéfinir dans chaque variante du jeu
-    public int nbPoint(int x, int y){
-        return 0 ;
+    public int nbPoints(int x, int y){
+        return 0;
     }
 
     public Joueurs getJoueurs() {return joueurs;}
@@ -193,24 +153,26 @@ public class Partie implements Serializable {
     public Pioche getPioche(){return pioche ;}
     public Plateau getPlateau(){return plateau ;}
 
+    // A rédéfninir plus précisément pour chaque variante du jeu.
+    public String cheminDossierSauvegardes() {
+        return "";
+    }
+
     public void save(){
-        String path = "Sauvegarde/" + (this instanceof PartieCarcassonne ? "Carcassonne/" : "Domino/") ;
-                    // enregistrer un objet
-            try {  
-                //Saving of object in a file
-                FileOutputStream file = new FileOutputStream(path+ this.getNomPartie());
-                ObjectOutputStream out = new ObjectOutputStream(file);
-                
-                // Method for serialization of object
-                out.writeObject(this);
-                out.close();
-                file.close();
-                
-                System.out.println("Object has been serialized");
-            }
-            
-            catch(IOException ex) {
-                System.out.println(ex); 
-            }
+        String path = "Sauvegarde/" + cheminDossierSauvegardes();
+        // enregistrer un objet
+        try {  
+            //Saving of object in a file
+            FileOutputStream file = new FileOutputStream(path+ this.getNomPartie());
+            ObjectOutputStream out = new ObjectOutputStream(file);
+            // Method for serialization of object
+            out.writeObject(this);
+            out.close();
+            file.close();
+            // Success message
+            System.out.println("Object has been serialized");
+        } catch(IOException ex) {
+            System.out.println(ex); 
+        }
     }
 }

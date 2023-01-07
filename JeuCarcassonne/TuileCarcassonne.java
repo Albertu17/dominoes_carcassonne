@@ -23,85 +23,52 @@ public class TuileCarcassonne extends Tuile {
     
     Bord centre;
     transient BufferedImage image;
-    String nom ;
-    Pion pion ;
-    boolean choixPion = false ;
-    // permet de retrouver la rotation initiale quand on recharge une partie
-    int rotation ;
-    private class Pion extends JPanel{
-        Color color ;
-
-        Pion(Color c){
-            setColor(c);
-        }
-        
-        protected void paintComponent( Graphics g ){
-            int rayon = Math.min(this.getWidth(),this.getHeight()) ;
-            g.setColor(color);
-            // met le pion en plein milieu de la case
-            g.fillOval( (this.getWidth() -rayon)/2 , (this.getHeight()-rayon)/2, rayon, rayon) ;
-        }
-
-        // rend le pion un peu transparent
-        public void setColor(Color c ){
-            color = new Color(c.getRed(), c.getGreen(), c.getBlue(), 150) ;
-        }
-    }
-
+    String description;
+    Pion pion;
+    boolean choixPion = false;
+    // Permet de retrouver la rotation initiale quand on recharge une partie.
+    int rotation;
 
     public void placerPion(){
         int[] t = new int[9] ;
-        if (((BordCarcassonne)nord).isPion()) t[1] = 1 ;
-        else if (((BordCarcassonne)est).isPion()) t[5] = 1 ;
-        else if (((BordCarcassonne)ouest).isPion()) t[3] = 1 ;
-        else if (((BordCarcassonne)centre).isPion()) t[4] = 1 ;
-        else if (((BordCarcassonne)sud).isPion()) t[7] = 1 ;
+        if (((BordCarcassonne)nord).contientPion()) t[1] = 1 ;
+        else if (((BordCarcassonne)est).contientPion()) t[5] = 1 ;
+        else if (((BordCarcassonne)ouest).contientPion()) t[3] = 1 ;
+        else if (((BordCarcassonne)centre).contientPion()) t[4] = 1 ;
+        else if (((BordCarcassonne)sud).contientPion()) t[7] = 1 ;
         // ferme la fonction si il n'y a pas de pion ;
-        else return ;
-        // t[1] = 1  ;
-
-
+        else return;
+        // Layout de la tuile
         setLayout(new  GridLayout(3,3));
       
-
         pion = new Pion(environnement.getPartie().getJoueurs().joueurAuTrait().getCouleur()); 
-        
         pion.setVisible(true) ;
 
-        
         for(int i = 0 ; i < t.length ; i++){
-            if (t[i] == 1){
-                this.add(pion) ;
-            }else{
-
-                // ajoute des paneaux vide et transparents qui permette d'ajuster le layout
-                newPanelInsivisble() ;
-            }
+            if (t[i] == 1) this.add(pion);
+            else this.add(PanelInsivisble()); // ajoute des paneaux vides et transparents qui permettent d'ajuster le layout.
         }
-
     }
 
-    private void newPanelInsivisble(){
+    private JPanel PanelInsivisble(){
         JPanel p = new JPanel() ;
         p.setBackground(new Color(0, 0,0,0));
         p.setVisible(true) ;
-        this.add(p) ;
+        return p;
     }
 
-    private void newBoutonPlacerPion(Bord bord){
-        JButton b = new JButton("") ;
+    private JButton BoutonPlacerPion(Bord bord){
+        JButton b = new JButton();
         b.setBackground(new Color(0, 0,0,50));
         b.setVisible(true);
-        this.add(b);
         b.addActionListener(event ->{
-            System.out.println();
             ((BordCarcassonne)bord).setPion(true);
             removeBoutonPlacagePion();
             placerPion();
             environnement.getPartie().getJoueurs().joueurAuTrait().enleverUnPiont();
             environnement.getPartie().tourSuivant();
         });
-
+        return b;
     }
 
     public void BoutonsAjouterPion(){
@@ -109,16 +76,17 @@ public class TuileCarcassonne extends Tuile {
         resizeImage();
         setLayout(new  GridLayout(3,3));
         
-        // ajouter des boutons pour choisir ou placer le pion
-        newPanelInsivisble();
-        newBoutonPlacerPion(nord);
-        newPanelInsivisble();
-        newBoutonPlacerPion(ouest);
-        newBoutonPlacerPion(centre);
-        newBoutonPlacerPion(est);
-        newPanelInsivisble();
-        newBoutonPlacerPion(sud);
-        newPanelInsivisble();
+        // ajouter des boutons pour choisir où placer le pion
+        add(PanelInsivisble());
+        add(BoutonPlacerPion(nord));
+        add(PanelInsivisble());
+        add(BoutonPlacerPion(ouest));
+        if (description.equals("CCCCV")) add(BoutonPlacerPion(centre));
+        else add(PanelInsivisble());
+        add(BoutonPlacerPion(est));
+        add(PanelInsivisble());
+        add(BoutonPlacerPion(sud));
+        add(PanelInsivisble());
     }
 
     public void removeBoutonPlacagePion(){
@@ -139,7 +107,7 @@ public class TuileCarcassonne extends Tuile {
     // Prend en argument une string de type VRRVV
     public TuileCarcassonne(String description) throws IOException {
         this(stringToTile(description), description);
-        nom = description ;
+        this.description = description;
     }
     
     private void setImage(String description){  
@@ -187,8 +155,8 @@ public class TuileCarcassonne extends Tuile {
 
     // Rajoute l'image récupérée sur la tuile, sans même qu'on ait à appeler cette fonction.
     protected void paintComponent(Graphics g) {
-        // rend l'image carré si elle est est dans la partie droite de l'écran
-        if (environnement.getPartie().aJouer.equals(this) && ! choixPion){
+        // Rend l'image carrée si elle est est dans la partie droite de l'écran (tuile à jouer).
+        if (environnement.getPartie().aJouer.equals(this) && !choixPion){
             this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
         }
         resizeImage();
@@ -227,7 +195,6 @@ public class TuileCarcassonne extends Tuile {
         graphics2D.drawImage(image, null, 0, 0);
         image = temp ;
         resizeImage();
-
     }
 
     private void memoireRotate(boolean sensHoraire){
@@ -239,7 +206,7 @@ public class TuileCarcassonne extends Tuile {
     }
 
     public void remettreImage(){
-        setImage(nom);
+        setImage(description);
         int holdrota = rotation ;
         // rend l'image carrée avant de la tourner
         this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
@@ -257,16 +224,14 @@ public class TuileCarcassonne extends Tuile {
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        setImage(nom);
-        int holdrota = rotation ;
+        setImage(description);
+        int holdRota = rotation ;
         // rend l'image carrée avant de la tourner
         this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
         // permet de mettre l'image dans la rotation avant enregistrement
-        for (int i = 0 ; i < holdrota ; i++){
+        for (int i = 0 ; i < holdRota ; i++){
             rotate(true);
         }
-        rotation = holdrota ;
+        rotation = holdRota ;
     }
-
-    private void readObjectNoData() throws ObjectStreamException{ }
 }

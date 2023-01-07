@@ -9,7 +9,7 @@ public class BordCarcassonne extends Bord{
     Structure structure;
     boolean pion ;
 
-    public boolean isPion() {
+    public boolean contientPion() {
         return pion;
     }
 
