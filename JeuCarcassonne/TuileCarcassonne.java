@@ -132,11 +132,15 @@ public class TuileCarcassonne extends Tuile {
         JCheckBox c2 = checkBoxPlacerPion(ouest);
         JCheckBox c3 = checkBoxPlacerPion(est);
         JCheckBox c4 = checkBoxPlacerPion(sud);
-        // TODO voir si pas possible de récupérer taille cell de la grille et pas taille de la tuile
-        c1.setBounds(getWidth()/2, 0, 20, 20);
-        c2.setBounds(0, getHeight()/2, 20, 20);
-        c3.setBounds(getWidth(), getHeight()/2, 20, 20);
-        c4.setBounds(getWidth()/2, getHeight(), 20, 20);
+        // Calcul à la main des dimensions d'une cellule de la grille car  pas d'accès à ces infos.
+        int largeurCellule = environnement.conteneurGrille.getWidth()/(environnement.partie.plateau.largeur-2) - 30;
+        int largeurMoitieCellule = largeurCellule/2;
+        int hauteurCellule = environnement.conteneurGrille.getHeight()/(environnement.partie.plateau.hauteur-2) - 30;
+        int hauteurMoitieCellule = hauteurCellule/2;
+        c1.setBounds(largeurMoitieCellule, 0, 20, 20);
+        c2.setBounds(0, hauteurMoitieCellule, 20, 20);
+        c3.setBounds(largeurCellule, hauteurMoitieCellule, 20, 20);
+        c4.setBounds(largeurMoitieCellule, hauteurCellule, 20, 20);
         add(c1);
         add(c2);
         add(c3);
@@ -144,7 +148,7 @@ public class TuileCarcassonne extends Tuile {
         // On peut placer un pion au centre seulement si la tuile représente une abbaye.
         if (description.equals("CCCCV")) {
             JCheckBox c5 = checkBoxPlacerPion(centre);
-            c5.setBounds(getWidth()/2, getHeight()/2, 20, 20);
+            c5.setBounds(largeurMoitieCellule, hauteurMoitieCellule, 20, 20);
             add(c5);
         }
         revalidate();

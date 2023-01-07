@@ -40,7 +40,7 @@ public class GameView implements Serializable{
     JPanel bandeauInf;
     JLabel credit;
     public JPanel coeur;
-    JPanel conteneurGrille;
+    public JPanel conteneurGrille;
     JPanel grille;
     public JPanel conteneurInfos;
     JPanel conteneurInfosCoup;
