@@ -147,7 +147,7 @@ public class TuileCarcassonne extends Tuile {
         add(c3);
         add(c4);
         // On peut placer un pion au centre seulement si la tuile représente une abbaye.
-        if (description.equals("CCCCV")) {
+        if (description.equals("CCCCV") || description.equals("CCRCV")) {
             JCheckBox c5 = checkBoxPlacerPion(centre);
             c5.setBounds(largeurMoitieCellule, hauteurMoitieCellule, 20, 20);
             add(c5);
