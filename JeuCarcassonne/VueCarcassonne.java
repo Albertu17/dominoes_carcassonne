@@ -28,6 +28,12 @@ public class VueCarcassonne extends GameView{
     }
 
     public void demanderSiPosePion(){
+        // désactiver les boutons de rotation et de jeter tuile
+        getRotationDroite().setEnabled(false);
+        getRotationGauche().setEnabled(false);
+        getDefausser().setEnabled(false);
+
+
         ((TuileCarcassonne)partie.aJouer).checkBoxesAjouterPion();
         conteneurTuileAJouer.removeAll() ;
         // ajout du bouton ne pas poser pion
@@ -35,6 +41,9 @@ public class VueCarcassonne extends GameView{
         nePasPoserPion.setVisible(true);
         nePasPoserPion.addActionListener(event ->{
             ((TuileCarcassonne)partie.aJouer).removeBoutonPlacagePion();
+            getRotationDroite().setEnabled(true);
+            getRotationGauche().setEnabled(true);
+            getDefausser().setEnabled(true);
             // au joueur d'apres
             partie.tourSuivant();
         });

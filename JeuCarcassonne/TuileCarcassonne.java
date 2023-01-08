@@ -115,6 +115,9 @@ public class TuileCarcassonne extends Tuile {
             placerPion();
             environnement.getPartie().getJoueurs().joueurAuTrait().enleverUnPion();
             environnement.getPartie().tourSuivant();
+            environnement.getRotationDroite().setEnabled(true);
+            environnement.getRotationGauche().setEnabled(true);
+            environnement.getDefausser().setEnabled(true);
         });
         return cB;
     }
@@ -180,8 +183,12 @@ public class TuileCarcassonne extends Tuile {
 
     // permet d'adapter l'image à la taille de la tuille
     public void resizeImage(){
-        int newHeigh = Math.max(100, this.getHeight());
-        int newWidth = Math.max(this.getWidth(), 100) ;
+        int newHeigh = this.getHeight() ;
+        int newWidth = this.getWidth() ;
+        if (newHeigh == 0 || newWidth == 0 ){
+            newHeigh = 100 ;
+            newWidth = 100 ;
+        }
         Image temp = image.getScaledInstance(newWidth, newHeigh, Image.SCALE_SMOOTH);
         image = new BufferedImage(newWidth, newHeigh, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
