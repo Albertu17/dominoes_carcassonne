@@ -41,7 +41,7 @@ public class GameView implements Serializable{
     JPanel bordureGauche;
     JPanel bordureDroite;
     JPanel bandeauInf;
-    JLabel credit;
+    JLabel credits;
     public JPanel coeur;
     public JPanel conteneurGrille;
     JPanel grille;
@@ -122,8 +122,8 @@ public class GameView implements Serializable{
         // JPanel bandeauInf (sert de bordure en bas + crédits)
         bandeauInf = new JPanel();
         bandeauInf.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        credit = new JLabel("Credit: A. Tomasi et T. Poux");
-        bandeauInf.add(credit);
+        credits = new JLabel("Credits: A. Tomasi et T. Poux");
+        bandeauInf.add(credits);
         conteneurGlobal.add(bandeauInf, BorderLayout.PAGE_END);
         
         // JPanel coeur
