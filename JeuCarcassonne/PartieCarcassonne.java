@@ -1,7 +1,5 @@
 package JeuCarcassonne;
 
-import java.util.List;
-
 import JeuTuilesGenerique.Modele.*;
 
 public class PartieCarcassonne extends Partie{

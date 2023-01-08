@@ -9,7 +9,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.io.Serializable;
-import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;

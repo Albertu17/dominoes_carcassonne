@@ -1,30 +1,21 @@
 package JeuCarcassonne;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
 import javax.imageio.ImageIO;
-import javax.swing.GroupLayout;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
+
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-import org.w3c.dom.events.MouseEvent;
-
-import java.awt.GridBagLayout;
 import JeuTuilesGenerique.Modele.Bord;
 import JeuTuilesGenerique.Modele.Tuile;
 

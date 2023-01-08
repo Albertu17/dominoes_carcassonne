@@ -3,7 +3,6 @@ package JeuCarcassonne;
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Vue.GameView;
