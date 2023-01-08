@@ -1,5 +1,7 @@
 package JeuCarcassonne;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -37,7 +39,7 @@ public class VueCarcassonne extends GameView{
             // au joueur d'apres
             partie.tourSuivant();
         });
-        conteneurTuileAJouer.add(nePasPoserPion); 
+        conteneurTuileAJouer.add(nePasPoserPion, BorderLayout.CENTER); 
         conteneurTuileAJouer.revalidate();
         conteneurTuileAJouer.repaint();
     }

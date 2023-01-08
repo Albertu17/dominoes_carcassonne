@@ -9,13 +9,15 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.io.Serializable;
-
+import java.awt.Component;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,14 +54,7 @@ public class GameView implements Serializable{
     JButton rotationGauche ;
     JPanel conteneurButtonsRotate ;
     JPanel conteneurInfosCoupMilieu;
-    JPanel conteneurInfosCoupMilieuBordureGauche;
-    JPanel conteneurInfosCoupMilieuBordureHaut;
-    JPanel conteneurInfosCoupMilieuBordureDroit;
-    JPanel conteneurInfosCoupMilieuBordureBas;
-    JPanel conteneurInfosCoupGauche;
-    JPanel conteneurInfosCoupDroite;
     JLabel tuilesRestantes;
-    JPanel conteneurInfosCoupMilieuCentre;
     public List<PanelJoueur> panelJoueurs;
     JLabel winMessage;
 
@@ -170,69 +165,45 @@ public class GameView implements Serializable{
                 conteneurInfosCoup.setLayout(new BoxLayout(conteneurInfosCoup, BoxLayout.LINE_AXIS));
                 conteneurInfos.add(conteneurInfosCoup);
 
-                    // JPanel conteneurInfosCoupGauche et JButtons defausser
-                    conteneurInfosCoupGauche = new JPanel();
-                    conteneurInfosCoupGauche.setLayout(new BorderLayout());
-                    conteneurInfosCoupGauche.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    // Buttons defausser
                     defausser = new JButton("Jeter la tuile");
                     defausser.addActionListener(evnt -> {
                         partie.tourSuivant();
                     });            
-                    conteneurInfosCoupGauche.add(defausser, BorderLayout.CENTER);
-                    conteneurInfosCoup.add(conteneurInfosCoupGauche);
+                    conteneurInfosCoup.add(defausser);
             
                     // JPanel conteneurInfosCoupMilieu
                     conteneurInfosCoupMilieu = new JPanel();
-                    conteneurInfosCoupMilieu.setLayout(new BorderLayout());
-                    conteneurInfosCoupMilieu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    conteneurInfosCoupMilieu.setLayout(new BoxLayout(conteneurInfosCoupMilieu, BoxLayout.PAGE_AXIS));
+                    conteneurInfosCoupMilieu.setAlignmentX(Component.CENTER_ALIGNMENT);
                     conteneurInfosCoup.add(conteneurInfosCoupMilieu);
 
-                        // JPanel vides servant de bords
-                        conteneurInfosCoupMilieuBordureGauche = new JPanel();
-                        conteneurInfosCoupMilieuBordureHaut = new JPanel();
-                        conteneurInfosCoupMilieuBordureDroit = new JPanel();
-                        conteneurInfosCoupMilieuBordureBas = new JPanel();
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuBordureGauche, BorderLayout.LINE_START);
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuBordureHaut, BorderLayout.PAGE_START);
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuBordureDroit, BorderLayout.LINE_END);
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuBordureBas, BorderLayout.PAGE_END);
+                        // JPanel conteneurButtonsRotate et JButtons rotationDroite et rotationGauche
+                        conteneurButtonsRotate = new JPanel() ;
+                        conteneurButtonsRotate.setLayout(new FlowLayout());
+                        rotationDroite = new JButton("-->");
+                        rotationGauche = new JButton("<--");
+                        rotationDroite.addActionListener(event -> {
+                            partie.aJouer.rotate(true) ;
+                        });
+                        rotationGauche.addActionListener(event -> {
+                            partie.aJouer.rotate(false) ;
+                        });
+                        conteneurButtonsRotate.add(rotationGauche);
+                        conteneurButtonsRotate.add(rotationDroite);
+                        conteneurInfosCoupMilieu.add(conteneurButtonsRotate); 
 
-                        // JPanel JPanel conteneurInfosCoupMilieuCentre
-                        conteneurInfosCoupMilieuCentre = new JPanel();
-                        conteneurInfosCoupMilieuCentre.setLayout(new BoxLayout(conteneurInfosCoupMilieuCentre, BoxLayout.PAGE_AXIS));
-                        conteneurInfosCoupMilieu.add(conteneurInfosCoupMilieuCentre, BorderLayout.CENTER);
-
-                            // JPanel conteneurButtonsRotate et JButtons rotationDroite et rotationGauche
-                            conteneurButtonsRotate = new JPanel() ;
-                            conteneurButtonsRotate.setLayout(new FlowLayout());
-                            rotationDroite = new JButton("-->");
-                            rotationGauche = new JButton("<--");
-                            rotationDroite.addActionListener(event -> {
-                                partie.aJouer.rotate(true) ;
-                            });
-                            rotationGauche.addActionListener(event -> {
-                                partie.aJouer.rotate(false) ;
-                            });
-                            conteneurButtonsRotate.add(rotationGauche);
-                            conteneurButtonsRotate.add(rotationDroite);
-                            conteneurInfosCoupMilieuCentre.add(conteneurButtonsRotate); 
-
-                            // JPanel conteneurTuileAJouer
-                            conteneurTuileAJouer = new JPanel();
-                            conteneurTuileAJouer.setLayout(new BoxLayout(conteneurTuileAJouer, BoxLayout.X_AXIS));
-                            conteneurInfosCoupMilieuCentre.add(conteneurTuileAJouer); 
+                        // JPanel conteneurTuileAJouer
+                        conteneurTuileAJouer = new JPanel();
+                        conteneurTuileAJouer.setLayout(new BorderLayout());
+                        conteneurInfosCoupMilieu.add(conteneurTuileAJouer); 
 
                     // JPanel conteneurInfosCoupDroite et JLabel tuiles restantes
-                    conteneurInfosCoupDroite = new JPanel();
-                    conteneurInfosCoupDroite.setLayout(new BorderLayout());
-                    conteneurInfosCoupDroite.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     tuilesRestantes = new JLabel();
-                    conteneurInfosCoupDroite.add(tuilesRestantes, BorderLayout.CENTER);
+                    tuilesRestantes.setFont(new Font("Arial", Font.BOLD, 16));
                     tuilesRestantes.setHorizontalAlignment(0);
-                    conteneurInfosCoup.add(conteneurInfosCoupDroite);
-
-                    conteneurInfos.setPreferredSize(conteneurInfos.getSize());
-                    conteneurInfos.setMaximumSize(conteneurInfos.getPreferredSize());
+                    conteneurInfosCoup.add(tuilesRestantes);
+                    tuilesRestantes.setBorder(new EmptyBorder(0,0,0,30));
         
         // Lorsque le GUI est prêt, on lance la partie
         partie.tourSuivant();
@@ -286,7 +257,7 @@ public class GameView implements Serializable{
 
     public void repaintTuileAJouer() {
         conteneurTuileAJouer.removeAll();
-        conteneurTuileAJouer.add(partie.aJouer);
+        conteneurTuileAJouer.add(partie.aJouer, BorderLayout.CENTER);
         partie.aJouer.setEnvironnement(this);
         conteneurTuileAJouer.repaint(); // Repeint GUI.
         conteneurTuileAJouer.revalidate(); // Revalide GUI.
@@ -294,8 +265,8 @@ public class GameView implements Serializable{
 
     public void updateTuilesRestantes() {
         tuilesRestantes.setText(String.valueOf(partie.pioche.pioche.size()));
-        conteneurInfosCoupDroite.repaint(); // Repeint GUI.
-        conteneurInfosCoupDroite.revalidate(); // Revalide GUI.
+        conteneurInfosCoup.repaint(); // Repeint GUI.
+        conteneurInfosCoup.revalidate(); // Revalide GUI.
     }
 
     public void winMessage() {
