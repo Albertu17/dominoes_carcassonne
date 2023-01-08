@@ -12,18 +12,19 @@ import JeuTuilesGenerique.Vue.GameView;
 public class Tuile extends JPanel implements MouseInputListener {
 
     protected transient GameView environnement;
-    int x, y; // Coordonnées de la tuile dans le plateau où elle sera placée.
+    public int x, y; // Coordonnées de la tuile dans le plateau où elle sera placée.
     public Bord nord;
     public Bord est;
     public Bord sud;
     public Bord ouest;
-    boolean moving;
+    boolean moving, responsive;
 
     public Tuile() {
         addMouseListener(this);
         addMouseMotionListener(this);
         setBackground(Color.GRAY);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        responsive = true;
     }
 
     public Tuile(Bord nord, Bord est, Bord sud, Bord ouest) {
@@ -32,6 +33,16 @@ public class Tuile extends JPanel implements MouseInputListener {
         this.est = est;
         this.sud = sud;
         this.ouest = ouest;
+    }
+
+    // On peut avoir besoin qu'à certains moments de la partie, appuyer ou passer sur une tuile ne 
+    // produise aucune réaction.
+    public void disableResponsivity() {
+        responsive = false;
+    }
+
+    public void enableResponsivity() {
+        responsive = true;
     }
 
     // true --> tourner dans le sens Horaire
@@ -61,17 +72,17 @@ public class Tuile extends JPanel implements MouseInputListener {
 
     // Mouse clicked = mouse pressed and released
     public void mouseClicked(MouseEvent e) {
-        if (!environnement.partie.aJouer.equals(this) && environnement.partie.check(x, y)) {
+        if (responsive && !environnement.partie.aJouer.equals(this) && environnement.partie.check(x, y)) {
             environnement.partie.jouer(x, y);
         }  
     }
 
     public void mousePressed(MouseEvent e) {
-        if (environnement.partie.aJouer == this) moving = true;
+        if (responsive && environnement.partie.aJouer == this) moving = true;
     }
 
     public void mouseReleased(MouseEvent e) {
-        if (environnement.partie.aJouer == this) moving = false;
+        if (responsive && environnement.partie.aJouer == this) moving = false;
     }
 
     // TODO bon comportement quand tuile est dragged
@@ -85,13 +96,13 @@ public class Tuile extends JPanel implements MouseInputListener {
     // Lorsque la souris passe sur une tuile de la grille, sa bordure devient verte si la tuile à jouer est
     // plaçable à cet endroit, sinon sa bordure devient rouge.
     public void mouseEntered(MouseEvent e) {
-        if (!environnement.partie.aJouer.equals(this)) {
+        if (responsive && !environnement.partie.aJouer.equals(this)) {
             if (environnement.partie.check(x, y)) setBorder(BorderFactory.createLineBorder(Color.GREEN));
             else setBorder(BorderFactory.createLineBorder(Color.RED));
         }
     }
 
     public void mouseExited(MouseEvent e) {
-        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        if (responsive) setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 }

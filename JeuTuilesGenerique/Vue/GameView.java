@@ -10,6 +10,8 @@ import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.io.Serializable;
 import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -46,7 +48,7 @@ public class GameView implements Serializable{
     JPanel grille;
     public JPanel conteneurInfos;
     JPanel conteneurInfosCoup;
-    protected JPanel conteneurTuileAJouer;
+    public JPanel conteneurTuileAJouer;
     JButton retourMenu ;
     JButton quitter ;
     JButton defausser ;
@@ -135,7 +137,7 @@ public class GameView implements Serializable{
 
             // JPanel conteneurGrille
             conteneurGrille = new JPanel();
-            gbc.weightx = 3; // Grandit 3 fois plus vite qu'un weigthx = 1.
+            gbc.weightx = 10; // Grandit 4 fois plus vite qu'un weigthx = 1.
             coeur.add(conteneurGrille, gbc);
             conteneurGrille.setLayout(new BoxLayout(conteneurGrille, BoxLayout.X_AXIS));
             conteneurGrille.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
@@ -169,18 +171,19 @@ public class GameView implements Serializable{
                     defausser = new JButton("Jeter la tuile");
                     defausser.addActionListener(evnt -> {
                         partie.tourSuivant();
-                    });            
+                    });
+                    defausser.setBounds(5, 100, defausser.getPreferredSize().width, defausser.getPreferredSize().height);
                     conteneurInfosCoup.add(defausser);
             
                     // JPanel conteneurInfosCoupMilieu
                     conteneurInfosCoupMilieu = new JPanel();
                     conteneurInfosCoupMilieu.setLayout(new BoxLayout(conteneurInfosCoupMilieu, BoxLayout.PAGE_AXIS));
-                    conteneurInfosCoupMilieu.setAlignmentX(Component.CENTER_ALIGNMENT);
                     conteneurInfosCoup.add(conteneurInfosCoupMilieu);
 
                         // JPanel conteneurButtonsRotate et JButtons rotationDroite et rotationGauche
                         conteneurButtonsRotate = new JPanel() ;
                         conteneurButtonsRotate.setLayout(new FlowLayout());
+                        conteneurButtonsRotate.setMaximumSize(new Dimension(200, 50));
                         rotationDroite = new JButton("-->");
                         rotationGauche = new JButton("<--");
                         rotationDroite.addActionListener(event -> {
@@ -196,14 +199,17 @@ public class GameView implements Serializable{
                         // JPanel conteneurTuileAJouer
                         conteneurTuileAJouer = new JPanel();
                         conteneurTuileAJouer.setLayout(new BorderLayout());
-                        conteneurInfosCoupMilieu.add(conteneurTuileAJouer); 
+                        conteneurTuileAJouer.setMaximumSize(new Dimension(200, 200));
+                        conteneurTuileAJouer.setBorder(new EmptyBorder(0, 0, 10, 0));
+                        conteneurInfosCoupMilieu.add(conteneurTuileAJouer);
 
                     // JPanel conteneurInfosCoupDroite et JLabel tuiles restantes
                     tuilesRestantes = new JLabel();
+                    tuilesRestantes.setMaximumSize(new Dimension(50, 50));
                     tuilesRestantes.setFont(new Font("Arial", Font.BOLD, 16));
                     tuilesRestantes.setHorizontalAlignment(0);
                     conteneurInfosCoup.add(tuilesRestantes);
-                    tuilesRestantes.setBorder(new EmptyBorder(0,0,0,30));
+                    tuilesRestantes.setBorder(new EmptyBorder(0,30,0,0));
         
         // Lorsque le GUI est prêt, on lance la partie
         partie.tourSuivant();

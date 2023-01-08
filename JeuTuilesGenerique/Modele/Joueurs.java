@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 
 public class Joueurs implements Serializable{
@@ -165,20 +168,22 @@ public class Joueurs implements Serializable{
                 setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 // setBackground(Joueur.this.couleur);
                 setLayout(new GridLayout(2,1));
+                // JPanel conteneurHaut
                 conteneurHaut = new JPanel();
                 conteneurHaut.setLayout(new BoxLayout(conteneurHaut, BoxLayout.LINE_AXIS));
                 nom = new JLabel();
                 points = new JLabel();
                 nom.setFont(new Font("Arial", Font.BOLD, 20));
                 points.setFont(new Font("Arial", Font.BOLD, 20));
+                conteneurHaut.add(Box.createRigidArea(new Dimension(20,0)));
                 conteneurHaut.add(nom);
+                conteneurHaut.add(Box.createHorizontalGlue());
                 conteneurHaut.add(points);
-                conteneurBas = new JPanel();
-                conteneurBas.setLayout(new BorderLayout());
-                // Pour les jeux à pions
-                pionsRestants = new JLabel();
-                conteneurBas.add(pionsRestants, BorderLayout.CENTER);
+                conteneurHaut.add(Box.createRigidArea(new Dimension(20,0)));
                 add(conteneurHaut);
+                // JPanel ConteneurBas utilisé pour les jeux à pions.
+                conteneurBas = new JPanel();
+                conteneurBas.setLayout(new BoxLayout(conteneurBas, BoxLayout.LINE_AXIS));
                 add(conteneurBas);
                 if (Joueur.this.auTrait) nom.setText("--> " + Joueur.this.getName());
                 else nom.setText(Joueur.this.getName());
@@ -194,11 +199,12 @@ public class Joueurs implements Serializable{
             }
 
             public void affichePionsRestants() {
-                pionsRestants.setText("Pions restants : " + String.valueOf(Joueur.this.getNbrPion()));
+                conteneurBas.removeAll();
+                conteneurBas.add(Box.createRigidArea(new Dimension(20,0)));
+                pionsRestants = new JLabel("Pions restants : " + String.valueOf(Joueur.this.getNbrPion()));
+                conteneurBas.add(pionsRestants);
                 conteneurBas.revalidate();
                 conteneurBas.repaint();
-                revalidate();
-                repaint();
             }
         }
     }

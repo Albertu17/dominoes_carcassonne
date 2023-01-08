@@ -26,6 +26,22 @@ public class Plateau implements Serializable{
         }
         return plateau ;
     }
+
+    public void disableReponsivity() {
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                plateau[i][j].disableResponsivity();
+            }
+        } 
+    }
+
+    public void enableReponsivity() {
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                plateau[i][j].enableResponsivity();
+            }
+        } 
+    }
     
     public boolean add(Tuile tuile, int x, int y) {
         tuile.setCoordonnées(x, y);

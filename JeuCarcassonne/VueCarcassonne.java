@@ -29,7 +29,7 @@ public class VueCarcassonne extends GameView{
     }
 
     public void demanderSiPosePion(){
-        ((TuileCarcassonne)partie.aJouer).CheckBoxesAjouterPion();
+        ((TuileCarcassonne)partie.aJouer).checkBoxesAjouterPion();
         conteneurTuileAJouer.removeAll() ;
         // ajout du bouton ne pas poser pion
         nePasPoserPion = new JButton("Finir mon tour") ;

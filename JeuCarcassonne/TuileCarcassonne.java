@@ -20,6 +20,10 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import org.w3c.dom.events.MouseEvent;
+
 import java.awt.GridBagLayout;
 import JeuTuilesGenerique.Modele.Bord;
 import JeuTuilesGenerique.Modele.Tuile;
@@ -124,8 +128,11 @@ public class TuileCarcassonne extends Tuile {
         return cB;
     }
 
-    public void CheckBoxesAjouterPion() {
+    public void checkBoxesAjouterPion() {
         choixPion = true ;
+        // Pendant le plaçage des pions, il faut que les autres tuiles deviennent inertes lorsqu'on clique
+        // ou passe dessus.
+        environnement.partie.plateau.disableReponsivity();
         resizeImage();
         setLayout(null);
         JCheckBox c1 = checkBoxPlacerPion(nord);
@@ -158,6 +165,7 @@ public class TuileCarcassonne extends Tuile {
     public void removeBoutonPlacagePion(){
         this.removeAll();
         choixPion = false ;
+        environnement.partie.plateau.enableReponsivity();
     }
     
     private void setImage(String description){  
@@ -181,7 +189,6 @@ public class TuileCarcassonne extends Tuile {
 
     // permet d'adapter l'image à la taille de la tuille
     public void resizeImage(){
-        System.out.println();
         int newHeigh = Math.max(100, this.getHeight());
         int newWidth = Math.max(this.getWidth(), 100) ;
         Image temp = image.getScaledInstance(newWidth, newHeigh, Image.SCALE_SMOOTH);
@@ -206,7 +213,7 @@ public class TuileCarcassonne extends Tuile {
 
         BufferedImage temp = new BufferedImage(newHeigh, newWidth, typeOfImage);
         Graphics2D graphics2D = temp.createGraphics();
-        graphics2D.rotate( sensHoraire ? Math.PI/2 : - Math.PI/2,  newHeigh / 2, newWidth / 2);
+        graphics2D.rotate( sensHoraire ? Math.PI/2 : - Math.PI/2, newHeigh/2, newWidth/2);
         graphics2D.drawImage(image, null, 0, 0);
         image = temp ;
         resizeImage();
