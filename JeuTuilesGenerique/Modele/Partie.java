@@ -93,33 +93,53 @@ public class Partie implements Serializable {
         gui.getRotationGauche().setEnabled(false);
         gui.getDefausser().setEnabled(false);
 
-        // lancement d'un thread timer (en background) pour ne pas bloquer l'interface
+        // TODO lancement d'un thread timer (en background) pour ne pas bloquer l'interface
         gui.getRotationDroite().setEnabled(true);
         gui.getRotationGauche().setEnabled(true);
         gui.getDefausser().setEnabled(true);
-        recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ; 
+        
+        int[] meilleureTuile = recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()); 
+        // Le tableau meilleureTuile resterait rempli de 0 dans le cas où tuileAJouer n'est plaçable nulle part.
+        if (meilleureTuile[0] != 0) {
+            for (int i = 0; i < meilleureTuile[2]; i++) {
+                aJouer.rotate(true);
+            }
+            jouer(meilleureTuile[0], meilleureTuile[1]);
+        }
         tourSuivant();
     }
 
-    public boolean recursiveIA (int x, int y, List<Tuile> tuilesTestees) {
+    // Retourne un tableau d'entiers de taille 4 contenant les coordonnées de la meilleure tuile sur laquelle placer
+    // tuileAJouer (par rapport au nombre de points rapportés), le nombre de rotations de tuileAjouer correspondant
+    // à ce placement, et le nombre de points que rapporte ce placement.
+    public int[] recursiveIA (int x, int y, List<Tuile> tuilesTestees) {
          // Pour ne pas tester 2 fois la même tuile et donc tomber dans une boucle infinie.
-        if (tuilesTestees.contains(plateau.plateau[x][y])) return false ;
+        if (tuilesTestees.contains(plateau.plateau[x][y])) return null;
         tuilesTestees.add(plateau.plateau[x][y]) ;
+        int[] meilleureTuile = new int[4];
         // Teste si on peut passer la tuileAJouer aux coordonnées passées en argument dans les 4 sens possibles.
         for (int i = 0; i < 4; i++)  {
             if (check(x, y)) {
-                // TODO compare nbPoints pour choisir meilleure option puis update recursiveIA de PartieDominos et PartieCarcassonne.
-                jouer(x, y);
-                return true;
+                int pointsRapportes = nbPoints(x, y);
+                if (pointsRapportes > meilleureTuile[3]) meilleureTuile = new int[]{x, y, i, pointsRapportes};
             }
             aJouer.rotate(true);
         }
         // recursif sur tuiles adjacentes :
-        if (x != 1 && recursiveIA(x-1, y, tuilesTestees)) return true;
-        if (x != plateau.hauteur-2 && recursiveIA(x+1, y, tuilesTestees)) return true;
-        if (y != 1 && recursiveIA(x, y-1, tuilesTestees)) return true;
-        if (y != plateau.largeur-2 && recursiveIA(x, y+1, tuilesTestees)) return true;
-        return false;
+        if (x != 1) {
+            int[] bestAuNord = recursiveIA(x-1, y, tuilesTestees);
+            if (bestAuNord != null && bestAuNord[3] > meilleureTuile[3]) meilleureTuile = bestAuNord;
+        } if (x != plateau.hauteur-2) {
+            int[] bestAuSud = recursiveIA(x+1, y, tuilesTestees);
+            if (bestAuSud != null && bestAuSud[3] > meilleureTuile[3]) meilleureTuile = bestAuSud;
+        } if (y != 1) {
+            int[] bestAlOuest = recursiveIA(x, y-1, tuilesTestees);
+            if (bestAlOuest != null && bestAlOuest[3] > meilleureTuile[3]) meilleureTuile = bestAlOuest;
+        } if (y != plateau.largeur-2) {
+            int[] bestAlEst = recursiveIA(x, y+1, tuilesTestees);
+            if (bestAlEst != null && bestAlEst[3] > meilleureTuile[3]) meilleureTuile = bestAlEst;
+        }
+        return meilleureTuile;
     }
 
     public boolean partieFinie() {

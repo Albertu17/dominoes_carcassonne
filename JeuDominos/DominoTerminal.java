@@ -125,7 +125,7 @@ public class DominoTerminal {
             partie.aJouer = partie.getPioche().pickOne() ;
 
             if (partie.getJoueurs().joueurAuTrait() .isIA()){
-                partie.tourIA();
+                partie.gestionTourIA();
                 System.out.println("L'IA a jouer ! ");
             }else{
                 TourJoueur();

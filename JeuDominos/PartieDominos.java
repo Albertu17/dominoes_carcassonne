@@ -40,28 +40,6 @@ public class PartieDominos extends Partie {
     }
 
     // Pour DominoTerminal
-    public boolean recursiveIA (int x, int y, List<Tuile> tuilesTestees) {
-        if (tuilesTestees.contains(plateau.plateau[x][y])) return false ;
-        // Pour ne pas tester 2 fois la même tuile et donc tomber dans une boucle infinie.
-        tuilesTestees.add(plateau.plateau[x][y]) ;
-        // Teste si on peut passer la tuileAJouer aux coordonnées passées en argument dans les 4 sens possibles.
-        for (int i = 0; i < 4; i++) {
-            if (gui != null && check(x,y)) {
-                jouer(x, y);
-                return true;
-            }
-            else if (jouerTerminal(x, y)) return true;
-            aJouer.rotate(true);
-        }
-        // recursif sur tuiles adjacentes :
-        if (x != 1 && recursiveIA(x-1, y, tuilesTestees)) return true;
-        if (x != plateau.hauteur-2 && recursiveIA(x+1, y, tuilesTestees)) return true;
-        if (y != 1 && recursiveIA(x, y-1, tuilesTestees)) return true;
-        if (y != plateau.largeur-2 && recursiveIA(x, y+1, tuilesTestees)) return true;
-        return false;
-    }
-
-    // Pour DominoTerminal
     public boolean jouerTerminal(int x, int y){
         if (check(x, y)) { 
             // l'appel de nbPoints à besoin d'etre mis avant l'ajout de la tuile au plateau.
@@ -79,18 +57,20 @@ public class PartieDominos extends Partie {
         gui.getRotationDroite().setEnabled(false);
         gui.getRotationGauche().setEnabled(false);
         gui.getDefausser().setEnabled(false);
-
-        // lancement d'un thread timer (en background) pour ne pas bloquer l'interface
+        // thread
         gui.getRotationDroite().setEnabled(true);
         gui.getRotationGauche().setEnabled(true);
         gui.getDefausser().setEnabled(true);
-        tourIA();
-    }
-
-    // Pour DominoTerminal
-    public void tourIA() {
-        recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()) ; 
-        // Pour DominoTerminal
+        int[] meilleureTuile = recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()); 
+        // Le tableau meilleureTuile resterait rempli de 0 dans le cas où tuileAJouer n'est plaçable nulle part.
+        if (meilleureTuile[0] != 0) {
+            for (int i = 0; i < meilleureTuile[2]; i++) {
+                aJouer.rotate(true);
+            }
+            // Pour DominoTerminal
+            if (gui != null) jouer(meilleureTuile[0], meilleureTuile[1]);
+            else jouerTerminal(meilleureTuile[0], meilleureTuile[1]);
+        }
         if (gui != null) tourSuivant();
     }
 }
