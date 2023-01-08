@@ -526,6 +526,14 @@ public class Menu implements Serializable{
                         nom.setText("Nom déjà utilisé");
                         nom.setForeground(Color.GRAY);
                     }
+
+
+                    if (joueurs.listfull()){
+                        add.setEnabled( ! joueurs.listfull());
+                        nom.setText("Le nombre maximun de joueurs est atteint !");
+                        nom.setForeground(Color.GRAY);
+                    }
+
                 });
 
                 // permet l'effacement du texte pré-écrit lorsqu'on passe sur le texte
@@ -591,6 +599,10 @@ public class Menu implements Serializable{
                     dispPlayer.remove(this);
                     dispPlayer.revalidate();
                     dispPlayer.repaint();
+
+                    conteneurAddPlayer.add.setEnabled( ! joueurs.listfull());
+
+
                 });
 
                 // placer

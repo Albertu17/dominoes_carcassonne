@@ -37,6 +37,8 @@ public class Joueurs implements Serializable{
         return players.size();
     }
 
+    public boolean listfull(){return players.size() >= nombreMaximalDeJoueur ; }
+
     public boolean addPlayer(String nom, boolean IA){
         if (players.size() < nombreMaximalDeJoueur ){
             players.add(new Joueur( nom,  IA)) ;
