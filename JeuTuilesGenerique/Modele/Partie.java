@@ -40,7 +40,7 @@ public class Partie implements Serializable {
     }
 
     public void premiereTuile() {
-        plateau.add(pioche.pickOne(), (int)plateau.hauteur/2, (int)plateau.largeur/2);
+        plateau.add(pioche.pickOne(), plateau.hauteur/2, plateau.largeur/2);
     }
 
     public void nouvelleTuileAjouer() {
@@ -96,7 +96,7 @@ public class Partie implements Serializable {
         // TODO lancement d'un thread timer (en background) pour ne pas bloquer l'interface
         gui.activerBoutonsTuileAJouer();
         
-        int[] meilleureTuile = recursiveIA((int) plateau.largeur/2, (int) plateau.hauteur/2, new ArrayList<Tuile>()); 
+        int[] meilleureTuile = recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()); 
         // Le tableau meilleureTuile resterait null dans le cas où tuileAJouer n'est plaçable nulle part.
         if (meilleureTuile != null) {
             for (int i = 0; i < meilleureTuile[2]; i++) {
@@ -114,7 +114,7 @@ public class Partie implements Serializable {
          // Pour ne pas tester 2 fois la même tuile et donc tomber dans une boucle infinie.
         if (tuilesTestees.contains(plateau.plateau[x][y])) return null;
         tuilesTestees.add(plateau.plateau[x][y]) ;
-        // TODO optimiser IA en retournant directement null si la tuile en x,y est vide et ses voisines aussi.
+        // TODO optimiser IA en retournant directement null si la tuile en x,y est vide et ses voisines aussi (il faudra alors changer le premier argument passé à recursive IA)
         int[] meilleureTuile = null;
         // Teste si la tuileAJouer peut être posée aux coordonnées passées en argument dans les 4 sens possibles.
         for (int i = 0; i < 4; i++) {

@@ -10,8 +10,8 @@ public class Plateau implements Serializable{
     public int largeur;
     
     public Plateau () {
-        hauteur =  7;
-        largeur =  7;
+        hauteur = 5;
+        largeur = 5;
         // On remplit le plateau de tuiles vides à l'initialisation.
         plateau = newplateauFullTuileVide(hauteur, largeur) ;
     }
