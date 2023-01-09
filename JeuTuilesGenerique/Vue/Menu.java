@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -23,7 +23,7 @@ import JeuDominos.PartieDominos;
 import JeuTuilesGenerique.Modele.Joueurs;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 
-public class Menu implements Serializable{
+public class Menu{
     
     // GameView vuePartie ;
     Launcher launcher;
@@ -110,7 +110,7 @@ public class Menu implements Serializable{
     }
 
 
-    class SelectGame implements Serializable{
+    class SelectGame{
         
         // JButtons
         JButton carcassonne ;
@@ -186,7 +186,7 @@ public class Menu implements Serializable{
 
     }
 
-    class SelectSave implements Serializable{
+    class SelectSave{
 
         JTextField newGame ;
 
@@ -380,7 +380,7 @@ public class Menu implements Serializable{
     }
 
 
-    class ManagePlayer implements Serializable{
+    class ManagePlayer{
 
         ButtonImage retour ;
         ConteneurAddPlayer conteneurAddPlayer ;
