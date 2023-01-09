@@ -48,7 +48,6 @@ public class Launcher extends JFrame{
         PiocheCarcassonne piocheC = new PiocheCarcassonne();
         PartieCarcassonne partieC = new PartieCarcassonne(joueurs, plateau, piocheC, nomPartie);
         VueCarcassonne vueC = new VueCarcassonne(partieC);
-        vueC.setLauncher(this);
         getContentPane().add(vueC.conteneurGlobal);
     }
 

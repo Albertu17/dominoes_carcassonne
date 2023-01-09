@@ -226,8 +226,6 @@ public class GameView implements Serializable{
         // On ajuste les coordonnées du plateau à celles du gridLayout.
         grille.remove((x-1)*(partie.plateau.largeur-2)+(y-1)); // Enlève tuile vide.
         grille.add(t, (x-1)*(partie.plateau.largeur-2)+(y-1)); // Remplace par la tuile jouée.
-        t.setCoordonnées(x, y);
-        t.setEnvironnement(this);
         grille.repaint(); // Repeint GUI.
         grille.revalidate(); // Revalide GUI.
     }
@@ -238,14 +236,10 @@ public class GameView implements Serializable{
         grille = new JPanel();
         grille.setLayout(new GridLayout(partie.plateau.hauteur-2, partie.plateau.largeur-2, -1, -1));
         conteneurGrille.add(grille);
-        // Remplissage de la grille avec tuiles non-extérieures du plateau.
+        // Remplissage de la grille avec tuiles intérieures du plateau.
         for (int i = 1; i < (partie.plateau.hauteur - 1); i++) {
             for (int j = 1; j < (partie.plateau.largeur - 1); j++) {
                 grille.add(partie.plateau.plateau[i][j]);
-                // Dès qu'une tuile est ajoutée au GUI, on lui définit son environnement (GameView)
-                // et ses coordonnées si c'est une tuile de la grille.
-                partie.plateau.plateau[i][j].setEnvironnement(this);
-                partie.plateau.plateau[i][j].setCoordonnées(i, j);
             }
         }
         grille.repaint(); // Repeint GUI.
@@ -263,13 +257,12 @@ public class GameView implements Serializable{
     public void repaintTuileAJouer() {
         conteneurTuileAJouer.removeAll();
         conteneurTuileAJouer.add(partie.aJouer, BorderLayout.CENTER);
-        partie.aJouer.setEnvironnement(this);
         conteneurTuileAJouer.repaint(); // Repeint GUI.
         conteneurTuileAJouer.revalidate(); // Revalide GUI.
     }
 
     public void updateTuilesRestantes() {
-        tuilesRestantes.setText(String.valueOf(partie.pioche.pioche.size()));
+        tuilesRestantes.setText(String.valueOf(partie.pioche.getSize()));
         conteneurInfosCoup.repaint(); // Repeint GUI.
         conteneurInfosCoup.revalidate(); // Revalide GUI.
     }

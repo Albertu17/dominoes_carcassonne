@@ -23,6 +23,9 @@ public class Partie implements Serializable {
         this.plateau = plateau;
         this.pioche = pioche;
         this.nomPartie = nomPartie;
+        // On donne aux tuiles vides du plateau et aux tuiles de la pioche un attribut partie.
+        plateau.giveTilesAGame(this);
+        pioche.giveTilesAGame(this);
         premiereTuile();
     }
 
@@ -37,12 +40,12 @@ public class Partie implements Serializable {
     }
 
     public void premiereTuile() {
-        plateau.plateau[(int)plateau.hauteur/2][(int)plateau.largeur/2] = pioche.pickOne();
+        plateau.add(pioche.pickOne(), (int)plateau.hauteur/2, (int)plateau.largeur/2);
     }
 
     public void nouvelleTuileAjouer() {
         aJouer = pioche.pickOne();
-        if (aJouer == null) aJouer = new Tuile();
+        aJouer.setPartie(this);
     }
 
     // Vérifie si une tuile est plaçable.

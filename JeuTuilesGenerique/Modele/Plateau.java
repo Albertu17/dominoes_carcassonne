@@ -21,10 +21,21 @@ public class Plateau implements Serializable{
         // On remplit le plateau de tuiles vides à l'initialisation.
         for (int i = 0; i < (hauteur); i++) {
             for (int j = 0; j < largeur; j++) {
-                plateau[i][j] = new Tuile() ;
+                Tuile t = new Tuile();
+                t.setPlateau(this);
+                t.setCoordonnées(i, j);
+                plateau[i][j] = t;
             }
         }
         return plateau ;
+    }
+
+    public void giveTilesAGame(Partie partie) {
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                plateau[i][j].setPartie(partie);
+            }
+        }
     }
 
     public void disableReponsivity() {
@@ -95,7 +106,9 @@ public class Plateau implements Serializable{
             }
         }
         // ajout sur le plateau
-        plateau[x][y] = tuile ;
+        plateau[x][y] = tuile;
+        tuile.setCoordonnées(x, y);
+        tuile.setPlateau(this);
         return aggrandissement;
     }
 }
