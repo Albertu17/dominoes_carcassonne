@@ -33,10 +33,8 @@ public class PartieCarcassonne extends Partie{
             if (plateau.add(aJouer, x, y)) gui.repaintGrille();
             else gui.updateGrille(aJouer, x, y);
             // Spécificité Jeu Carcassonne
-            if(!joueurs.joueurAuTrait().isIA() && joueurs.joueurAuTrait().getNbrPion() != 0){
-                
+            if(!joueurs.joueurAuTrait().isIA() && joueurs.joueurAuTrait().getNbrPion() != 0) {
                 ((VueCarcassonne)gui).demanderSiPosePion();
-
                 return ;
             }
             if (!joueurs.joueurAuTrait().isIA()) tourSuivant() ;

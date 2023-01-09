@@ -43,7 +43,7 @@ public class TuileCarcassonne extends Tuile {
         this.description = description;
     }
 
-        // Une fonction annexe doit être créée car un appel au constructeur this() doit être la première
+    // Une fonction annexe doit être créée car un appel au constructeur this() doit être la première
     // ligne d'un autre constructeur.
     public static BordCarcassonne[] stringToTile(String description) {
         BordCarcassonne[] bords = new BordCarcassonne[5];

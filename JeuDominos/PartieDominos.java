@@ -1,7 +1,6 @@
 package JeuDominos;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import JeuTuilesGenerique.Modele.*;
 
