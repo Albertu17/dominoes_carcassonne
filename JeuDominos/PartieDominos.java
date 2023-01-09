@@ -65,7 +65,7 @@ public class PartieDominos extends Partie {
         }
         int[] meilleureTuile = recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()); 
         // Le tableau meilleureTuile resterait rempli de 0 dans le cas où tuileAJouer n'est plaçable nulle part.
-        if (meilleureTuile[0] != 0) {
+        if (meilleureTuile != null) {
             for (int i = 0; i < meilleureTuile[2]; i++) {
                 aJouer.rotate(true);
             }
