@@ -17,6 +17,8 @@ public class Plateau implements Serializable{
     }
 
     private Tuile[][] newplateauFullTuileVide(int hauteur, int largeur){
+        this.hauteur = hauteur;
+        this.largeur = largeur;
         plateau = new Tuile[hauteur][largeur];
         // On remplit le plateau de tuiles vides à l'initialisation.
         for (int i = 0; i < (hauteur); i++) {
@@ -55,46 +57,44 @@ public class Plateau implements Serializable{
     }
     
     public boolean add(Tuile tuile, int x, int y) {
-        tuile.setCoordonnées(x, y);
         boolean aggrandissement = false;
         if (x == 1){
-            hauteur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length+1, plateau[0].length) ;
             for (int i = 0; i < tab.length; i++){
                 for (int j = 0; j < tab[0].length ;j++){
-                    plateau[i+1][j] = tab[i][j] ; 
+                    plateau[i+1][j] = tab[i][j];
+                    plateau[i+1][j].setCoordonnées(i+1, j); 
                 }
             }
             x = x+1;
         }
         else if (x == hauteur-2){
-            hauteur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length+1, plateau[0].length) ;
             for (int i = 0; i < tab.length; i++){
                 for (int j = 0; j < tab[0].length ;j++){
-                    plateau[i][j] = tab[i][j] ; 
+                    plateau[i][j] = tab[i][j] ;
+                    plateau[i][j].setCoordonnées(i, j);
                 }
             }
         }
         if (y == 1){
-            largeur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length, plateau[0].length+1) ;
             
             for (int i = 0; i < tab.length; i++){
                 for (int j = 0; j < tab[0].length ;j++){
-                    plateau[i][j+1] = tab[i][j] ; 
+                    plateau[i][j+1] = tab[i][j] ;
+                    plateau[i][j+1].setCoordonnées(i, j+1);
                 }
             }
             y = y +1 ;
         }
         else if (y == largeur-2){
-            largeur++;
             aggrandissement = true;
             Tuile[][] tab = plateau.clone() ;
             plateau = newplateauFullTuileVide(plateau.length, plateau[0].length+1) ;
@@ -102,6 +102,7 @@ public class Plateau implements Serializable{
             for (int i = 0; i < tab.length; i++){
                 for (int j = 0; j < tab[0].length ;j++){
                     plateau[i][j] = tab[i][j] ; 
+                    plateau[i][j].setCoordonnées(i, j);
                 }
             }
         }
