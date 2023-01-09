@@ -34,7 +34,7 @@ public class PartieCarcassonne extends Partie{
             joueurs.joueurAuTrait().addScore(nbPoints(x, y));
     
             // aggrandit le plateau si la tuile est placée en bordure de la grille du GUI.
-            if (plateau.add(aJouer, x, y)) gui.repaintGrille();
+            if (plateau.add(aJouer, x, y)) {plateau.giveTilesAGame(this); gui.repaintGrille();}
             else gui.updateGrille(aJouer, x, y);
             // Spécificité Jeu Carcassonne
             if(!joueurs.joueurAuTrait().isIA() && joueurs.joueurAuTrait().getNbrPion() != 0) {
