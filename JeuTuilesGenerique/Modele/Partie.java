@@ -16,7 +16,7 @@ public class Partie implements Serializable {
     public Pioche pioche;
     public Tuile aJouer;
     public String nomPartie ;
-    public GameView gui;
+    public transient GameView gui;
 
     public Partie(Joueurs joueurs, Plateau plateau, Pioche pioche, String nomPartie) {
         this.joueurs = joueurs;

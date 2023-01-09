@@ -88,6 +88,8 @@ public class GameView implements Serializable{
                 partie.save() ;
                 fenetre.remove(conteneurGlobal);
                 new Menu(fenetre) ;
+                fenetre.repaint() ;
+                fenetre.revalidate() ;
             });
 
             // JPanel conteneurTitre et JLabel titre
