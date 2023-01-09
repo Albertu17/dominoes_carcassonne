@@ -94,8 +94,8 @@ public class Partie implements Serializable {
         gui.activerBoutonsTuileAJouer();
         
         int[] meilleureTuile = recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()); 
-        // Le tableau meilleureTuile resterait rempli de 0 dans le cas où tuileAJouer n'est plaçable nulle part.
-        if (meilleureTuile[0] != 0) {
+        // Le tableau meilleureTuile resterait null dans le cas où tuileAJouer n'est plaçable nulle part.
+        if (meilleureTuile != null) {
             for (int i = 0; i < meilleureTuile[2]; i++) {
                 aJouer.rotate(true);
             }
@@ -111,28 +111,28 @@ public class Partie implements Serializable {
          // Pour ne pas tester 2 fois la même tuile et donc tomber dans une boucle infinie.
         if (tuilesTestees.contains(plateau.plateau[x][y])) return null;
         tuilesTestees.add(plateau.plateau[x][y]) ;
-        int[] meilleureTuile = new int[4];
+        int[] meilleureTuile = null;
         // Teste si on peut passer la tuileAJouer aux coordonnées passées en argument dans les 4 sens possibles.
         for (int i = 0; i < 4; i++)  {
             if (check(x, y)) {
                 int pointsRapportes = nbPoints(x, y);
-                if (pointsRapportes > meilleureTuile[3]) meilleureTuile = new int[]{x, y, i, pointsRapportes};
+                if (meilleureTuile == null || pointsRapportes > meilleureTuile[3]) meilleureTuile = new int[]{x, y, i, pointsRapportes};
             }
             aJouer.rotate(true);
         }
         // recursif sur tuiles adjacentes :
         if (x != 1) {
             int[] bestAuNord = recursiveIA(x-1, y, tuilesTestees);
-            if (bestAuNord != null && bestAuNord[3] > meilleureTuile[3]) meilleureTuile = bestAuNord;
+            if (bestAuNord != null && (meilleureTuile == null || bestAuNord[3] > meilleureTuile[3])) meilleureTuile = bestAuNord;
         } if (x != plateau.hauteur-2) {
             int[] bestAuSud = recursiveIA(x+1, y, tuilesTestees);
-            if (bestAuSud != null && bestAuSud[3] > meilleureTuile[3]) meilleureTuile = bestAuSud;
+            if (bestAuSud != null && (meilleureTuile == null || bestAuSud[3] > meilleureTuile[3])) meilleureTuile = bestAuSud;
         } if (y != 1) {
             int[] bestAlOuest = recursiveIA(x, y-1, tuilesTestees);
-            if (bestAlOuest != null && bestAlOuest[3] > meilleureTuile[3]) meilleureTuile = bestAlOuest;
+            if (bestAlOuest != null && (meilleureTuile == null || bestAlOuest[3] > meilleureTuile[3])) meilleureTuile = bestAlOuest;
         } if (y != plateau.largeur-2) {
             int[] bestAlEst = recursiveIA(x, y+1, tuilesTestees);
-            if (bestAlEst != null && bestAlEst[3] > meilleureTuile[3]) meilleureTuile = bestAlEst;
+            if (bestAlEst != null && (meilleureTuile == null || bestAlEst[3] > meilleureTuile[3])) meilleureTuile = bestAlEst;
         }
         return meilleureTuile;
     }
