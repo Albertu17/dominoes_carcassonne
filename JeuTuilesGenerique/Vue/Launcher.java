@@ -44,10 +44,6 @@ public class Launcher extends JFrame{
     }
 
     public void launchCarcassonne(Joueurs joueurs, String nomPartie) throws IOException {
-        // Les joueurs d'une partie Carcassone ont au départ 7 pions.
-        for (int i = 0; i < joueurs.players.size(); i++) {
-            joueurs.players.get(i).setNbrPion(7);
-        }
         Plateau plateau = new Plateau();
         PiocheCarcassonne piocheC = new PiocheCarcassonne();
         PartieCarcassonne partieC = new PartieCarcassonne(joueurs, plateau, piocheC, nomPartie);
