@@ -6,6 +6,10 @@ public class PartieCarcassonne extends Partie{
 
     public PartieCarcassonne(Joueurs joueurs, Plateau plateau, Pioche pioche, String nomPartie) {
         super(joueurs, plateau, pioche, nomPartie);
+        // Les joueurs d'une partie Carcassone ont au départ 7 pions.
+        for (int i = 0; i < joueurs.players.size(); i++) {
+            joueurs.players.get(i).setNbrPion(7);
+        }
     }
     
     public PartieCarcassonne(String nomPartie){

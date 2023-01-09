@@ -7,13 +7,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
-import JeuTuilesGenerique.Vue.GameView;
-
 public class Tuile extends JPanel implements MouseInputListener {
 
-    protected transient GameView environnement;
+    // Transient pour éviter que ces objets soient sauvegardés.
+    public transient Partie partie;
+    public transient Plateau plateau;
     public int x, y; // Coordonnées de la tuile dans le plateau où elle sera placée.
-    public int largeurCellule, hauteurCellule; // Dimensions d'une cellule de la grille du GUI.
     public Bord nord;
     public Bord est;
     public Bord sud;
@@ -34,6 +33,14 @@ public class Tuile extends JPanel implements MouseInputListener {
         this.est = est;
         this.sud = sud;
         this.ouest = ouest;
+    }
+
+    public void setPartie(Partie partie) {
+        this.partie = partie;
+    }
+
+    public void setPlateau(Plateau plateau) {
+        this.plateau = plateau;
     }
 
     // On peut avoir besoin qu'à certains moments de la partie, appuyer ou passer sur une tuile ne 
@@ -62,13 +69,6 @@ public class Tuile extends JPanel implements MouseInputListener {
         }
     }
 
-    public void setEnvironnement(GameView environnement) {
-        this.environnement = environnement;
-        // Calcul à la main des dimensions d'une cellule de la grille car pas d'accès à ces infos.
-        largeurCellule = environnement.conteneurGrille.getWidth()/(environnement.partie.plateau.largeur-2) - 30;
-        hauteurCellule = environnement.conteneurGrille.getHeight()/(environnement.partie.plateau.hauteur-2) - 30;
-    }
-
     public void setCoordonnées(int x, int y) {
         this.x = x;
         this.y = y;
@@ -76,17 +76,17 @@ public class Tuile extends JPanel implements MouseInputListener {
 
     // Mouse clicked = mouse pressed and released
     public void mouseClicked(MouseEvent e) {
-        if (responsive && !environnement.partie.aJouer.equals(this) && environnement.partie.check(x, y)) {
-            environnement.partie.jouer(x, y);
+        if (responsive && !partie.aJouer.equals(this) && partie.check(x, y)) {
+            partie.jouer(x, y);
         }  
     }
 
     public void mousePressed(MouseEvent e) {
-        if (responsive && environnement.partie.aJouer == this) moving = true;
+        if (responsive && partie.aJouer == this) moving = true;
     }
 
     public void mouseReleased(MouseEvent e) {
-        if (responsive && environnement.partie.aJouer == this) moving = false;
+        if (responsive && partie.aJouer == this) moving = false;
     }
 
     // TODO bon comportement quand tuile est dragged
@@ -100,8 +100,8 @@ public class Tuile extends JPanel implements MouseInputListener {
     // Lorsque la souris passe sur une tuile de la grille, sa bordure devient verte si la tuile à jouer est
     // plaçable à cet endroit, sinon sa bordure devient rouge.
     public void mouseEntered(MouseEvent e) {
-        if (responsive && !environnement.partie.aJouer.equals(this)) {
-            if (environnement.partie.check(x, y)) setBorder(BorderFactory.createLineBorder(Color.GREEN));
+        if (responsive && !partie.aJouer.equals(this)) {
+            if (partie.check(x, y)) setBorder(BorderFactory.createLineBorder(Color.GREEN));
             else setBorder(BorderFactory.createLineBorder(Color.RED));
         }
     }

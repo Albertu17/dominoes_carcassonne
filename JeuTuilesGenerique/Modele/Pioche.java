@@ -18,6 +18,12 @@ public class Pioche implements Serializable{
         }
     }
 
+    public void giveTilesAGame(Partie partie) {
+        for (int i = 0; i < pioche.size(); i++) {
+            pioche.get(i).setPartie(partie);
+        }
+    }
+
     // Renvoie un élément de la pioche, ou null si cette dernière est vide.
     public Tuile pickOne(){
         if (!pioche.isEmpty()) return pioche.remove(0);
@@ -31,5 +37,9 @@ public class Pioche implements Serializable{
 
     public boolean isEmpty() {
         return pioche.isEmpty();
+    }
+
+    public int getSize() {
+        return pioche.size();
     }
 }

@@ -26,8 +26,8 @@ public class TuileCarcassonne extends Tuile {
     String description;
     Pion pion;
     boolean choixPion = false;
-    // Permet de retrouver la rotation initiale quand on recharge une partie.
-    int rotation;
+    int rotation; // Permet de retrouver la rotation initiale quand on recharge une partie.
+    public int largeurCellule, hauteurCellule; // Dimensions d'une cellule de la grille.
 
     public TuileCarcassonne(BordCarcassonne[] bords, String chemin) throws IOException {
         super(bords[0], bords[1], bords[2], bords[3]);
@@ -91,7 +91,7 @@ public class TuileCarcassonne extends Tuile {
         // TODO utiliser layout null et placer comme checkbox si possible
         setLayout(new  GridLayout(3,3));
       
-        pion = new Pion(environnement.getPartie().getJoueurs().joueurAuTrait().getCouleur()); 
+        pion = new Pion(partie.getJoueurs().joueurAuTrait().getCouleur()); 
         pion.setVisible(true) ;
 
         for(int i = 0 ; i < t.length ; i++){
@@ -113,9 +113,9 @@ public class TuileCarcassonne extends Tuile {
             ((BordCarcassonne)bord).setPion(true);
             removeBoutonPlacagePion();
             placerPion();
-            environnement.getPartie().getJoueurs().joueurAuTrait().enleverUnPion();
-            environnement.getPartie().tourSuivant();
-            environnement.activerBoutonsTuileAJouer();
+            partie.getJoueurs().joueurAuTrait().enleverUnPion();
+            partie.tourSuivant();
+            partie.gui.activerBoutonsTuileAJouer();
         });
         return cB;
     }
@@ -124,7 +124,7 @@ public class TuileCarcassonne extends Tuile {
         choixPion = true ;
         // Pendant le plaçage des pions, il faut que les autres tuiles soient inertes lorsqu'on clique
         // ou passe dessus.
-        environnement.partie.plateau.disableReponsivity();
+        partie.plateau.disableReponsivity();
         resizeImage();
         setLayout(null); // On place les checkboxexs directement avec des coordonnées, car aucun
         // layout ne semble être satisfaisant.
@@ -132,6 +132,9 @@ public class TuileCarcassonne extends Tuile {
         JCheckBox c2 = checkBoxPlacerPion(ouest);
         JCheckBox c3 = checkBoxPlacerPion(est);
         JCheckBox c4 = checkBoxPlacerPion(sud);
+        // calcul de la largeur et de la hauteur d'une cellule.
+        largeurCellule = partie.gui.conteneurGrille.getWidth()/(partie.plateau.largeur-2) - 30;
+        hauteurCellule = partie.gui.conteneurGrille.getHeight()/(partie.plateau.hauteur-2) - 30;
         c1.setBounds(largeurCellule/2, 0, 20, 20);
         c2.setBounds(0, hauteurCellule/2, 20, 20);
         c3.setBounds(largeurCellule, hauteurCellule/2, 20, 20);
@@ -153,7 +156,7 @@ public class TuileCarcassonne extends Tuile {
     public void removeBoutonPlacagePion(){
         this.removeAll();
         choixPion = false ;
-        environnement.partie.plateau.enableReponsivity();
+        plateau.enableReponsivity();
     }
     
     private void setImage(String description){  
@@ -167,7 +170,7 @@ public class TuileCarcassonne extends Tuile {
     // Rajoute l'image récupérée sur la tuile, sans même qu'on ait à appeler cette fonction.
     protected void paintComponent(Graphics g) {
         // Rend l'image carrée si elle est est dans la partie droite de l'écran (tuile à jouer).
-        if (environnement.getPartie().aJouer.equals(this) && !choixPion){
+        if (partie.aJouer.equals(this) && !choixPion){
             this.setSize(Math.min(this.getWidth(), this.getHeight()), Math.min(this.getWidth(), this.getHeight()));
         }
         resizeImage();
