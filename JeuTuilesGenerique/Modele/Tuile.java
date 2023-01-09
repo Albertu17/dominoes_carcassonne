@@ -13,6 +13,7 @@ public class Tuile extends JPanel implements MouseInputListener {
 
     protected transient GameView environnement;
     public int x, y; // Coordonnées de la tuile dans le plateau où elle sera placée.
+    public int largeurCellule, hauteurCellule; // Dimensions d'une cellule de la grille du GUI.
     public Bord nord;
     public Bord est;
     public Bord sud;
@@ -63,6 +64,9 @@ public class Tuile extends JPanel implements MouseInputListener {
 
     public void setEnvironnement(GameView environnement) {
         this.environnement = environnement;
+        // Calcul à la main des dimensions d'une cellule de la grille car pas d'accès à ces infos.
+        largeurCellule = environnement.conteneurGrille.getWidth()/(environnement.partie.plateau.largeur-2) - 30;
+        hauteurCellule = environnement.conteneurGrille.getHeight()/(environnement.partie.plateau.hauteur-2) - 30;
     }
 
     public void setCoordonnées(int x, int y) {

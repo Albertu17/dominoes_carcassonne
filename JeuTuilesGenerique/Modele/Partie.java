@@ -89,14 +89,9 @@ public class Partie implements Serializable {
 
     public void gestionTourIA(){
         // empêche le joueur de jouer à la place de l'IA
-        gui.getRotationDroite().setEnabled(false);
-        gui.getRotationGauche().setEnabled(false);
-        gui.getDefausser().setEnabled(false);
-
+        gui.desactiverBoutonsTuileAJouer();
         // TODO lancement d'un thread timer (en background) pour ne pas bloquer l'interface
-        gui.getRotationDroite().setEnabled(true);
-        gui.getRotationGauche().setEnabled(true);
-        gui.getDefausser().setEnabled(true);
+        gui.activerBoutonsTuileAJouer();
         
         int[] meilleureTuile = recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()); 
         // Le tableau meilleureTuile resterait rempli de 0 dans le cas où tuileAJouer n'est plaçable nulle part.

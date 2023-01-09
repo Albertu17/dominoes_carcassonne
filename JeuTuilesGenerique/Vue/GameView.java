@@ -285,4 +285,16 @@ public class GameView implements Serializable{
         conteneurInfosCoup.revalidate();
         conteneurInfosCoup.repaint();
     }
+
+    public void desactiverBoutonsTuileAJouer() {
+        rotationDroite.setEnabled(false);
+        rotationGauche.setEnabled(false);
+        defausser.setEnabled(false);
+    }
+
+    public void activerBoutonsTuileAJouer() {
+        rotationDroite.setEnabled(true);
+        rotationGauche.setEnabled(true);
+        defausser.setEnabled(true);
+    }
 }

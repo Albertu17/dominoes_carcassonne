@@ -27,29 +27,26 @@ public class VueCarcassonne extends GameView{
         conteneurInfos.revalidate(); // Revalide GUI.
     }
 
-    public void demanderSiPosePion(){
-        // désactiver les boutons de rotation et de jeter tuile
-        getRotationDroite().setEnabled(false);
-        getRotationGauche().setEnabled(false);
-        getDefausser().setEnabled(false);
-
-
-        ((TuileCarcassonne)partie.aJouer).checkBoxesAjouterPion();
+    // Place un bouton de fin de tour à la place de la tuile à jouer.
+    public void boutonFinirTour() {
         conteneurTuileAJouer.removeAll() ;
-        // ajout du bouton ne pas poser pion
         nePasPoserPion = new JButton("Finir mon tour") ;
         nePasPoserPion.setVisible(true);
         nePasPoserPion.addActionListener(event ->{
             ((TuileCarcassonne)partie.aJouer).removeBoutonPlacagePion();
-            getRotationDroite().setEnabled(true);
-            getRotationGauche().setEnabled(true);
-            getDefausser().setEnabled(true);
-            // au joueur d'apres
+            activerBoutonsTuileAJouer();
             partie.tourSuivant();
         });
         conteneurTuileAJouer.add(nePasPoserPion, BorderLayout.CENTER); 
         conteneurTuileAJouer.revalidate();
         conteneurTuileAJouer.repaint();
+    }
+
+    public void demanderSiPosePion(){
+        // désactiver les boutons de rotation et de défaussage tuile
+        desactiverBoutonsTuileAJouer();
+        ((TuileCarcassonne)partie.aJouer).checkBoxesAjouterPion();
+        boutonFinirTour();
     }
 
 }

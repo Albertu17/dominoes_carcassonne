@@ -115,33 +115,27 @@ public class TuileCarcassonne extends Tuile {
             placerPion();
             environnement.getPartie().getJoueurs().joueurAuTrait().enleverUnPion();
             environnement.getPartie().tourSuivant();
-            environnement.getRotationDroite().setEnabled(true);
-            environnement.getRotationGauche().setEnabled(true);
-            environnement.getDefausser().setEnabled(true);
+            environnement.activerBoutonsTuileAJouer();
         });
         return cB;
     }
 
     public void checkBoxesAjouterPion() {
         choixPion = true ;
-        // Pendant le plaçage des pions, il faut que les autres tuiles deviennent inertes lorsqu'on clique
+        // Pendant le plaçage des pions, il faut que les autres tuiles soient inertes lorsqu'on clique
         // ou passe dessus.
         environnement.partie.plateau.disableReponsivity();
         resizeImage();
-        setLayout(null);
+        setLayout(null); // On place les checkboxexs directement avec des coordonnées, car aucun
+        // layout ne semble être satisfaisant.
         JCheckBox c1 = checkBoxPlacerPion(nord);
         JCheckBox c2 = checkBoxPlacerPion(ouest);
         JCheckBox c3 = checkBoxPlacerPion(est);
         JCheckBox c4 = checkBoxPlacerPion(sud);
-        // Calcul à la main des dimensions d'une cellule de la grille car  pas d'accès à ces infos.
-        int largeurCellule = environnement.conteneurGrille.getWidth()/(environnement.partie.plateau.largeur-2) - 30;
-        int largeurMoitieCellule = largeurCellule/2;
-        int hauteurCellule = environnement.conteneurGrille.getHeight()/(environnement.partie.plateau.hauteur-2) - 30;
-        int hauteurMoitieCellule = hauteurCellule/2;
-        c1.setBounds(largeurMoitieCellule, 0, 20, 20);
-        c2.setBounds(0, hauteurMoitieCellule, 20, 20);
-        c3.setBounds(largeurCellule, hauteurMoitieCellule, 20, 20);
-        c4.setBounds(largeurMoitieCellule, hauteurCellule, 20, 20);
+        c1.setBounds(largeurCellule/2, 0, 20, 20);
+        c2.setBounds(0, hauteurCellule/2, 20, 20);
+        c3.setBounds(largeurCellule, hauteurCellule/2, 20, 20);
+        c4.setBounds(largeurCellule/2, hauteurCellule, 20, 20);
         add(c1);
         add(c2);
         add(c3);
@@ -149,7 +143,7 @@ public class TuileCarcassonne extends Tuile {
         // On peut placer un pion au centre seulement si la tuile représente une abbaye.
         if (description.equals("CCCCV") || description.equals("CCRCV")) {
             JCheckBox c5 = checkBoxPlacerPion(centre);
-            c5.setBounds(largeurMoitieCellule, hauteurMoitieCellule, 20, 20);
+            c5.setBounds(largeurCellule/2, hauteurCellule/2, 20, 20);
             add(c5);
         }
         revalidate();
