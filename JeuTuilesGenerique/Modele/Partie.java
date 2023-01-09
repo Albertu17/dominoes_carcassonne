@@ -74,7 +74,7 @@ public class Partie implements Serializable {
             joueurs.joueurAuTrait().addScore(nbPoints(x, y));
 
             // aggrandit le plateau si la tuile est placée en bordure de la grille du GUI.
-            if (plateau.add(aJouer, x, y)) gui.repaintGrille();
+            if (plateau.add(aJouer, x, y)) {gui.repaintGrille(); plateau.giveTilesAGame(this);}
             else gui.updateGrille(aJouer, x, y);
             if (!joueurs.joueurAuTrait().isIA()) tourSuivant() ;
         }
