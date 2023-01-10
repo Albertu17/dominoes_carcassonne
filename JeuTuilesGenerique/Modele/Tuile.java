@@ -9,8 +9,8 @@ import javax.swing.event.MouseInputListener;
 
 public class Tuile extends JPanel implements MouseInputListener {
 
-    public Partie partie;
-    public Plateau plateau;
+    public transient Partie partie;
+    public transient Plateau plateau;
     public int x, y; // Coordonnées de la tuile dans le plateau où elle sera placée.
     public Bord nord;
     public Bord est;
@@ -36,6 +36,9 @@ public class Tuile extends JPanel implements MouseInputListener {
 
     public void setPartie(Partie partie) {
         this.partie = partie;
+        if (plateau == null ){
+            plateau = partie.getPlateau() ;
+        }
     }
 
     public void setPlateau(Plateau plateau) {
