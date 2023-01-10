@@ -4,9 +4,7 @@ import java.awt.*;
 import  java.awt.event.FocusEvent ;
 import  java.awt.event.FocusListener;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 import javax.imageio.ImageIO;
@@ -18,8 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import JeuCarcassonne.PartieCarcassonne;
-import JeuDominos.PartieDominos;
 import JeuTuilesGenerique.Modele.Joueurs;
 import JeuTuilesGenerique.Modele.Joueurs.Joueur;
 

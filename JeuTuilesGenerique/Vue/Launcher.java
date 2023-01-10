@@ -9,12 +9,10 @@ import JeuDominos.PartieDominos;
 import JeuDominos.PiocheDominos;
 import JeuDominos.VueDominos;
 import JeuTuilesGenerique.Modele.Joueurs;
-import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Plateau;
 
 import java.awt.* ;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream; 
 
