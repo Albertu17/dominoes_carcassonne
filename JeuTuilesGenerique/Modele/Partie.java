@@ -178,7 +178,7 @@ public class Partie implements Serializable {
     }
 
     public void save(){
-        String path = "Sauvegarde/" + cheminDossierSauvegardes();
+        String path = "Sauvegardes/" + cheminDossierSauvegardes();
         // enregistrer un objet
         try {  
             //Saving of object in a file

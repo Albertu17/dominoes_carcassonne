@@ -15,7 +15,7 @@ public class ButtonImage extends JButton{
 
         try {
             Image img;
-            img = ImageIO.read(getClass().getResource("Image/" + NameImage));
+            img = ImageIO.read(getClass().getResource("Images/" + NameImage));
             this.setIcon(new ImageIcon(img));
         } catch (Exception e) {
             e.printStackTrace();

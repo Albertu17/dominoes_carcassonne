@@ -64,7 +64,7 @@ public class Menu implements Serializable{
 
             try {
                 Image img;
-                img = ImageIO.read(getClass().getResource("Image/" + NameImage));
+                img = ImageIO.read(getClass().getResource("Images/" + NameImage));
                 this.setIcon(new ImageIcon(img));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -305,7 +305,7 @@ public class Menu implements Serializable{
             chargerPartieSauvegardee.addActionListener(event -> {
                 if (listsaveComboBox.getSelectedItem() != null ){
                     try {
-                        final FileInputStream fichier = new FileInputStream("Sauvegarde/"+ (carcassonneBoolean? "Carcassonne/" : "Domino/" ) + listsaveComboBox.getSelectedItem());
+                        final FileInputStream fichier = new FileInputStream("Sauvegardes/"+ (carcassonneBoolean? "Carcassonne/" : "Domino/" ) + listsaveComboBox.getSelectedItem());
                         ObjectInputStream obj = new ObjectInputStream(fichier) ;
                         if (carcassonneBoolean) launcher.launchRunningGame((PartieCarcassonne) obj.readObject()) ;
                         else launcher.launchRunningGame((PartieDominos) obj.readObject()) ;
@@ -338,7 +338,7 @@ public class Menu implements Serializable{
             // faire en fonction du mode de jeu 
 
             
-            String path = "./Sauvegarde/"+ (carcassonneBoolean? "Carcassonne" : "Domino" ) ;
+            String path = "./Sauvegardes/"+ (carcassonneBoolean? "Carcassonne" : "Domino" ) ;
             
             
             try {
