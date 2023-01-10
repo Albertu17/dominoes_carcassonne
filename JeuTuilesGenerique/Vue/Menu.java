@@ -114,7 +114,7 @@ public class Menu implements Serializable{
         
         // JButtons
         JButton carcassonne ;
-        JButton domino ;
+        JButton dominos ;
 
         // fermer le jeu
         ButtonImage fermer ;
@@ -132,12 +132,12 @@ public class Menu implements Serializable{
             
             // initialisation JButtons
             carcassonne = new JButton("Carcassonne") ;
-            domino = new JButton("Domino") ;
+            dominos = new JButton("Dominos") ;
 
 
             // définition de la taille
             carcassonne.setBounds(0, 0, 200, 40);
-            domino.setBounds(0, 0, 200, 40);
+            dominos.setBounds(0, 0, 200, 40);
         
 
             // action 
@@ -146,14 +146,14 @@ public class Menu implements Serializable{
                 nextInterfaceMenu() ;
             });
             
-            domino.addActionListener(event -> {
+            dominos.addActionListener(event -> {
                 carcassonneBoolean = false ;
                 nextInterfaceMenu() ;
             });
             
             // ajout
             container.add(carcassonne) ;
-            container.add(domino) ;
+            container.add(dominos) ;
             
             setLocationObjet();
             changevisibility(true);
@@ -161,13 +161,13 @@ public class Menu implements Serializable{
 
         private void setLocationObjet(){
             carcassonne.setLocation(widthFrame/2 -carcassonne.getWidth()/2, heightFrame/2 - 50);
-            domino.setLocation(widthFrame/2 -domino.getWidth()/2, heightFrame/2 + 50);
+            dominos.setLocation(widthFrame/2 -dominos.getWidth()/2, heightFrame/2 + 50);
             
         }
 
         public void changevisibility(boolean visibility){
             carcassonne.setVisible(visibility);
-            domino.setVisible(visibility);
+            dominos.setVisible(visibility);
             fermer.setVisible(visibility);
         }
 
@@ -305,7 +305,7 @@ public class Menu implements Serializable{
             chargerPartieSauvegardee.addActionListener(event -> {
                 if (listsaveComboBox.getSelectedItem() != null ){
                     try {
-                        final FileInputStream fichier = new FileInputStream("Sauvegardes/"+ (carcassonneBoolean? "Carcassonne/" : "Domino/" ) + listsaveComboBox.getSelectedItem());
+                        final FileInputStream fichier = new FileInputStream("Sauvegardes/"+ (carcassonneBoolean? "Carcassonne/" : "Dominos/" ) + listsaveComboBox.getSelectedItem());
                         ObjectInputStream obj = new ObjectInputStream(fichier) ;
                         if (carcassonneBoolean) launcher.launchRunningGame((PartieCarcassonne) obj.readObject()) ;
                         else launcher.launchRunningGame((PartieDominos) obj.readObject()) ;
@@ -338,7 +338,7 @@ public class Menu implements Serializable{
             // faire en fonction du mode de jeu 
 
             
-            String path = "./Sauvegardes/"+ (carcassonneBoolean? "Carcassonne" : "Domino" ) ;
+            String path = "./Sauvegardes/"+ (carcassonneBoolean? "Carcassonne" : "Dominos" ) ;
             
             
             try {

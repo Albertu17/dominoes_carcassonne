@@ -9,9 +9,8 @@ import javax.swing.event.MouseInputListener;
 
 public class Tuile extends JPanel implements MouseInputListener {
 
-    // Transient pour éviter que ces objets soient sauvegardés.
-    public transient Partie partie;
-    public transient Plateau plateau;
+    public Partie partie;
+    public Plateau plateau;
     public int x, y; // Coordonnées de la tuile dans le plateau où elle sera placée.
     public Bord nord;
     public Bord est;

@@ -35,7 +35,7 @@ public class PartieDominos extends Partie {
     }
 
     public String cheminDossierSauvegardes() {
-        return "Domino/";
+        return "Dominos/";
     }
 
     // Pour DominoTerminal
