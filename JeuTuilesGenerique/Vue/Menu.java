@@ -501,7 +501,11 @@ public class Menu implements Serializable{
                 });
 
                 add.addActionListener(event -> {
-                    if (NameFree()){
+                    if (textIsPlaceHolder()){
+                        nom.setText("Entrer le nom du joueur") ;
+                        nom.setForeground(Color.GRAY);
+                    }
+                    else if (NameFree()){
                         if (joueurs.addPlayer(nom.getText(), isIA)){
                             dispPlayer.add( new ConteneurPlayer(joueurs.getLast())) ;
                             dispPlayer.revalidate();
@@ -546,6 +550,14 @@ public class Menu implements Serializable{
             private void setColor(){
                 Color color =  isIA ? Color.GREEN : Color.RED ;
                 IA.setBackground(color) ;
+            }
+
+            private boolean textIsPlaceHolder(){
+                String name = nom.getText();
+                for (String s : aide){
+                    if (s.equals(name)) return true ;
+                }
+                return false ;
             }
 
             private boolean NameFree(){
