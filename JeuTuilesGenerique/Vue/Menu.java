@@ -305,14 +305,8 @@ public class Menu implements Serializable{
             chargerPartieSauvegardee.addActionListener(event -> {
                 if (listsaveComboBox.getSelectedItem() != null ){
                     try {
-                        final FileInputStream fichier = new FileInputStream("Sauvegardes/"+ (carcassonneBoolean? "Carcassonne/" : "Dominos/" ) + listsaveComboBox.getSelectedItem());
-                        ObjectInputStream obj = new ObjectInputStream(fichier) ;
-                        if (carcassonneBoolean) launcher.launchRunningGame((PartieCarcassonne) obj.readObject()) ;
-                        else launcher.launchRunningGame((PartieDominos) obj.readObject()) ;
-                        obj.close();
+                        launcher.launchRunningGame("Sauvegardes/"+ (carcassonneBoolean? "Carcassonne/" : "Dominos/" ) + listsaveComboBox.getSelectedItem()) ;
                         container.setVisible(false);
-                        
-                        // nextInterfaceMenu();
                     } catch (Exception e) {
                         System.out.println(e);
                     }

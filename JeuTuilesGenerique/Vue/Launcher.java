@@ -13,7 +13,10 @@ import JeuTuilesGenerique.Modele.Partie;
 import JeuTuilesGenerique.Modele.Plateau;
 
 import java.awt.* ;
-import java.io.IOException; 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream; 
 
 public class Launcher extends JFrame{
 
@@ -31,16 +34,20 @@ public class Launcher extends JFrame{
         // launchCarcassonne ou launchDomino.
     }
 
-    public void launchRunningGame(Partie partie) {
-        if (partie instanceof PartieCarcassonne) {
-            VueCarcassonne vueC = new VueCarcassonne(partie);
+    public void launchRunningGame(String cheminPartie) throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(cheminPartie);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        Object obj = ois.readObject();
+        if (obj instanceof PartieCarcassonne) {
+            VueCarcassonne vueC = new VueCarcassonne((PartieCarcassonne) obj);
             vueC.setLauncher(this);
             getContentPane().add(vueC.conteneurGlobal);
         } else {
-            VueDominos vueD = new VueDominos(partie);
+            VueDominos vueD = new VueDominos((PartieDominos) obj);
             vueD.setLauncher(this);
             getContentPane().add(vueD.conteneurGlobal);
         }
+        ois.close();
     }
 
     public void launchCarcassonne(Joueurs joueurs, String nomPartie) throws IOException {
@@ -61,13 +68,16 @@ public class Launcher extends JFrame{
         getContentPane().add(vueD.conteneurGlobal);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         // Lancer l'intégralité de l'interface de jeu
             new Launcher().launch();
 
         // Lancer une partie sans passer par le menu:
             // Launcher l = new Launcher();
             // l.createWinwow();
+
+            // Lancer une partie Carcassonne nommée "Partie1"
+            // l.launchRunningGame("Sauvegardes/Carcassonne/Partie1");
 
             // Lancer une partie Dominos nommée "partieDominos1" contenant deux joueurs, Pierre et Paul.
                 // Joueurs j1 = new Joueurs();
