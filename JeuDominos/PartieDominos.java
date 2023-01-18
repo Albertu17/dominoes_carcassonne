@@ -1,7 +1,5 @@
 package JeuDominos;
 
-import java.util.ArrayList;
-
 import JeuTuilesGenerique.Modele.*;
 
 public class PartieDominos extends Partie {
@@ -16,14 +14,6 @@ public class PartieDominos extends Partie {
         nouvelleTuileAjouer();
     }
 
-    // Pour DominoTerminal
-    public PartieDominos(String nomPartie, boolean GUI){
-        super(nomPartie) ;
-        pioche = new PiocheDominos(GUI);
-        nouvelleTuileAjouer();
-        plateau.plateau[plateau.largeur /2][plateau.hauteur/2] = pioche.pickOne() ;
-    }
-
     // Retourne le nombre de points que donnerait le placement de la tuileAJouer aux coordonnées x,y.
     public int nbPoints(int x, int y){
         int pts = 0; 
@@ -36,43 +26,5 @@ public class PartieDominos extends Partie {
 
     public String cheminDossierSauvegardes() {
         return "Dominos/";
-    }
-
-    // Pour DominoTerminal
-    public boolean jouerTerminal(int x, int y){
-        if (check(x, y)) { 
-            // l'appel de nbPoints à besoin d'etre mis avant l'ajout de la tuile au plateau.
-            // car les coordonnées de la tuile peuvent changer si le plateau devient plus grand 
-            joueurs.joueurAuTrait().addScore(nbPoints(x, y));
-            plateau.add(aJouer, x, y);
-            return true ; //besoin du boolean pour l'IA
-        }
-        return false ;
-    }
-    
-    // Pour DominoTerminal
-    public void gestionTourIA(){
-        if (gui != null){
-
-            // empêche le joueur de jouer à la place de l'IA
-            gui.getRotationDroite().setEnabled(false);
-            gui.getRotationGauche().setEnabled(false);
-            gui.getDefausser().setEnabled(false);
-            // thread
-            gui.getRotationDroite().setEnabled(true);
-            gui.getRotationGauche().setEnabled(true);
-            gui.getDefausser().setEnabled(true);
-        }
-        int[] meilleureTuile = recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()); 
-        // Le tableau meilleureTuile resterait rempli de 0 dans le cas où tuileAJouer n'est plaçable nulle part.
-        if (meilleureTuile != null) {
-            for (int i = 0; i < meilleureTuile[2]; i++) {
-                aJouer.rotate(true);
-            }
-            // Pour DominoTerminal
-            if (gui != null) jouer(meilleureTuile[0], meilleureTuile[1]);
-            else jouerTerminal(meilleureTuile[0], meilleureTuile[1]);
-        }
-        if (gui != null) tourSuivant();
     }
 }

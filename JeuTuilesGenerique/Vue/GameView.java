@@ -215,6 +215,7 @@ public class GameView implements Serializable{
         // Lorsque le GUI est prêt, on lance la partie
         partie.tourSuivant();
 
+        // TODO à mieux gérer aussi  ici
         // au cas ou on lance une partie sauvegarder,
         // cela permet de redéfinir les variables externes des tuiles
         partie.getPlateau().giveTilesAGame(partie);

@@ -24,6 +24,7 @@ public class Partie implements Serializable {
         this.pioche = pioche;
         this.nomPartie = nomPartie;
         // On donne aux tuiles vides du plateau et aux tuiles de la pioche un attribut partie.
+        // TODO mieux gérer cette  manière de faire.
         plateau.giveTilesAGame(this);
         pioche.giveTilesAGame(this);
         premiereTuile();
@@ -91,20 +92,29 @@ public class Partie implements Serializable {
     }
 
     public void gestionTourIA(){
-        // empêche le joueur de jouer à la place de l'IA
+        // empêche le joueur d'éffectuer des actions de jeu pendant le tour de l'IA
         gui.desactiverBoutonsTuileAJouer();
-        // TODO lancement d'un thread timer (en background) pour ne pas bloquer l'interface
-        gui.activerBoutonsTuileAJouer();
-        
+        plateau.disableReponsivity();
+
         int[] meilleureTuile = recursiveIA(plateau.largeur/2, plateau.hauteur/2, new ArrayList<Tuile>()); 
         // Le tableau meilleureTuile resterait null dans le cas où tuileAJouer n'est plaçable nulle part.
         if (meilleureTuile != null) {
             for (int i = 0; i < meilleureTuile[2]; i++) {
                 aJouer.rotate(true);
             }
-            jouer(meilleureTuile[0], meilleureTuile[1]);
+            // la commande jouer est exécutée une seconde plus tard sur un thread en backround pour ne pas bloquer l'interface.
+            new Thread (new Runnable() {
+                public void run()  {
+                    try  {Thread.sleep( 1000 );}
+                    catch (InterruptedException ie) {}
+                    jouer(meilleureTuile[0], meilleureTuile[1]);
+                    // réactivation de l'interface.
+                    gui.activerBoutonsTuileAJouer();
+                    plateau.enableReponsivity();
+                    tourSuivant();
+                }
+            }).start();
         }
-        tourSuivant();
     }
 
     // Retourne un tableau d'entiers de taille 4 contenant les coordonnées de la meilleure tuile sur laquelle placer
@@ -181,8 +191,8 @@ public class Partie implements Serializable {
         String path = "Sauvegardes/" + cheminDossierSauvegardes();
         // enregistrer un objet
         try {  
-            //Saving of object in a file
-            FileOutputStream file = new FileOutputStream(path+ this.getNomPartie());
+            // Saving of object in a file
+            FileOutputStream file = new FileOutputStream(path + this.getNomPartie());
             ObjectOutputStream out = new ObjectOutputStream(file);
             // Method for serialization of object
             out.writeObject(this);
