@@ -163,7 +163,7 @@ public class TuileCarcassonne extends Tuile {
         try {    
             image = ImageIO.read(new File("JeuCarcassonne/ImagesTuiles/Tuile-" + description + ".png"));
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e + " (" + description + ")");
         } 
     }
 

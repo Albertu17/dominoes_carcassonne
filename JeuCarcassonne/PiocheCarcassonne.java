@@ -10,25 +10,25 @@ public class PiocheCarcassonne extends Pioche{
         // Ajout à la pioche des 24 différents types de tuiles en leur nombre correspondant.
         addSeveralTimes("CCCCV", 4); // Abbaye
         addSeveralTimes("CCRCV", 2);
-        addSeveralTimes("CCRRR", 9);
+        addSeveralTimes("CCRRC", 9);
         addSeveralTimes("CRRRV", 4);
         addSeveralTimes("CVbCVV", 2);
         addSeveralTimes("CVCVC", 3);
         addSeveralTimes("CVCVV", 2);
         addSeveralTimes("RCRCR", 8);
         addSeveralTimes("RRRRV", 1);
-        addSeveralTimes("VbCCVV", 2);
-        addSeveralTimes("VbRRVR", 2); // TODO Ville aussi au centre
+        addSeveralTimes("VbCCVC", 2);
+        addSeveralTimes("VbRRVC", 2);
         addSeveralTimes("VbVCVV", 1);
         addSeveralTimes("VbVRVV", 1);
         addSeveralTimes("VbVVVV", 1);
         addSeveralTimes("VCCCC", 5);
-        addSeveralTimes("VCCVV", 3);
-        addSeveralTimes("VCRRR", 3);
+        addSeveralTimes("VCCVC", 3);
+        addSeveralTimes("VCRRC", 3);
         addSeveralTimes("VRCRR", 4);
-        addSeveralTimes("VRRCR", 3);
+        addSeveralTimes("VRRCC", 3);
         addSeveralTimes("VRRRR", 3);
-        addSeveralTimes("VRRVR", 3); // TODO Ville aussi au centre
+        addSeveralTimes("VRRVC", 3); // On considère qu'une structure est au centre seulement si elle y est isolée ou si elle traverse la tuile de part en part.
         addSeveralTimes("VVCCC", 2);
         addSeveralTimes("VVCVV", 3);
         addSeveralTimes("VVRVV", 1);

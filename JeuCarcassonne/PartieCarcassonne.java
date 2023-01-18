@@ -44,4 +44,6 @@ public class PartieCarcassonne extends Partie{
             if (!joueurs.joueurAuTrait().isIA()) tourSuivant() ;
         }
     }
+
+    // TODO règles Carcassonne.
 }
